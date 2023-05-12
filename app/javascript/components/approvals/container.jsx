@@ -22,7 +22,7 @@ const Container = ({ approvals, mobileDisplay, handleToggleNav }) => {
 
   return (
     <div>
-      <div key="approvals-div">
+      <div key="approvals-div" role="approvals">
         <RecordFormTitle
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
