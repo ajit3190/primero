@@ -37,10 +37,10 @@ describe("<ActionDialog />", () => {
   it("should render Submit Button", () => {
     const newProps = {
       ...props,
-      className: "MuiSvgIcon-root"
+      className: "MuiSvgIcon-rootcc"
     };
     mountedComponent(<ActionDialog {...newProps} />);
-    expect(screen.getAllByRole('button', { className: 'MuiSvgIcon-root' })).toBeTruthy();
+    expect(document.querySelector("#dialog-submit")).toBeInTheDocument();
   });
 
   it("should render cancel Button", () => {
