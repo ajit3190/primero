@@ -98,7 +98,7 @@ const Component = () => {
   }
 
   return (
-    <div className={css.container}>
+    <div className={css.container} data-testid="insights-subreport">
       <LoadingIndicator
         overlay
         emptyMessage={emptyMessage}
@@ -114,6 +114,7 @@ const Component = () => {
               <>
                 <h3 className={css.sectionTitle}>{subReportTitle("combined")}</h3>
                 <TableValues
+                  role="table-values"
                   useInsightsHeader
                   columns={buildInsightColumns[insightMetadata.get("table_type")]({
                     value: singleInsightsTableData,

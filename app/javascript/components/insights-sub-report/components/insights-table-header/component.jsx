@@ -19,7 +19,7 @@ const InsightsTableHeader = ({ addEmptyCell = true, columns, subColumnItemsSize 
 
   return (
     <>
-      <TableRow className={css.tableRowHeader}>
+      <TableRow className={css.tableRowHeader}  data-testid="insights-table-header">
         {addEmptyCell && <TableCell className={classesEmptyCell} />}
         {columns.map(column => (
           <TableCell key={column.label} colSpan={column.colspan || column.items?.length}>

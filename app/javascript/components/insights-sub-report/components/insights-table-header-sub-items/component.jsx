@@ -16,7 +16,7 @@ const InsightsTableHeaderSubItems = ({ addEmptyCell = true, groupedSubItemcolumn
   }
 
   return (
-    <TableRow className={css.tableRowSubHeader}>
+    <TableRow className={css.tableRowSubHeader} data-testid= "insights-table-header-sub-items">
       {addEmptyCell && <TableCell />}
       {Object.entries(groupedSubItemcolumns).flatMap(([parent, subItemsColumns]) =>
         subItemsColumns.map((subItem, index) => {
