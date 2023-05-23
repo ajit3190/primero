@@ -146,7 +146,7 @@ const KeyPerformanceIndicators = () => {
               </Permission>
             </div>
 
-            <div>
+            <div role="ClientSatisfactionRate">
               <Permission resources={[RESOURCES.kpis]} actions={[ACTIONS.KPI_CLIENT_SATISFACTION_RATE]}>
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.feedback")}</h2>
                 <Grid container spacing={2}>
@@ -157,14 +157,14 @@ const KeyPerformanceIndicators = () => {
               </Permission>
             </div>
 
-            <div>
+            <div role="CaseLoad">
               <Permission
                 resources={[RESOURCES.kpis]}
                 actions={[ACTIONS.KPI_SUPERVISOR_TO_CASEWORKER_RATIO, ACTIONS.KPI_CASE_LOAD]}
               >
                 <h2 className={css.subtitle}>{i18n.t("key_performance_indicators.other")}</h2>
 
-                <Grid container spacing={2}>
+                <Grid container spacing={2} role="SupervisorToCaseworkerRatio">
                   <Grid item className={css.grow} xs={12} md={12}>
                     <SupervisorToCaseworkerRatio />
                   </Grid>
@@ -172,7 +172,7 @@ const KeyPerformanceIndicators = () => {
 
                 <Grid container spacing={2}>
                   <Grid item className={css.grow} xs={12}>
-                    <CaseLoad dateRanges={allDateRanges} />
+                    <CaseLoad dateRanges={allDateRanges}  role="CaseLoad"/>
                   </Grid>
                 </Grid>
               </Permission>
@@ -185,5 +185,4 @@ const KeyPerformanceIndicators = () => {
 };
 
 KeyPerformanceIndicators.displayName = "KeyPerformanceIndicators";
-
 export default withRouter(KeyPerformanceIndicators);
