@@ -33,7 +33,7 @@ export const ALL = "all";
 export const ENABLED_FOR_ONE = [ONE];
 export const ENABLED_FOR_ONE_MANY = [ONE, MANY];
 export const ENABLED_FOR_ONE_MANY_ALL = [ONE, MANY, ALL];
-console.log("RECORD_ACTION_ABILITIES")
+
 export const RECORD_ACTION_ABILITIES = {
   canAddIncident: ADD_INCIDENT,
   canAddNotes: [ACTIONS.MANAGE, ACTIONS.ADD_NOTE],

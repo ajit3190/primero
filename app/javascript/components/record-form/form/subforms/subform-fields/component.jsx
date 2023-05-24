@@ -1,6 +1,5 @@
 /* eslint-disable  react/no-array-index-key */
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import sortBy from "lodash/sortBy";
 import isEmpty from "lodash/isEmpty";
@@ -9,7 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import { ListItem, ListItemSecondaryAction } from "@material-ui/core";
-import { saveRecord } from "../../../../records";
+
 import SubformMenu from "../subform-menu";
 import SubformHeader from "../subform-header";
 import { SUBFORM_FIELDS } from "../constants";
@@ -21,14 +20,9 @@ import ActionButton from "../../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../../action-button/constants";
 import { useMemoizedSelector, useThemeHelper } from "../../../../../libs";
 import { getValidationErrors } from "../../..";
-import Chip from "@material-ui/core/Chip";
 import css from "../styles.css";
-import { Button } from "@material-ui/core";
-import { useParams} from 'react-router-dom';
-import { TracingRequestStatus } from "./components";
-import { usePermissions } from "../../../../permissions";
-import { RECORD_ACTION_ABILITIES } from "../../../../record-actions/constants";
 
+import { TracingRequestStatus } from "./components";
 
 const Component = ({
   arrayHelpers,
@@ -47,12 +41,11 @@ const Component = ({
   parentTitle
 }) => {
   const i18n = useI18n();
-  const verifyParams = useParams();
+
   const { isRTL } = useThemeHelper();
   const [deleteModal, setDeleteModal] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const dispatch = useDispatch();
-  const [verifyModal, setVerifyModal] = useState(false);
+
   const validationErrors = useMemoizedSelector(state => getValidationErrors(state));
 
   // eslint-disable-next-line camelcase
@@ -90,10 +83,6 @@ const Component = ({
     }
   };
 
-  const {
-    canVerify
-  } = usePermissions("incidents", RECORD_ACTION_ABILITIES);
-
   const handleOpenModal = index => {
     setSelectedIndex(index);
     setDeleteModal(true);
@@ -107,32 +96,6 @@ const Component = ({
   const handleEdit = index => () => {
     setDialogIsNew(false);
     setOpen({ open: true, index });
-  };
-
-  const handleOpenVerifyModal = index => {
-    setSelectedIndex(index);
-    setVerifyModal(true);
-  };
-
-  const cancelVerifyHandler = () => {
-    setVerifyModal(false);
-    setSelectedIndex(null);
-  };
-
-  const handleOk = () => {
-    dispatch(
-      saveRecord(
-        verifyParams.recordType,
-        "update",
-        { data: {sources: [{unique_id: values[selectedIndex].unique_id, verify_5a77a4c: true }] }},
-        verifyParams.id,
-        "Verifed the case",
-        "",
-        false,
-        false
-      )
-    );
-    close();
   };
 
   const hasError = index =>
@@ -215,22 +178,6 @@ const Component = ({
                     }}
                   />
                 ) : null}
-                {mode.isShow  && parentFormUniqueId == "sources" && values[index].verify_5a77a4c != true && canVerify ? 
-                (<Button
-                  onClick={ () => handleOpenVerifyModal(index)}
-                  id={`verify-button-${name}-${index}`}
-                  color="primary"
-                  variant="contained"
-                  size="small"
-                  disableElevation>
-                  Verify
-                </Button> ) : mode.isShow && parentFormUniqueId == "sources" && canVerify ? 
-                  <div className={css.container}>
-                    <div className={css.title}>
-                    </div>
-                    <div><Chip label={"Verified"} size="small" className={css.verifiedSpan} /></div>
-                  </div>
-                 : null }
                 {mode.isShow && serviceHasReferFields(values[index]) ? (
                   <SubformMenu index={index} values={values} />
                 ) : null}
@@ -254,14 +201,6 @@ const Component = ({
           dialogTitle={i18n.t("fields.remove")}
           dialogText={i18n.t("fields.subform_remove_message")}
           confirmButtonLabel={i18n.t("buttons.ok")}
-        />
-        <ActionDialog
-         open={verifyModal}
-         successHandler={handleOk}
-         cancelHandler={cancelVerifyHandler}
-         dialogTitle={"Verify"}
-         dialogText={"Please verify case"}
-         confirmButtonLabel={i18n.t("buttons.ok")}
         />
       </>
     );
