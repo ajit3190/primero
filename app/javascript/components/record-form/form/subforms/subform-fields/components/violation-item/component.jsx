@@ -69,7 +69,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
         </div> 
       }
     >
-    { (currentValues.ctfmr_verified == "report_pending_verification" && canVerify) ? 
+    { (currentValues.ctfmr_verified == "report_pending_verification" && canVerify && mode.isShow) ? 
         (<Button
           onClick={ (event) => handleOpenVerifyModal(index,event)}
           id={`verify-button-${name}-${index}`}
