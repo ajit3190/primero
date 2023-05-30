@@ -24,22 +24,22 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   const [verifyModal, setVerifyModal] = useState(false);
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
   const verifyParams = useParams();
-  const handleOpenVerifyModal = (index,event) => {
+  const handleOpenVerifyModal = (index,event) => {    //  To open verify dialog confirmation popup
     event.stopPropagation();
     setSelectedIndex(index);
     setVerifyModal(true);
   };
 
-  const cancelVerifyHandler = () => {
+  const cancelVerifyHandler = () => {   //  To cloe veify dialog popup
     setVerifyModal(false);
     setSelectedIndex(null);
   };
   const {
     canVerify
-  } = usePermissions("incidents", RECORD_ACTION_ABILITIES);
+  } = usePermissions("incidents", RECORD_ACTION_ABILITIES);   //  To check permission to do verify violations
 
-  const violationType = currentValues.type
-  const handleOk = () => {
+  const violationType = currentValues.type    //  To get the violation type through index
+  const handleOk = () => {    //  To update the verify status to Verified
     dispatch(
       saveRecord(
         verifyParams.recordType,
