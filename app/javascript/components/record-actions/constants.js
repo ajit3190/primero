@@ -25,7 +25,7 @@ export const NOTES_DIALOG = "notes";
 export const ENABLE_DISABLE_DIALOG = "enableDisable";
 export const OPEN_CLOSE_DIALOG = "openClose";
 export const MARK_FOR_OFFLINE_DIALOG = "markForOffline";
-
+export const LINK_TO_CASE_DIALOG = "linkToCase";
 export const ONE = "one";
 export const MANY = "many";
 export const ALL = "all";

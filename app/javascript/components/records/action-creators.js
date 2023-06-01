@@ -374,3 +374,40 @@ export const markForOffline =
 
     dispatch(markForOfflineAction(recordType, ids));
   };
+
+  export const linkToCase =
+  ({ recordType, ids = [] }) =>
+  dispatch => {
+    dispatch(linkToCaseAction(recordType, ids));
+  };
+
+  const linkToCaseAction = (recordType, ids, includeSuccessCallbacks = true) => {
+
+  return {
+    type: `${recordType}/LINK_TO_CASE`,
+    api: {
+      path: `${recordType.toLowerCase()}`,
+      params: { id: ids },
+      ...(IDB_SAVEABLE_RECORD_TYPES.includes(recordType) && {
+        db: { collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
+      }),
+      ...(includeSuccessCallbacks && {
+        successCallback: [
+          {
+            action: CLEAR_DIALOG
+          },
+          {
+            action: ENQUEUE_SNACKBAR,
+            payload: {
+              messageKey: `${recordType}.link_to_case.success`,
+              options: {
+                variant: "success",
+                key: generate.messageKey(`${recordType}.link_to_case.success`)
+              }
+            }
+          }
+        ]
+      })
+    }
+  };
+};

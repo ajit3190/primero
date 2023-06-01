@@ -15,7 +15,8 @@ import {
   ENABLE_DISABLE_DIALOG,
   APPROVAL_TYPE,
   REQUEST_TYPE,
-  MARK_FOR_OFFLINE_DIALOG
+  MARK_FOR_OFFLINE_DIALOG,
+  LINK_TO_CASE_DIALOG
 } from "../constants";
 import { RECORD_TYPES, RECORD_PATH } from "../../../config";
 import Notes from "../notes";
@@ -27,6 +28,7 @@ import AddService from "../add-service";
 import RequestApproval from "../request-approval";
 import Exports from "../exports";
 import MarkForOffline from "../mark-for-offline";
+import LinkToCase from "../link-to-case";
 
 import filterActions from "./filter-actions";
 
@@ -177,6 +179,18 @@ export default ({
         name: i18n.t(`${recordType}.export`),
         recordListAction: true,
         recordType: RECORD_TYPES.all
+      },
+      {
+        action: id => {
+          handleDialogClick(id, true);
+        },
+        condition: canMarkForOffline,
+        disableOffline: true,
+        enabledFor: ENABLED_FOR_ONE_MANY_ALL,
+        id: LINK_TO_CASE_DIALOG,
+        name: "Link to case",
+        recordListAction: true,
+        recordType: RECORD_TYPES.all
       }
     ].filter(filterActions({ recordType, showListActions, isIdSearch, record })),
     dialogs: {
@@ -237,6 +251,13 @@ export default ({
       [MARK_FOR_OFFLINE_DIALOG]: {
         component: MarkForOffline,
         ability: canMarkForOffline
+      },
+      [LINK_TO_CASE_DIALOG]: {
+        component: LinkToCase,
+        ability: true
+        // props: {
+        //   defaultFilters:
+        // }
       }
     }
   };

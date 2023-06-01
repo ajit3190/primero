@@ -30,7 +30,8 @@ import {
   ID_SEARCH,
   ENABLE_DISABLE_DIALOG,
   OPEN_CLOSE_DIALOG,
-  MARK_FOR_OFFLINE_DIALOG
+  MARK_FOR_OFFLINE_DIALOG,
+  LINK_TO_CASE_DIALOG
 } from "./constants";
 import { NAME } from "./config";
 import { isDisabledAction, buildApprovalList, buildActionList, subformExists } from "./utils";
@@ -58,7 +59,8 @@ const Container = ({
     REQUEST_APPROVAL_DIALOG,
     SERVICE_DIALOG,
     TRANSFER_DIALOG,
-    MARK_FOR_OFFLINE_DIALOG
+    MARK_FOR_OFFLINE_DIALOG,
+    LINK_TO_CASE_DIALOG
   ]);
   const { handleCreateIncident } = useIncidentFromCase({ record, mode });
 
