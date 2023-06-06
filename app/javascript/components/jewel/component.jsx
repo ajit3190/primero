@@ -29,7 +29,7 @@ const Jewel = ({ value, isForm, isList, isError }) => {
           <Circle className={css.circleForm} />
         </>
       ) : (
-        <div className={css.root}>
+        <div className={css.root} role="circle">
           <span>{value}</span>
           <Circle className={css.circle} />
         </div>
