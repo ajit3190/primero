@@ -33,7 +33,7 @@ describe("<AdminNav />", () => {
 
         it("should render AdminNav component", () => {
             mountedComponent(<AdminNav />, state);
-            expect(screen.getByText("test")).toBeInTheDocument();
+            expect(screen.getAllByRole("button")).toHaveLength(10);
         });
 
         xit("should renders all AdminNavItem menus", () => {
