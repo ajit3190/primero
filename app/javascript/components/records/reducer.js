@@ -61,7 +61,8 @@ import {
   MARK_FOR_OFFLINE_SUCCESS,
   MARK_FOR_OFFLINE_STARTED,
   MARK_FOR_OFFLINE_FINISHED,
-  MARK_FOR_OFFLINE_FAILURE
+  MARK_FOR_OFFLINE_FAILURE,
+  FETCH_LINK_TO_CASE_DATA_SUCCESS
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -347,6 +348,8 @@ export default namespace =>
 
         return state;
       }
+      case `${namespace}/${FETCH_LINK_TO_CASE_DATA_SUCCESS}`:
+        return state.setIn(["linkToCase", "data"], fromJS(payload.data));
       default:
         return state;
     }

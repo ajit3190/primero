@@ -18,6 +18,7 @@ const Component = props => {
   const loadingIndicatorType = targetRecordType || recordType;
 
   return (
+    <>
     <Datatable
       data={data}
       {...props}
@@ -25,6 +26,7 @@ const Component = props => {
       loading={dataIsLoading}
       loadingIndicatorType={loadingIndicatorType}
     />
+    </>
   );
 };
 

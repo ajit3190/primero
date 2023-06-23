@@ -5,6 +5,16 @@ class Api::V2::IncidentsController < ApplicationApiController
   include Api::V2::Concerns::Pagination
   include Api::V2::Concerns::Record
 
+  def get_case_to_link
+    @permitted_field_names = PermittedFieldService.new(current_user, Child).permitted_field_names
+    @selected_field_names = FieldSelectionService.select_fields_to_show(
+      params, Child, @permitted_field_names, current_user
+    )
+    search = SearchService.search(Child,query: params[:query])
+    @records = search.results
+    render 'api/v2/records/index'
+  end
+
   private
 
   def authorize_create!

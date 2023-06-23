@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
 import { useCallback, useState } from "react";
 import { useLocation } from "react-router-dom";
@@ -10,48 +10,73 @@ import { useI18n } from "../../i18n";
 import merge from "deepmerge";
 import ActionDialog from "../../action-dialog";
 import buildSelectedIds from "../utils/build-selected-ids";
-import { compactFilters,transformFilters } from "../../index-filters/utils";
-import { overwriteMerge, useMemoizedSelector } from "../../../libs";
+import { useMemoizedSelector } from "../../../libs";
 import { getMetadata } from "../../record-list/selectors";
 import { getRecordsData } from "../../index-table";
 import { linkToCase } from "../../records";
-import { RECORD_TYPES_PLURAL } from "../../../config";
 import { Search } from "../../index-filters/components/filter-types";
 import { DEFAULT_FILTERS } from "../../record-list/constants";
-import { NAME, FILTER_CATEGORY } from "./constants";
-import { currentUser } from "../../user";
-const Component = ({ close, open, recordType, currentPage, selectedRecords, clearSelectedRecords }) => {
+import { NAME } from "./constants";
+import IndexTable from "../../index-table";
+import { GET_CASE_TO_LINK_INCIDENT } from "./actions";
+import { fetchCasePotentialMatches, fetchLinkToCaseData } from "../../records";
+const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRecords, recordType }) => {
+  console.log("recrdtype",recordType)
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
-  const records = useMemoizedSelector(state => getRecordsData(state, recordType));
+  const recordss = useMemoizedSelector(state => getRecordsData(state, recordType));
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const defaultFilters = fromJS(Object.keys(queryParams).length ? queryParams : DEFAULT_FILTERS).merge(metadata);
-  const selectedIds = buildSelectedIds(selectedRecords, records, currentPage, "id");
-  const defaultFiltersPlainObject = defaultFilters.toJS();
-  const [filterToList, setFilterToList] = useState(DEFAULT_FILTERS);
-  const resetSelectedRecords = () => {
-    setSelectedRecords(DEFAULT_SELECTED_RECORDS_VALUE);
-  };
-  const methods = useForm({
-    defaultValues: merge({ ...defaultFiltersPlainObject, filter_category: FILTER_CATEGORY.incidents }, filterToList, {
-      arrayMerge: overwriteMerge
-    }),
-    shouldUnregister: false
-  });
-  const userName = useMemoizedSelector(state => currentUser(state));
-
+  const selectedIds = buildSelectedIds(selectedRecords, recordss, currentPage, "id");
+  const {...methods } = useForm();
   const handleOk = () => {
-    dispatch(linkToCase({ recordType, ids: selectedIds }));
+    dispatch(linkToCase({ recordType, incident_ids: selectedIds, case_id: "aee63810-0d34-4a28-addc-d0707eb13199" }));
     clearSelectedRecords();
   };
   const handleSubmit = useCallback(data => {
-    const payload = omit(transformFilters.combine(compactFilters(data)), "filter_category");
-console.log("ddddddddddddddddd",payload)
-    resetSelectedRecords();
-    dispatch(applyFilters({ recordType, data: payload }));
-  }, []);
+    // dispatch({
+    //   type: GET_CASE_TO_LINK_INCIDENT,
+    //   api: {
+    //     path: "incidents/get_case_to_link",
+    //     method: "GET",
+    //     params: data
+    //   }
+    // });
+    dispatch(fetchLinkToCaseData(data))
+  }, [dispatch]);
+  console.log(i18n.t("potential_match.case_id"), 'i18n', i18n.t("cases.age"))
+
+
+  const tableOptions = {
+    columns: [
+      {
+        name: "case.id",
+        options: {
+          display: false
+        }
+      },
+      {
+        label: i18n.t("potential_match.case_id"),
+        name: "case.case_id_display"
+      },
+      {
+        label: i18n.t("potential_match.child_age"),
+        name: "case.age"
+      },
+    ],
+    defaultFilters: fromJS({}),
+    recordType: ["cases", "linkToCase"],
+    targetRecordType: "cases",
+    bypassInitialFetch: true,
+    options: {
+      selectableRows: "none",
+      onCellClick: false,
+      elevation: 0,
+      pagination: false
+    }
+  };
 
   return (
   	<>
@@ -63,11 +88,12 @@ console.log("ddddddddddddddddd",payload)
       dialogText={""}
       confirmButtonLabel={"Link"}
       omitCloseAfterSuccess>
-      <FormProvider {...methods} user={userName}>
+      <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(handleSubmit)}>
           <Search />
         </form>
       </FormProvider>	
+     <IndexTable {...tableOptions} />
     </ActionDialog>
     </>
   );

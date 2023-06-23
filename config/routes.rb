@@ -62,6 +62,7 @@ Rails.application.routes.draw do
         resources :attachments, only: %i[create destroy]
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
+        get :get_case_to_link, to: 'incidents#get_case_to_link', on: :collection
       end
 
       resources :tracing_requests do

@@ -38,7 +38,8 @@ import {
   UNMATCH_CASE_FOR_TRACE,
   CLEAR_POTENTIAL_MATCHES,
   EXTERNAL_SYNC,
-  OFFLINE_INCIDENT_FROM_CASE
+  OFFLINE_INCIDENT_FROM_CASE,
+  FETCH_LINK_TO_CASE_DATA
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -279,19 +280,35 @@ export const setSelectedCasePotentialMatch = (tracingRequestId, recordType) => (
   payload: { tracingRequestId }
 });
 
-export const fetchCasesPotentialMatches = (recordId, recordType) => ({
-  type: `${recordType}/${FETCH_CASES_POTENTIAL_MATCHES}`,
-  api: {
-    path: `${recordType}/${recordId}/potential_matches`
-  }
-});
+export const fetchCasesPotentialMatches = (recordId, recordType, caseId) => {
+  console.log("kkkkkkkkkkkkk");
+  return {
+    type: `${recordType}/${FETCH_CASES_POTENTIAL_MATCHES}`,
+    api: {
+      path: `${recordType}/${recordId}/potential_matches`
+    }
+  };
+};
 
-export const fetchTracePotentialMatches = (traceId, recordType) => ({
+export const fetchLinkToCaseData = (payload) => {
+  console.log("FETCH_LINK_TO_CASE_DATA", payload);
+  return {
+    type: `cases/${FETCH_LINK_TO_CASE_DATA}`,
+    api: {
+      path: `incidents/get_case_to_link?query=${payload.query}&id_search=${payload.id_search}`
+    }
+  };
+};
+
+
+export const fetchTracePotentialMatches = (traceId, recordType) => {
+  return {
   type: `${recordType}/${FETCH_TRACE_POTENTIAL_MATCHES}`,
   api: {
     path: `${RECORD_PATH.traces}/${traceId}/potential_matches`
   }
-});
+ }
+};
 
 export const setSelectedPotentialMatch = (potentialMatchId, recordType) => ({
   type: `${recordType}/${SET_SELECTED_POTENTIAL_MATCH}`,
@@ -376,13 +393,14 @@ export const markForOffline =
   };
 
   export const linkToCase =
-  ({ recordType, ids = [] }) =>
+  ({ recordType, incident_ids, case_id }) =>
   dispatch => {
-    dispatch(linkToCaseAction(recordType, ids));
+    dispatch(linkToCaseAction(recordType, incident_ids, case_id));
   };
 
-  const linkToCaseAction = (recordType, ids, includeSuccessCallbacks = true) => {
-
+  const linkToCaseAction = (recordType, incident_ids, case_id, includeSuccessCallbacks = true) => {
+console.log("incident_ids",incident_ids)
+console.log("recordType",recordType)
   return {
     type: `${recordType}/LINK_TO_CASE`,
     api: {
