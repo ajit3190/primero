@@ -18,7 +18,6 @@ import { Search } from "../../index-filters/components/filter-types";
 import { DEFAULT_FILTERS } from "../../record-list/constants";
 import { NAME } from "./constants";
 import IndexTable from "../../index-table";
-import { GET_CASE_TO_LINK_INCIDENT } from "./actions";
 import { fetchCasePotentialMatches, fetchLinkToCaseData } from "../../records";
 const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRecords, recordType }) => {
   console.log("recrdtype",recordType)
