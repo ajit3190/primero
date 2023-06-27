@@ -59,9 +59,9 @@ const getSuccessCallback = ({
   const selectedFormCallback = setSelectedForm(INCIDENT_FROM_CASE);
   const incidentFromCaseCallbacks = willRedirectToCase
     ? [
-        { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
-        { action: selectedFormCallback.type, payload: selectedFormCallback.payload }
-      ]
+      { action: `cases/${CLEAR_CASE_FROM_INCIDENT}` },
+      { action: selectedFormCallback.type, payload: selectedFormCallback.payload }
+    ]
     : [];
   const defaultSuccessCallback = [
     {
@@ -291,7 +291,7 @@ export const fetchCasesPotentialMatches = (recordId, recordType, caseId) => {
 };
 
 export const fetchLinkToCaseData = (payload) => {
-  console.log("FETCH_LINK_TO_CASE_DATA", payload);
+
   return {
     type: `cases/${FETCH_LINK_TO_CASE_DATA}`,
     api: {
@@ -303,11 +303,11 @@ export const fetchLinkToCaseData = (payload) => {
 
 export const fetchTracePotentialMatches = (traceId, recordType) => {
   return {
-  type: `${recordType}/${FETCH_TRACE_POTENTIAL_MATCHES}`,
-  api: {
-    path: `${RECORD_PATH.traces}/${traceId}/potential_matches`
+    type: `${recordType}/${FETCH_TRACE_POTENTIAL_MATCHES}`,
+    api: {
+      path: `${RECORD_PATH.traces}/${traceId}/potential_matches`
+    }
   }
- }
 };
 
 export const setSelectedPotentialMatch = (potentialMatchId, recordType) => ({
@@ -382,50 +382,23 @@ export const externalSync = (recordType, record) => ({
 
 export const markForOffline =
   ({ recordType, ids = [], selectedRegistryIds = [] }) =>
-  dispatch => {
-    const selectedRegistryIdsCompacted = compact(selectedRegistryIds);
+    dispatch => {
+      const selectedRegistryIdsCompacted = compact(selectedRegistryIds);
 
-    if (selectedRegistryIdsCompacted.length > 0 && recordType === RECORD_TYPES_PLURAL.case) {
-      dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIdsCompacted, false));
-    }
+      if (selectedRegistryIdsCompacted.length > 0 && recordType === RECORD_TYPES_PLURAL.case) {
+        dispatch(markForOfflineAction(RECORD_TYPES_PLURAL.registry_record, selectedRegistryIdsCompacted, false));
+      }
 
-    dispatch(markForOfflineAction(recordType, ids));
-  };
+      dispatch(markForOfflineAction(recordType, ids));
+    };
 
-  export const linkToCase =
-  ({ recordType, incident_ids, case_id }) =>
-  dispatch => {
-    dispatch(linkToCaseAction(recordType, incident_ids, case_id));
-  };
-
-  const linkToCaseAction = (recordType, incident_ids, case_id, includeSuccessCallbacks = true) => {
-console.log("incident_ids",incident_ids)
-console.log("recordType",recordType)
+export const linkToCase = ({ recordType, incident_ids = [], case_id }) => {
   return {
     type: `${recordType}/LINK_TO_CASE`,
     api: {
-      path: `${recordType.toLowerCase()}`,
-      params: { id: ids },
-      ...(IDB_SAVEABLE_RECORD_TYPES.includes(recordType) && {
-        db: { collection: DB_COLLECTIONS_NAMES.RECORDS, recordType }
-      }),
-      ...(includeSuccessCallbacks && {
-        successCallback: [
-          {
-            action: CLEAR_DIALOG
-          },
-          {
-            action: ENQUEUE_SNACKBAR,
-            payload: {
-              messageKey: `${recordType}.link_to_case.success`,
-              options: {
-                variant: "success",
-                key: generate.messageKey(`${recordType}.link_to_case.success`)
-              }
-            }
-          }
-        ]
-      })
+      path: `incidents/link_incidents_to_case`,
+      method: "POST",
+      body: { data: { incident_case_id: case_id, incident_ids: incident_ids } }
     }
-  };
+  }
 };

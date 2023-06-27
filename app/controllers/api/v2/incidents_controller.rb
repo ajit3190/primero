@@ -13,6 +13,13 @@ class Api::V2::IncidentsController < ApplicationApiController
     search = SearchService.search(Child,query: params[:query])
     @records = search.results
     render 'api/v2/records/index'
+  end  
+
+
+  def link_incidents_to_case
+binding.pry
+    incidents = Incident.where(id:params[:data][:incident_ids]).update_all(incident_case_id: params[:data][:incident_case_id])
+    render 'api/v2/incidents/index'
   end
 
   private

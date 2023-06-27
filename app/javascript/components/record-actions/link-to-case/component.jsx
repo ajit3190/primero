@@ -10,9 +10,9 @@ import { useI18n } from "../../i18n";
 import merge from "deepmerge";
 import ActionDialog from "../../action-dialog";
 import buildSelectedIds from "../utils/build-selected-ids";
-import { useMemoizedSelector } from "../../../libs";
+import { useMemoizedSelector, dataToJS } from "../../../libs";
 import { getMetadata } from "../../record-list/selectors";
-import { getRecordsData } from "../../index-table";
+import { getRecordsData, getRecords } from "../../index-table";
 import { linkToCase } from "../../records";
 import { Search } from "../../index-filters/components/filter-types";
 import { DEFAULT_FILTERS } from "../../record-list/constants";
@@ -20,7 +20,7 @@ import { NAME } from "./constants";
 import IndexTable from "../../index-table";
 import { fetchCasePotentialMatches, fetchLinkToCaseData } from "../../records";
 const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRecords, recordType }) => {
-  console.log("recrdtype",recordType)
+  console.log("recrdtype", recordType)
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -29,24 +29,21 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const defaultFilters = fromJS(Object.keys(queryParams).length ? queryParams : DEFAULT_FILTERS).merge(metadata);
   const selectedIds = buildSelectedIds(selectedRecords, recordss, currentPage, "id");
-  const {...methods } = useForm();
+  const { ...methods } = useForm();
+  const [selectedRows, setSelectedRecords] = useState([]);
+  const [selectedCaseId, setSelectedCaseId] = useState();
+  const caseData = useMemoizedSelector(state => getRecords(state, "cases").get("data"));
+
   const handleOk = () => {
-    dispatch(linkToCase({ recordType, incident_ids: selectedIds, case_id: "aee63810-0d34-4a28-addc-d0707eb13199" }));
+    console.log("selectedCaseId===============", selectedCaseId)
+    dispatch(linkToCase({ recordType, incident_ids: selectedIds, case_id: "888888888" }));
     clearSelectedRecords();
   };
-  const handleSubmit = useCallback(data => {
-    // dispatch({
-    //   type: GET_CASE_TO_LINK_INCIDENT,
-    //   api: {
-    //     path: "incidents/get_case_to_link",
-    //     method: "GET",
-    //     params: data
-    //   }
-    // });
-    dispatch(fetchLinkToCaseData(data))
-  }, [dispatch]);
-  console.log(i18n.t("potential_match.case_id"), 'i18n', i18n.t("cases.age"))
 
+  const handleSubmit = useCallback(data => {
+    clearSelectedRecords();
+    dispatch(fetchLinkToCaseData(data))
+  }, []);
 
   const tableOptions = {
     columns: [
@@ -57,43 +54,67 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
         }
       },
       {
+        label: i18n.t("potential_match.name"),
+        name: "name"
+      },
+      {
         label: i18n.t("potential_match.case_id"),
-        name: "case.case_id_display"
+        name: "case_id_display"
       },
       {
         label: i18n.t("potential_match.child_age"),
-        name: "case.age"
+        name: "age"
       },
     ],
     defaultFilters: fromJS({}),
-    recordType: ["cases", "linkToCase"],
+    recordType: "cases",
     targetRecordType: "cases",
     bypassInitialFetch: true,
     options: {
-      selectableRows: "none",
+      selectableRows: "multiple",
       onCellClick: false,
       elevation: 0,
       pagination: false
     }
   };
 
+  const onClose = () => {
+    dispatch(fetchLinkToCaseData({}))
+    close();
+  };
+
+  const handleSelectedRecords = (index) => {
+    setSelectedRecords(index);
+    const id = fetchIdFromPosition(index);
+    setSelectedCaseId(id);
+  };
+
+  const fetchIdFromPosition = (index) => {
+    if (dataToJS(caseData) && dataToJS(caseData).length > index[0][0]) {
+      const object = dataToJS(caseData)[index[0][0]];
+      return object.id;
+    }
+    return null;
+  };
+
   return (
-  	<>
-    <ActionDialog
-      open={open}
-      successHandler={handleOk}
-      cancelHandler={close}
-      dialogTitle={"Link to case"}
-      dialogText={""}
-      confirmButtonLabel={"Link"}
-      omitCloseAfterSuccess>
-      <FormProvider {...methods}>
-        <form onSubmit={methods.handleSubmit(handleSubmit)}>
-          <Search />
-        </form>
-      </FormProvider>	
-     <IndexTable {...tableOptions} />
-    </ActionDialog>
+    <>
+      <ActionDialog
+        open={open}
+        successHandler={handleOk}
+        cancelHandler={onClose}
+        onClose={onClose}
+        dialogTitle={"Link to case"}
+        dialogText={""}
+        confirmButtonLabel={"Link"}
+        omitCloseAfterSuccess>
+        <FormProvider {...methods}>
+          <form onSubmit={methods.handleSubmit(handleSubmit)}>
+            <Search />
+          </form>
+        </FormProvider>
+        <IndexTable {...tableOptions} selectedRecords={selectedRows} setSelectedRecords={(event) => { handleSelectedRecords(event) }} />
+      </ActionDialog>
     </>
   );
 };
@@ -111,7 +132,8 @@ Component.propTypes = {
   open: PropTypes.bool,
   recordType: PropTypes.string,
   selectedRecords: PropTypes.object,
-  defaultFilters: PropTypes.object
+  defaultFilters: PropTypes.object,
+
 };
 
 export default Component;
