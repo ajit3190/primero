@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { ListItemText } from "@material-ui/core";
@@ -15,6 +15,7 @@ import { saveRecord } from "../../../../../../records";
 import { useParams} from 'react-router-dom';
 import { usePermissions } from "../../../../../../permissions";
 import { RECORD_ACTION_ABILITIES } from "../../../../../../record-actions/constants";
+import VerifySelect from "./select";
 
 
 const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) => {
@@ -22,6 +23,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   const [selectedIndex, setSelectedIndex] = useState(null);
   const dispatch = useDispatch();
   const [verifyModal, setVerifyModal] = useState(false);
+  const [verificationValue, setVeficationValue] = useState(currentValues?.ctfmr_verified || '') //Dropdown selected state
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
   const verifyParams = useParams();
   const handleOpenVerifyModal = (index,event) => {    //  To open verify dialog confirmation popup
@@ -38,15 +40,19 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     canVerify
   } = usePermissions("incidents", RECORD_ACTION_ABILITIES);   //  To check permission to do verify violations
 
+  useEffect(() => { // Changing dropdown select value when backend data updated
+    setVeficationValue(currentValues?.ctfmr_verified)
+  }, [currentValues?.ctfmr_verified]);
+
   const violationType = currentValues.type    //  To get the violation type through index
   const handleOk = () => {    //  To update the verify status to Verified
     dispatch(
       saveRecord(
         verifyParams.recordType,
         "update",
-        {data: { [currentValues.type]: [ {  unique_id: currentValues.unique_id, ctfmr_verified: "verified" } ]}},
+        {data: { [currentValues.type]: [ {  unique_id: currentValues.unique_id, ctfmr_verified: verificationValue } ]}}, // Save API Call
         verifyParams.id,
-        "Verifed the case",
+        "Updated successfully",
         "",
         false,
         false
@@ -54,7 +60,6 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
     );
     close();
   };
-
 
   return (
 
@@ -69,7 +74,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
         </div> 
       }
     >
-    { (currentValues.ctfmr_verified == "report_pending_verification" && canVerify && mode.isShow) ? 
+    { (canVerify && mode.isShow) ? 
         (<Button
           onClick={ (event) => handleOpenVerifyModal(index,event)}
           id={`verify-button-${name}-${index}`}
@@ -89,9 +94,11 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
          successHandler={handleOk}
          cancelHandler={cancelVerifyHandler}
          dialogTitle={"Verify"}
-         dialogText={"Please verify case"}
          confirmButtonLabel={"OK"}
-        />
+         maxSize="xs"
+        >
+          <VerifySelect selectedValue={verificationValue} setSelectedValue={setVeficationValue} />
+        </ActionDialog>
     </ListItemText>
   );
 };
