@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm, FormProvider } from "react-hook-form";
-import { useCallback, useState } from "react";
+import { useCallback, useState,useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import qs from "qs";
 import { fromJS } from "immutable";
@@ -33,6 +33,10 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const [selectedRows, setSelectedRecords] = useState([]);
   const [selectedCaseId, setSelectedCaseId] = useState();
   const caseData = useMemoizedSelector(state => getRecords(state, "cases").get("data"));
+
+  useEffect(() => {
+    console.log('selectedCaseId =', selectedCaseId);
+  }, [selectedCaseId]);
 
   const handleOk = () => {
     console.log("selectedCaseId===============", selectedCaseId)
@@ -84,9 +88,12 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   };
 
   const handleSelectedRecords = (index) => {
-    setSelectedRecords(index);
-    const id = fetchIdFromPosition(index);
-    setSelectedCaseId(id);
+    if(index[0].length === 1){
+      setSelectedRecords(index);
+      const id = fetchIdFromPosition(index);
+      setSelectedCaseId(id);
+    }
+   
   };
 
   const fetchIdFromPosition = (index) => {
@@ -107,6 +114,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
         dialogTitle={"Link to case"}
         dialogText={""}
         confirmButtonLabel={"Link"}
+        enabledSuccessButton= {selectedCaseId !== undefined && selectedCaseId !== null? true : false}
         omitCloseAfterSuccess>
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(handleSubmit)}>
