@@ -4,12 +4,11 @@ import useOptions from "../../../../../../form/use-options";
 import { LOOKUPS } from "../../../../../../../config";
 
 const VerifySelect = ({selectedValue, setSelectedValue}) => {
-    const  [defaultValues, setDefaultValue] = useState(selectedValue);
+
     const verificationStatus = useOptions({ source: LOOKUPS.verification_status });
-    
+
     const handleChange = (event) => { // Change dropdown value
         setSelectedValue(event.target.value);
-        setDefaultValue(event.target.value);
     };
 
     return (
@@ -33,7 +32,7 @@ const VerifySelect = ({selectedValue, setSelectedValue}) => {
                 >
                     {
                         verificationStatus.map((option) => (
-                            <MenuItem key={option.display_text} value={option.display_text} style={{ display: option.display_text === (defaultValues) ? 'none' : 'block'}}>{option.display_text}</MenuItem>
+                            <MenuItem key={option.id} value={option.id} style={{ display: option.id === (selectedValue) ? 'none' : 'block'}}>{option.display_text}</MenuItem>
                         ))
                     }
                 </Select>

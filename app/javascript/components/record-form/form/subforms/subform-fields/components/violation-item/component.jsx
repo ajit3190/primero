@@ -94,7 +94,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
          successHandler={handleOk}
          cancelHandler={cancelVerifyHandler}
          dialogTitle={"Verify"}
-         confirmButtonLabel={"OK"}
+         confirmButtonLabel={"Update"}
          maxSize="xs"
         >
           <VerifySelect selectedValue={verificationValue} setSelectedValue={setVeficationValue} />
