@@ -281,7 +281,6 @@ export const setSelectedCasePotentialMatch = (tracingRequestId, recordType) => (
 });
 
 export const fetchCasesPotentialMatches = (recordId, recordType, caseId) => {
-  console.log("kkkkkkkkkkkkk");
   return {
     type: `${recordType}/${FETCH_CASES_POTENTIAL_MATCHES}`,
     api: {

@@ -255,9 +255,6 @@ export default ({
       [LINK_TO_CASE_DIALOG]: {
         component: LinkToCase,
         ability: true
-        // props: {
-        //   defaultFilters:
-        // }
       }
     }
   };

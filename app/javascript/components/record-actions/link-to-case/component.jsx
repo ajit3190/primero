@@ -18,6 +18,7 @@ import { Search } from "../../index-filters/components/filter-types";
 import { DEFAULT_FILTERS } from "../../record-list/constants";
 import { NAME } from "./constants";
 import IndexTable from "../../index-table";
+import { clearDialog } from "../../action-dialog/action-creators";
 import { fetchCasePotentialMatches, fetchLinkToCaseData } from "../../records";
 const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRecords, recordType }) => {
   console.log("recrdtype", recordType)
@@ -34,14 +35,10 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const [selectedCaseId, setSelectedCaseId] = useState();
   const caseData = useMemoizedSelector(state => getRecords(state, "cases").get("data"));
 
-  useEffect(() => {
-    console.log('selectedCaseId =', selectedCaseId);
-  }, [selectedCaseId]);
-
-  const handleOk = () => {
-    console.log("selectedCaseId===============", selectedCaseId)
-    dispatch(linkToCase({ recordType, incident_ids: selectedIds, case_id: "888888888" }));
+  const handleOk = () => {   
+    dispatch(linkToCase({ recordType, incident_ids: selectedIds, case_id: selectedCaseId }));
     clearSelectedRecords();
+    dispatch(clearDialog());
   };
 
   const handleSubmit = useCallback(data => {
@@ -69,6 +66,10 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
         label: i18n.t("potential_match.child_age"),
         name: "age"
       },
+      {
+        label: i18n.t("potential_match.child_gender"),
+        name: "sex"
+      }
     ],
     defaultFilters: fromJS({}),
     recordType: "cases",
@@ -92,8 +93,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
       setSelectedRecords(index);
       const id = fetchIdFromPosition(index);
       setSelectedCaseId(id);
-    }
-   
+    }   
   };
 
   const fetchIdFromPosition = (index) => {
@@ -140,8 +140,7 @@ Component.propTypes = {
   open: PropTypes.bool,
   recordType: PropTypes.string,
   selectedRecords: PropTypes.object,
-  defaultFilters: PropTypes.object,
-
+  defaultFilters: PropTypes.object
 };
 
 export default Component;
