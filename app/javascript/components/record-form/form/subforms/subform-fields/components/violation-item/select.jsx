@@ -2,8 +2,9 @@ import { Box, FormControl, MenuItem, Select } from "@material-ui/core";
 import { useEffect, useState } from "react";
 import useOptions from "../../../../../../form/use-options";
 import { LOOKUPS } from "../../../../../../../config";
+import css from "./styles.css"
 
-const VerifySelect = ({selectedValue, setSelectedValue}) => {
+const VerifySelect = ({ selectedValue, setSelectedValue }) => {
 
     const verificationStatus = useOptions({ source: LOOKUPS.verification_status });
 
@@ -12,8 +13,10 @@ const VerifySelect = ({selectedValue, setSelectedValue}) => {
     };
 
     return (
-        <Box sx={{ minWidth: 60 }}>
-            <FormControl fullWidth>
+        <Box sx={{ minWidth: 120 }}>
+            <FormControl fullWidth classes={{
+                root: css.verifyFormControlRoot
+            }}>
                 <Select
                     value={selectedValue}
                     onChange={handleChange}
@@ -28,6 +31,10 @@ const VerifySelect = ({selectedValue, setSelectedValue}) => {
                             vertical: "top",
                             horizontal: 'left'
                         }
+                    }}
+                    classes={{
+                        root: css.verifySelectComponent,
+                        select: css.verifySelectComponentSelect
                     }}
                 >
                     {
