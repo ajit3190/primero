@@ -43,7 +43,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   };
 
   const handleSubmit = useCallback(data => {
-    clearSelectedRecords();
+    // clearSelectedRecords();
     dispatch(fetchLinkToCaseData(data))
   }, []);
 
