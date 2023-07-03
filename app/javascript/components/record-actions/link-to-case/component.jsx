@@ -20,8 +20,8 @@ import { NAME } from "./constants";
 import IndexTable from "../../index-table";
 import { clearDialog } from "../../action-dialog/action-creators";
 import { fetchCasePotentialMatches, fetchLinkToCaseData } from "../../records";
+
 const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRecords, recordType }) => {
-  console.log("recrdtype", recordType)
   const i18n = useI18n();
   const dispatch = useDispatch();
   const location = useLocation();
