@@ -397,7 +397,17 @@ export const linkToCase = ({ recordType, incident_ids = [], case_id }) => {
     api: {
       path: `incidents/link_incidents_to_case`,
       method: "POST",
-      body: { data: { incident_case_id: case_id, incident_ids: incident_ids } }
+      body: { data: { incident_case_id: case_id, incident_ids: incident_ids } },
+      successCallback: {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message: "Linked to case",
+          options: {
+            variant: "success",
+            key: generate.messageKey()
+          }
+        }
+      }
     }
   }
 };

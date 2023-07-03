@@ -6,7 +6,8 @@ import {
   SHOW_EXPORTS,
   ASSIGN,
   REQUEST_APPROVAL,
-  APPROVAL
+  APPROVAL,
+  LINK_TO_CASE
 } from "../permissions";
 
 export const ID_SEARCH = "id_search";
@@ -59,5 +60,6 @@ export const RECORD_ACTION_ABILITIES = {
   canRequestGbvClosure: [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE],
   canShowExports: SHOW_EXPORTS,
   canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER],
-  canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE]
+  canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE],
+  canLinkToCase: [ACTIONS.MANAGE, ACTIONS.LINK_TO_CASE]
 };

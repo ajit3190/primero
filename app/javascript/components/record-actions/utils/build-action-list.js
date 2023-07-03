@@ -48,6 +48,7 @@ export default ({
   canShowExports,
   canTransfer,
   canMarkForOffline,
+  canLinkToCase,
   enableState,
   handleDialogClick,
   hasIncidentSubform,
@@ -184,13 +185,13 @@ export default ({
         action: id => {
           handleDialogClick(id, true);
         },
-        condition: canMarkForOffline,
+        condition: canLinkToCase,
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE_MANY_ALL,
         id: LINK_TO_CASE_DIALOG,
         name: "Link to case",
         recordListAction: true,
-        recordType: RECORD_TYPES.all
+        recordType: RECORD_PATH.incidents
       }
     ].filter(filterActions({ recordType, showListActions, isIdSearch, record })),
     dialogs: {
@@ -254,7 +255,7 @@ export default ({
       },
       [LINK_TO_CASE_DIALOG]: {
         component: LinkToCase,
-        ability: true
+        ability: canLinkToCase
       }
     }
   };

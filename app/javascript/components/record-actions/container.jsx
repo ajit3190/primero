@@ -120,7 +120,8 @@ const Container = ({
     canTransfer,
     canOnlyExportPdf,
     permittedAbilities,
-    canMarkForOffline
+    canMarkForOffline,
+    canLinkToCase
   } = usePermissions(recordType, RECORD_ACTION_ABILITIES);
 
   const canOpenOrClose = (canReopen && openState === "reopen") || (canClose && openState === "close");
@@ -156,6 +157,7 @@ const Container = ({
     canRequest,
     canShowExports,
     canMarkForOffline,
+    canLinkToCase,
     canTransfer,
     canOnlyExportPdf,
     enableState,
