@@ -109,8 +109,8 @@ const Component = ({ parentForm, primeroModule }) => {
   }, [dialogOpen]);
 
   return (
-    <ActionDialog {...modalProps}>
-      <form className={baseCss.formBuilderDialog}>
+    <ActionDialog {...modalProps} data-testid="test">
+      <form className={baseCss.formBuilderDialog} >
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <div className={css.searchBox}>
