@@ -78,9 +78,10 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
     bypassInitialFetch: true,
     options: {
       selectableRows: "multiple",
+      selectableRowsHeader: false,
       onCellClick: false,
       elevation: 0,
-      pagination: false
+      pagination: true
     }
   };
 
