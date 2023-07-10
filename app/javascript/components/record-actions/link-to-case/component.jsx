@@ -79,6 +79,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
     options: {
       selectableRows: "multiple",
       selectableRowsHeader: false,
+      selectToolbarPlacement: "none",
       onCellClick: false,
       elevation: 0,
       pagination: true
