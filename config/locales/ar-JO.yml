@@ -2148,6 +2148,9 @@ ar-JO:
         label: ما السجلات التي يؤثر فيها هذا الدور؟
       incident:
         actions:
+          link_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link to Case
           change_log:
             explanation: يمكن للمستخدم رؤية محفوظات لجميع التغييرات التي تم إجراؤها على السجل منذ إنشائه. يتضمن هذا القيم المسجلة لجميع الحقول.
             label: 'سجل التغيير '
@@ -2186,6 +2189,9 @@ ar-JO:
           import:
             explanation: يسمح للمستخدم بإنشاء حدث جديد أو أكثر من خلال استيرادها من ملف CSV أو Excel أو JSON. يجب أن يكون الملف الذي تم استيراده بتنسيق * جدا * بشكل خاص حتى يتم استيراد المعلومات بشكل صحيح. يجب أن تكون هذه الوظيفة متاحة فقط للمستخدمين الإداريين ذوي المهارات التقنية المتقدمة والمعرفة المتعمقة بكيفية تنسيق البيانات في Primero. نفذت فقط من صفحة قائمة الحوادث.
             label: استيراد
+          link_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link to Case
           manage:
             explanation: يسمح للمستخدم بتنفيذ جميع الإجراءات المتاحة على الحوادث. إذن "الإدارة" يعني أساسًا "كل شيء".
             label: إدارة (كافة الأذونات لهذا النوع من الموارد)

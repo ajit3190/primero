@@ -2834,6 +2834,9 @@ ku:
             label: 'گەڕاندنەوە 
 
                '
+          link_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link to Case
           manage:
             explanation: " رێگە بە بەكارهێنەر دەدا بۆ ئەنجامدانی سەرجەم كارە بەردەستەكان لەسەر  رووداوەكان . لە بنەڕەتدا رێگەپێدانی \"بەڕێوەببە\" بە مانای \"هەموو شتێك\" دێت \n "
             label: 'بەڕێوەبردن ( سەرجەم رێگەپێدانەكان بۆ ئەم جۆری سەرچاوەیە) '
