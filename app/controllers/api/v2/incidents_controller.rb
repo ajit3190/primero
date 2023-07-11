@@ -10,7 +10,10 @@ class Api::V2::IncidentsController < ApplicationApiController
     @selected_field_names = FieldSelectionService.select_fields_to_show(
       params, Child, @permitted_field_names, current_user
     )
-    search = SearchService.search(Child,query: params[:query])
+    search = SearchService.search(
+      Child, query_scope: query_scopes, query: params[:query],
+                   sort: sort_order, pagination: pagination
+    )
     @records = search.results
     render 'api/v2/records/index'
   end  
@@ -19,6 +22,10 @@ class Api::V2::IncidentsController < ApplicationApiController
   def link_incidents_to_case
     incidents = Incident.where(id:params[:data][:incident_ids]).update_all(incident_case_id: params[:data][:incident_case_id])
     render 'api/v2/incidents/index'
+  end
+
+  def query_scopes
+    current_user.record_query_scope(Child, params[:id_search])
   end
 
   private
