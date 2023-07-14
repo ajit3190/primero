@@ -33,7 +33,21 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const { ...methods } = useForm();
   const [selectedRows, setSelectedRecords] = useState([]);
   const [selectedCaseId, setSelectedCaseId] = useState();
+  const [delayStateUpdate, setDelayStateUpdate] = useState(true);
+  const [recordTypeValue, setRecordTypeValue] = useState();
   const caseData = useMemoizedSelector(state => getRecords(state, "cases").get("data"));
+
+  useEffect(() => {
+    if (delayStateUpdate) {
+      const timeoutId = setTimeout(() => {
+        setSelectedCaseId(null); // Update selected case ID after a delay
+      }, 0);
+
+      return () => {
+        clearTimeout(timeoutId); // Clear the timeout if the component unmounts before it triggers
+      };
+    }
+  }, [delayStateUpdate]);
 
   const handleOk = () => {
     dispatch(linkToCase({ recordType, incident_ids: selectedIds, case_id: selectedCaseId }));
@@ -44,6 +58,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
 
   const handleSubmit = useCallback(data => {
     // clearSelectedRecords();
+    setRecordTypeValue('cases')
     dispatch(fetchLinkToCaseData(data))
   }, []);
 
@@ -73,8 +88,8 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
       }
     ],
     defaultFilters: fromJS({}),
-    recordType: "cases",
-    targetRecordType: "cases",
+    recordType: recordTypeValue,
+    targetRecordType: recordTypeValue,
     bypassInitialFetch: true,
     options: {
       selectableRows: "multiple",
@@ -96,6 +111,10 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
       setSelectedRecords(index);
       const id = fetchIdFromPosition(index);
       setSelectedCaseId(id);
+      setDelayStateUpdate(false);
+    } else {
+      setSelectedRecords(index);
+      setDelayStateUpdate(true);
     }
   };
 
