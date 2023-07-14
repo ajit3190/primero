@@ -1,6 +1,6 @@
 import { fromJS } from "immutable";
 
-import { mountedComponent, screen, waitFor } from "test-utils";
+import { mountedComponent, screen, waitFor ,mountedFormComponent} from "test-utils";
 
 import ExistingFieldDialog from "./component";
 import { async } from "regenerator-runtime";
@@ -30,7 +30,7 @@ describe("<ExistingFieldDialog />", () => {
   const props= { parentForm: "parent", primeroModule: "module-1" }
 
   it("should render the dialog",async () => {
-    mountedComponent(<ExistingFieldDialog  parentForm = "parent" primeroModule= "module-1"/>, state);   
+    mountedFormComponent(<ExistingFieldDialog  parentForm = "parent" primeroModule= "module-1"/>, state);   
    
   
    await waitFor(() => expect(screen.getByTestId("test")).toBeInTheDocument());
