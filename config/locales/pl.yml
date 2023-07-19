@@ -2440,9 +2440,9 @@ pl:
             label: Oznaczenie
           import:
             label: Import
-          link_to_case:
+          link_incident_to_case:
             explanation: Allows the user to link the incident with selected case.
-            label: Link to Case
+            label: Link incident to case
           manage:
             explanation: Pozwala użytkownikowi na wykonanie każdej akcji w zdarzeniach. Zezwolenie "Zarządzaj" oznacza "wszystko".
             label: Zarządzaj (wszystkie zezwolenia dla tego rodzaju zasobu)

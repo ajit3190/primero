@@ -3105,9 +3105,9 @@ en:
               skills and an in-depth knowledge of how data is formatted in Primero.
               Only performed from incident list page.
             label: Import
-          link_to_case:
+          link_incident_to_case:
             explanation: Allows the user to link the incident with selected case.
-            label: Link to Case
+            label: Link incident to Case
           manage:
             explanation: Allows a user to perform all available actions on incidents.
               The "Manage" permission essentially means "everything".

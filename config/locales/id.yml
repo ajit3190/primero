@@ -2438,9 +2438,9 @@ id:
           import:
             explanation: Memungkinkan pengguna membuat satu atau beberapa insiden baru dengan mengimpornya dari file CSV, Excel, atau JSON. File yang diimpor harus diformat *sangat* khusus agar informasi dapat diimpor dengan benar. Fungsi ini seharusnya hanya tersedia untuk pengguna administratif dengan keterampilan teknis tingkat lanjut dan pengetahuan mendalam tentang bagaimana data diformat di Primero. Hanya dilakukan dari halaman daftar insiden.
             label: Impor
-          link_to_case:
+          link_incident_to_case:
             explanation: Allows the user to link the incident with selected case.
-            label: Link to Case
+            label: Link incident to case
           manage:
             explanation: Memungkinkan pengguna untuk melakukan semua tindakan yang tersedia pada insiden. Izin "Kelola" pada dasarnya berarti "semuanya".
             label: Kelola (semua izin untuk jenis sumber daya ini)
