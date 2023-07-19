@@ -30,6 +30,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const metadata = useMemoizedSelector(state => getMetadata(state, recordType));
   const defaultFilters = fromJS(Object.keys(queryParams).length ? queryParams : DEFAULT_FILTERS).merge(metadata);
   const selectedIds = buildSelectedIds(selectedRecords, recordss, currentPage, "id");
+  const incident_ids = selectedIds.length ? selectedIds : location.pathname.split("/")[2];
   const { ...methods } = useForm();
   const [selectedRows, setSelectedRecords] = useState([]);
   const [selectedCaseId, setSelectedCaseId] = useState();
@@ -50,7 +51,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   }, [delayStateUpdate]);
 
   const handleOk = () => {
-    dispatch(linkToCase({ recordType, incident_ids: selectedIds, case_id: selectedCaseId }));
+    dispatch(linkToCase({ recordType, incident_ids: incident_ids, case_id: selectedCaseId }));
     clearSelectedRecords();
     dispatch(fetchLinkToCaseData({}));
     dispatch(clearDialog());
@@ -133,7 +134,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
         successHandler={handleOk}
         cancelHandler={onClose}
         onClose={onClose}
-        dialogTitle={"Link to case"}
+        dialogTitle={i18n.t("link_incident_to_case")}
         dialogText={""}
         confirmButtonLabel={"Link"}
         enabledSuccessButton={selectedCaseId !== undefined && selectedCaseId !== null ? true : false}
