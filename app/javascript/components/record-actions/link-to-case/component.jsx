@@ -52,13 +52,11 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
 
   const handleOk = () => {
     dispatch(linkToCase({ recordType, incident_ids: incident_ids, case_id: selectedCaseId }));
-    clearSelectedRecords();
     dispatch(fetchLinkToCaseData({}));
     dispatch(clearDialog());
   };
 
   const handleSubmit = useCallback(data => {
-    // clearSelectedRecords();
     setRecordTypeValue('cases')
     dispatch(fetchLinkToCaseData(data))
   }, []);
