@@ -1,12 +1,11 @@
 import { fromJS } from "immutable";
 
-import { setupMountedComponent } from "../../../../test";
+import { mountedComponent,screen } from "../../../../test-utils";
 import ActionDialog from "../../../action-dialog";
 
 import RevokeModal from "./component";
 
 describe("<RevokeModal /> - Component", () => {
-  let component;
   const props = {
     name: "transferModal-1",
     close: () => {},
@@ -32,11 +31,9 @@ describe("<RevokeModal /> - Component", () => {
   };
   const state = fromJS({});
 
-  beforeEach(() => {
-    ({ component } = setupMountedComponent(RevokeModal, props, state));
-  });
 
   it("renders ActionDialog component", () => {
-    expect(component.find(ActionDialog)).to.have.lengthOf(1);
+    mountedComponent(<RevokeModal {...props} />, state)
+    expect(screen.queryAllByRole('dialog')).toHaveLength(1);
   });
 });
