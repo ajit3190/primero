@@ -13,7 +13,7 @@ import buildSelectedIds from "../utils/build-selected-ids";
 import { useMemoizedSelector, dataToJS } from "../../../libs";
 import { getMetadata } from "../../record-list/selectors";
 import { getRecordsData, getRecords } from "../../index-table";
-import { linkToCase } from "../../records";
+import { linkToCase, setCaseIdForIncident } from "../../records";
 import { Search } from "../../index-filters/components/filter-types";
 import { DEFAULT_FILTERS } from "../../record-list/constants";
 import { NAME } from "./constants";
@@ -34,6 +34,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const { ...methods } = useForm();
   const [selectedRows, setSelectedRecords] = useState([]);
   const [selectedCaseId, setSelectedCaseId] = useState();
+  const [selectedCaseDisplayId, setSelectedCaseDisplayId] = useState();
   const [delayStateUpdate, setDelayStateUpdate] = useState(true);
   const [recordTypeValue, setRecordTypeValue] = useState();
   const caseData = useMemoizedSelector(state => getRecords(state, "cases").get("data"));
@@ -53,12 +54,13 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const handleOk = () => {
     dispatch(linkToCase({ recordType, incident_ids: incident_ids, case_id: selectedCaseId }));
     dispatch(fetchLinkToCaseData({}));
+    dispatch(setCaseIdForIncident(selectedCaseId, selectedCaseDisplayId));
     dispatch(clearDialog());
   };
 
   const handleSubmit = useCallback(data => {
-    setRecordTypeValue('cases')
-    dispatch(fetchLinkToCaseData(data))
+    setRecordTypeValue('cases');
+    dispatch(fetchLinkToCaseData(data));
   }, []);
 
   const tableOptions = {
@@ -108,8 +110,9 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const handleSelectedRecords = (index) => {
     if (index[0].length === 1) {
       setSelectedRecords(index);
-      const id = fetchIdFromPosition(index);
+      const {id, case_id_display} = fetchIdFromPosition(index);
       setSelectedCaseId(id);
+      setSelectedCaseDisplayId(case_id_display)
       setDelayStateUpdate(false);
     } else {
       setSelectedRecords(index);
@@ -120,7 +123,7 @@ const Component = ({ close, open, currentPage, selectedRecords, clearSelectedRec
   const fetchIdFromPosition = (index) => {
     if (dataToJS(caseData) && dataToJS(caseData).length > index[0][0]) {
       const object = dataToJS(caseData)[index[0][0]];
-      return object.id;
+      return {id: object.id, case_id_display: object.case_id_display};
     }
     return null;
   };
