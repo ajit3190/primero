@@ -39,7 +39,7 @@ import {
   CLEAR_POTENTIAL_MATCHES,
   EXTERNAL_SYNC,
   OFFLINE_INCIDENT_FROM_CASE,
-  FETCH_LINK_TO_CASE_DATA
+  FETCH_LINK_INCIDENT_TO_CASE_DATA
 } from "./actions";
 
 const getSuccessCallback = ({
@@ -289,10 +289,10 @@ export const fetchCasesPotentialMatches = (recordId, recordType, caseId) => {
   };
 };
 
-export const fetchLinkToCaseData = (payload) => {
+export const fetchLinkIncidentToCaseData = (payload) => {
 
   return {
-    type: `cases/${FETCH_LINK_TO_CASE_DATA}`,
+    type: `cases/${FETCH_LINK_INCIDENT_TO_CASE_DATA}`,
     api: {
       path: `incidents/get_case_to_link?query=${payload.query}&id_search=${payload.id_search}`
     }
@@ -391,9 +391,9 @@ export const markForOffline =
       dispatch(markForOfflineAction(recordType, ids));
     };
 
-export const linkToCase = ({ recordType, incident_ids = [], case_id }) => {
+export const linkIncidentToCase = ({ recordType, incident_ids = [], case_id }) => {
   return {
-    type: `${recordType}/LINK_TO_CASE`,
+    type: `${recordType}/LINK_INCIDENT_TO_CASE`,
     api: {
       path: `incidents/link_incidents_to_case`,
       method: "POST",
@@ -401,7 +401,7 @@ export const linkToCase = ({ recordType, incident_ids = [], case_id }) => {
       successCallback: {
         action: ENQUEUE_SNACKBAR,
         payload: {
-          message: "Linked to case",
+          message: "Linked incident to case",
           options: {
             variant: "success",
             key: generate.messageKey()
