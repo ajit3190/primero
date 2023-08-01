@@ -89,7 +89,7 @@ export const ACTIONS = {
   KPI_TIME_FROM_CASE_OPEN_TO_CLOSE: "kpi_time_from_case_open_to_close",
   MANAGE: "manage",
   MARK_FOR_OFFLINE: "sync_mobile",
-  LINK_TO_CASE: "link_to_case",
+  LINK_INCIDENT_TO_CASE: "link_incident_to_case",
   READ: "read",
   RECEIVE_REFERRAL: "receive_referral",
   RECEIVE_TRANSFER: "receive_transfer",
@@ -188,7 +188,7 @@ export const ADD_NOTE = [...MANAGE, ACTIONS.ADD_NOTE];
 
 export const MARK_FOR_OFFLINE = [...MANAGE, ACTIONS.MARK_FOR_OFFLINE];
 
-export const LINK_TO_CASE = [...MANAGE, ACTIONS.LINK_TO_CASE];
+export const LINK_INCIDENT_TO_CASE = [...MANAGE, ACTIONS.LINK_INCIDENT_TO_CASE];
 
 export const DISPLAY_VIEW_PAGE = [...MANAGE, ACTIONS.DISPLAY_VIEW_PAGE];
 

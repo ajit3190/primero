@@ -16,7 +16,7 @@ import {
   APPROVAL_TYPE,
   REQUEST_TYPE,
   MARK_FOR_OFFLINE_DIALOG,
-  LINK_TO_CASE_DIALOG
+  LINK_INCIDENT_TO_CASE_DIALOG
 } from "../constants";
 import { RECORD_TYPES, RECORD_PATH } from "../../../config";
 import Notes from "../notes";
@@ -28,7 +28,7 @@ import AddService from "../add-service";
 import RequestApproval from "../request-approval";
 import Exports from "../exports";
 import MarkForOffline from "../mark-for-offline";
-import LinkToCase from "../link-to-case";
+import LinkIncidentToCase from "../link-incident-to-case";
 
 import filterActions from "./filter-actions";
 
@@ -48,7 +48,7 @@ export default ({
   canShowExports,
   canTransfer,
   canMarkForOffline,
-  canLinkToCase,
+  canLinkIncidentToCase,
   enableState,
   handleDialogClick,
   hasIncidentSubform,
@@ -185,10 +185,10 @@ export default ({
         action: id => {
           handleDialogClick(id, true);
         },
-        condition: canLinkToCase,
+        condition: canLinkIncidentToCase,
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE_MANY_ALL,
-        id: LINK_TO_CASE_DIALOG,
+        id: LINK_INCIDENT_TO_CASE_DIALOG,
         name: "Link to case",
         recordListAction: true,
         recordType: RECORD_PATH.incidents
@@ -253,9 +253,9 @@ export default ({
         component: MarkForOffline,
         ability: canMarkForOffline
       },
-      [LINK_TO_CASE_DIALOG]: {
-        component: LinkToCase,
-        ability: canLinkToCase
+      [LINK_INCIDENT_TO_CASE_DIALOG]: {
+        component: LinkIncidentToCase,
+        ability: canLinkIncidentToCase
       }
     }
   };
