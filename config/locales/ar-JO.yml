@@ -1188,6 +1188,7 @@ ar-JO:
     zh: 中文
   incident:
     associated_case: "الحالة المرتبطة:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: تم إنشاء سجل الحادث بنجاح.
       creation_success_queue: تم إنشاء سجل الحادث بنجاح في الخلفية

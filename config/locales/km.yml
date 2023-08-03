@@ -1275,6 +1275,7 @@ km:
     zh: 中文
   incident:
     associated_case: "ករណីពាក់ព័ន្ធ៖"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: បាន​បង្កើត​កំណត់ត្រា​ហេតុការណ៍ដោយ​ជោគជ័យ។
       creation_success_queue: បង្កើត​កំណត់ត្រា​ដោយ​ជោគជ័យ។

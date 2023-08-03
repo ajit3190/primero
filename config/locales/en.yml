@@ -1418,6 +1418,7 @@ en:
   incident:
     code: Incident Code
     associated_case: "Associated Case:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background

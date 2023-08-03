@@ -1306,6 +1306,7 @@ so:
     zh: 中文
   incident:
     associated_case: "Kiis La xidhiidha"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: 'waad ku guulaysatey samaynta diwaangalinta dhacdada '
       creation_success_queue: waad ku guulaysatey samayta samaynnta keydinta dhacdada si dahsoon

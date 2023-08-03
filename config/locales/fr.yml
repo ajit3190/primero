@@ -1307,6 +1307,7 @@ fr:
     zh: 中文
   incident:
     associated_case: "Cas associé "
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: 'Incident crée avec succès '
       creation_success_queue: Création réussie d'un incident en arrière-plan

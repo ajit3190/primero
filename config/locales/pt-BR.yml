@@ -1224,6 +1224,7 @@ pt-BR:
     zh: Chinês
   incident:
     associated_case: "Caso Associado:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Registro de incidente criado com sucesso.
       creation_success_queue: Registro de incidente criado com sucesso em segundo plano

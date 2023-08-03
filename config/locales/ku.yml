@@ -1441,6 +1441,7 @@ ku:
     zh: چینى
   incident:
     associated_case: "كەیسی پێكەوەگرێدراو"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: تۆماری رووداوەكە بە سەركەوتوویی دروستكرا
       creation_success_queue: 'تۆماری كەیسەكە بە سەركەوتویی دروستكرا لە نێو پاشخانەكەدا.

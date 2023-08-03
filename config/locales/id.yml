@@ -1271,6 +1271,7 @@ id:
     zh: 中文
   incident:
     associated_case: "Kasus yang Berkaitan:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Data insiden berhasil dibuat.
       creation_success_queue: Data insiden berhasil dibuat pada latar belakang.

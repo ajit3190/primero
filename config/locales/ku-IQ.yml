@@ -1303,6 +1303,7 @@ ku-IQ:
     zh: چينی
   incident:
     associated_case: "کەیسێن پێڤە گرێدای"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: "تومارا رویدانا %{record_id} ب سەرکەفتیانە هاتە چێکرن."
       creation_success_queue: رویدان ب سەرکەفتیانە ل پاشخانێ هاتە دروستکرن

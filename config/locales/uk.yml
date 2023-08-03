@@ -1325,6 +1325,7 @@ uk:
     zh: 中文
   incident:
     associated_case: "Пов'язаний кейс:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Запис про інцидент успішно створено.
       creation_success_queue: Запис про інцидент успішно створено у фоновому режимі

@@ -1293,6 +1293,7 @@ ne:
     zh: चिनियाँ
   incident:
     associated_case: "सम्बन्धित केस :"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: "घटना अभिलेख सफलतापूर्वक सिर्जना गरिएको "
       creation_success_queue: "घटना अभिलेख सफलतापूर्वक पृष्ठभूमिमा सिर्जना गरिएको "

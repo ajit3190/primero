@@ -973,6 +973,7 @@ ps-AF:
     welcome: .پرائمرو ته ښه راغلاست
     zh: 中文
   incident:
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: .د پیښی ریکارډ په بریالیتوب سره جوړ شو
       creation_success_queue: .د پیښی ریکارډ په بریالیتوب سره په خپل محور کی جوړ شو

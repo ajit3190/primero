@@ -1279,6 +1279,7 @@ my:
     zh: တရုတ်စာ
   incident:
     associated_case: "ဆက်စပ် ဖြစ်ရပ်-"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: ဖြစ်စဉ်မှတ်တမ်း ကို အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်
       creation_success_queue: ဖြစ်စဉ်မှတ်တမ်းကို နောက်ခံတွင် အောင်မြင်စွာ စတင်ပြုလုပ်ခဲ့သည်

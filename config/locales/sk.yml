@@ -1327,6 +1327,7 @@ sk:
     zh: 中文
   incident:
     associated_case: "Súvisiaci prípad:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Záznam o incidente bol úspešne vytvorený.
       creation_success_queue: Záznam o incidente bol úspešne vytvorený na pozadí

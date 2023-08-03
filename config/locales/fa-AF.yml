@@ -955,6 +955,7 @@ fa-AF:
     view_records: نمایش آمار
     welcome: به پرایمرو خوش آمدید
   incident:
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: ضبط رویداد موفقانه ایجاد گردید.
       creation_success_queue: ضبط رویداد موفقانه در پشت زمینه ایجاد گردید.

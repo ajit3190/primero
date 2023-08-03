@@ -1125,6 +1125,7 @@ ar-SD:
     zh: 中文
   incident:
     associated_case: "حالة مرتبطة"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: تم خلق سجل بالحادثة بنجاح
       creation_success_queue: تم بنجاح خلق سجل للحادثة في الخلفية

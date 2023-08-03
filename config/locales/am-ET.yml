@@ -1307,6 +1307,7 @@ am-ET:
     zh: 中文
   incident:
     associated_case: "ተያያዥነት ያለው ጉዳይ"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: የክስተት መመዝገቢያ በትክክል ተፈጥሯል
       creation_success_queue: "የክስተት መመዝገቢያ በመግቢያዉ ላይ   በትክክል ተፈጥሯል\n\n "

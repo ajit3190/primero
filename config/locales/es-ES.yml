@@ -1228,6 +1228,7 @@ es_ES:
     welcome: Bienvenido(a) a Primero
   incident:
     associated_case: "Caso Asociado:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: El registro del incidente se generó correctamente.
       creation_success_queue: El Registro del Incidente se generó correctamente (en background)

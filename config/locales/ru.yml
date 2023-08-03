@@ -1234,6 +1234,7 @@ ru:
     zh: 中文
   incident:
     associated_case: "Ассоциированный кейс:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Запись инцидента успешно создана.
       creation_success_queue: Запись инцидента успешно создана в фоновом режиме.

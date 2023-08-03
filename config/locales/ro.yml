@@ -1235,6 +1235,7 @@ ro:
     zh: 中文
   incident:
     associated_case: "Caz asociat:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Registru incidente creat cu succes.
       creation_success_queue: Registru incidente creat cu succes în fundal.

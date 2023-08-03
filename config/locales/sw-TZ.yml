@@ -1289,6 +1289,7 @@ sw_TZ:
     zh: 中文
   incident:
     associated_case: "Kesi inayohusiana"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Rekodi ya tukio imetengenezwa kwa mafanikio
       creation_success_queue: Rekodi ya tukio imetengenezwa katika sehemu ya historia
