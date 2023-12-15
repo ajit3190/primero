@@ -97,3 +97,33 @@ export const exportForms = ({ params, message }) => ({
 export const clearExportForms = () => ({
   type: actions.CLEAR_EXPORT_FORMS
 });
+
+export const exportUsers = ({ params, message }) => ({
+  type: actions.EXPORT_FORMS,
+  api: {
+    path: "users/export",
+    method: METHODS.GET,
+    params,
+    successCallback: [
+      {
+        action: CLEAR_DIALOG
+      },
+      {
+        action: ENQUEUE_SNACKBAR,
+        payload: {
+          message,
+          options: {
+            variant: "success",
+            key: generate.messageKey(message)
+          }
+        },
+        redirectWithIdFromResponse: false,
+        redirect: false
+      }
+    ]
+  }
+});
+
+export const clearExportUsers = () => ({
+  type: actions.CLEAR_EXPORT_USERS
+});

@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
@@ -26,6 +26,12 @@ import { DEFAULT_FILTERS, DATA } from "../constants";
 import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
 import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters } from "./utils";
+
+import UserExporter from "./components/user-exporter";
+import { FormAction } from "../../../form";
+import { useDialog } from "../../../action-dialog";
+import { USER_EXPORTER_DIALOG } from "./components/user-exporter/constants";
+import { MODULES, RECORD_TYPES } from "../../../../config/constants";
 
 const Container = () => {
   const i18n = useI18n();
@@ -118,10 +124,26 @@ const Container = () => {
     dispatch(setUsersFilters({ data: defaultFilters }));
   }, []);
 
+  const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(USER_EXPORTER_DIALOG);
+  const handleExport = dialog => setDialog({ dialog, open: true });
+  const handleClickExport = () => handleExport(USER_EXPORTER_DIALOG);
+
   return (
     <>
-      <PageHeading title={i18n.t("users.label")}>{newUserBtn}</PageHeading>
+      <PageHeading title={i18n.t("users.label")}>
+      <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")}/>
+        {newUserBtn}
+      </PageHeading>
       <PageContent>
+        <UserExporter
+          i18n={i18n}
+          open={dialogOpen}
+          pending={pending}
+          close={dialogClose}
+          // filters={filterValues}
+          setPending={setDialogPending}
+        />
+        
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
             <IndexTable title={i18n.t("users.label")} {...tableOptions} />

@@ -4,4 +4,8 @@
 
 import { List } from "immutable";
 
+const adminUsersPath = ["records", "admin", "forms"];
+
 export const selectListHeaders = (state, namespace) => state.getIn(["user", "listHeaders", namespace], List([]));
+
+export const getExportedUsers = state => state.getIn([...adminUsersPath, "export", "data"], false);

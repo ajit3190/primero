@@ -20,6 +20,14 @@ export default (state = DEFAULT_STATE, { type, payload }) => {
       return state.set("filters", fromJS(payload.data));
     case actions.CLEAR_METADATA:
       return state.set("metadata", fromJS(DEFAULT_METADATA));
+    case actions.CLEAR_EXPORT_USERS:
+      return state.set("export", fromJS({}));
+    case actions.EXPORT_USERS_STARTED:
+      return state.setIn(["export", "loading"], true);
+    case actions.EXPORT_USERS_FINISHED:
+      return state.setIn(["export", "loading"], false);
+    case actions.EXPORT_USERS_SUCCESS:
+      return state.set("export", fromJS(payload));
     default:
       return state;
   }
