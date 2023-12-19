@@ -75,7 +75,4 @@ class Api::V2::UsersController < ApplicationApiController
     @user.identity_sync(current_user)
   end
 
-  def exporter
-    return Exporters::UserExporter if params[:export_type] == 'xlsx'
-  end
 end

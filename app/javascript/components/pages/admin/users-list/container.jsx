@@ -1,6 +1,6 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
@@ -31,7 +31,7 @@ import UserExporter from "./components/user-exporter";
 import { FormAction } from "../../../form";
 import { useDialog } from "../../../action-dialog";
 import { USER_EXPORTER_DIALOG } from "./components/user-exporter/constants";
-import { MODULES, RECORD_TYPES } from "../../../../config/constants";
+import { RECORD_TYPES } from "../../../../config/constants";
 
 const Container = () => {
   const i18n = useI18n();
@@ -140,7 +140,6 @@ const Container = () => {
           open={dialogOpen}
           pending={pending}
           close={dialogClose}
-          // filters={filterValues}
           setPending={setDialogPending}
         />
         

@@ -1,37 +1,28 @@
-import { useEffect } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import omitBy from "lodash/omitBy";
-import isEmpty from "lodash/isEmpty";
 
 import ActionDialog from "../../../../../action-dialog";
 import Form from "../../../../../form";
-import { exportUsers, clearExportUsers } from "../../../../../pages/admin/forms-list/action-creators";
-// import { exportUsers, clearExportUsers } from "../../action-creators";
-import { getExportedUsers } from "../../selectors";
-import { useMemoizedSelector } from "../../../../../../libs";
 
-import { NAME, EXPORT_TYPES, EXPORTED_URL, FORM_ID } from "./constants";
+import { NAME, EXPORT_TYPES, FORM_ID } from "./constants";
 import { form } from "./form";
 import { saveExport } from "../../../../../record-actions/exports/action-creators";
-import { ALL_EXPORT_TYPES } from "../../../../../record-actions/exports/constants";
 import { formatFileName} from "../../../../../record-actions/exports/utils";
 
 const Component = ({ close, i18n, open, pending, setPending }) => {
   const dispatch = useDispatch();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
-
-  const exportedUsers = useMemoizedSelector(state => getExportedUsers(state));
   const message = undefined;
 
-  const onSubmit = dataa => {
+  const onSubmit = getData => {
     const params = {
-      ...dataa,
+      ...getData,
       export_type: EXPORT_TYPES.EXCEL,
-      record_type: "user",
-      module_id: "primeromodule-cp"
+      record_type: "user"
     };
-    const fileName = formatFileName(dataa.file_name, "xlsx");
+
+    const fileName = formatFileName(getData.file_name, "xlsx");
 
     const defaultBody = {
       export_format: "xlsx",
@@ -52,16 +43,6 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
       )
     );
   };
-
-  useEffect(() => {
-    if (exportedUsers.size > 0 && !isEmpty(exportedUsers.get(EXPORTED_URL))) {
-      window.open(exportedUsers.get(EXPORTED_URL));
-    }
-
-    return () => {
-      dispatch(clearExportUsers());
-    };
-  }, [exportedUsers]);
 
   return (
     <ActionDialog
