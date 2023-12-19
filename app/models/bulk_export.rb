@@ -39,11 +39,19 @@ class BulkExport < ApplicationRecord
   end
 
   def export(password)
-    process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
+    if check_user_export
+      exporter.export
+    else
+      process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
+    end
     exporter.complete
     zipped_file = ZipService.zip(stored_file_name, password)
     attach_export_file(zipped_file)
     mark_completed!
+  end
+
+  def check_user_export
+    record_type == "user"
   end
 
   def model_class

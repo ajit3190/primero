@@ -2,24 +2,35 @@
 
 # Export forms to an Excel file (.xlsx)
 # rubocop:disable Metrics/ClassLength
-class Exporters::UserExporter < ValueObject
-  attr_accessor :file_name, :workbook, :errors
+class Exporters::UserExporter < Exporters::BaseExporter
+  attr_accessor :file_name, :workbook, :errors, :worksheets
 
-  def initialize(opts = {})
-    initialize_file_name(opts)
-    super(opts)
+  class << self
+    def id
+      'xlsx'
+    end
+
+    def supported_models
+      [User]
+    end
   end
 
-  def initialize_file_name(opts)
-    opts[:file_name] = export_file_name(opts)
+  def initialize(output_file_path = nil, config = {}, options = {})
+    super(output_file_path, config, options)
+    self.workbook = WriteXLSX.new(buffer)
+    self.worksheets = {}
+    self.locale = user&.locale || I18n.locale
   end
 
   def export
-    self.workbook = WriteXLSX.new(file_name)
     export_user_row
     modules = UserService.modules
     modules.each { |modul| export_modules(modul) }
-    workbook.close
+  end
+
+  def complete
+    @workbook.close
+    buffer
   end
 
   private
@@ -66,14 +77,6 @@ class Exporters::UserExporter < ValueObject
 
   def user_content
     keys = [UserService.all_users.count,UserService.active_users.count,UserService.disabled_users.count,UserService.new_users.count,UserService.all_agencies.count]
-  end
-
-  def export_file_name(opts)
-    return export_file_dir(opts) if opts[:file_name].blank?
-
-    file_name = opts[:file_name]
-    file_name += '.xlsx' unless file_name.ends_with?('.xlsx')
-    file_name.gsub(/\s+/, '_')
   end
 
   def set_column_width(worksheet)
