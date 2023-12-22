@@ -72,11 +72,11 @@ class Exporters::UserExporter < Exporters::BaseExporter
   end
 
   def user_header
-    keys = ['Total Users', 'Active Users', 'Disable Users', 'New Users in this quarter', 'Total Number of Agency']
+    keys = ['Total Users', 'Active Users', 'Disable Users', 'New Users in this quarter', 'Total Number of Agency', 'Agency List']
   end
 
   def user_content
-    keys = [UserService.all_users.count,UserService.active_users.count,UserService.disabled_users.count,UserService.new_users.count,UserService.all_agencies.count]
+    keys = [UserService.all_users.count,UserService.active_users.count,UserService.disabled_users.count,UserService.new_users.count,UserService.all_agencies.count, UserService.all_agencies.pluck(:unique_id)]
   end
 
   def set_column_width(worksheet)
