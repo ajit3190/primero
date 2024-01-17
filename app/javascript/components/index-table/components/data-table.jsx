@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 /* eslint-disable react-hooks/exhaustive-deps, no-param-reassign */
 
 import MUIDataTable from "mui-datatables";
@@ -10,7 +12,7 @@ import { ThemeProvider } from "@material-ui/core/styles";
 
 import { dataToJS, ConditionalWrapper, useThemeHelper, useMemoizedSelector } from "../../../libs";
 import { useI18n } from "../../i18n";
-import { MAX_OFFLINE_ROWS_PER_PAGE, RECORD_PATH } from "../../../config";
+import { MAX_OFFLINE_ROWS_PER_PAGE, RECORD_PATH } from "../../../config/constants";
 import { ALERTS_COLUMNS } from "../../record-list/constants";
 import recordListTheme from "../theme";
 import { NAME } from "../config";
@@ -72,7 +74,8 @@ const Datatable = ({
     RECORD_PATH.cases,
     RECORD_PATH.incidents,
     RECORD_PATH.tracing_requests,
-    RECORD_PATH.registry_records
+    RECORD_PATH.registry_records,
+    RECORD_PATH.families
   ].includes(recordType);
 
   const translatedRecords = useTranslatedRecords({

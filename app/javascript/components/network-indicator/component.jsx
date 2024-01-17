@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import PropTypes from "prop-types";
 import clsx from "clsx";
 import CheckIcon from "@material-ui/icons/Check";
@@ -5,7 +7,7 @@ import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
 import { useApp } from "../application";
 import { useI18n } from "../i18n";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getFieldMode } from "../application/selectors";
 
 import NetworkStatus from "./components/network-status";

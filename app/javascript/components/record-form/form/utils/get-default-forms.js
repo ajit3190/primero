@@ -1,8 +1,11 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import isEmpty from "lodash/isEmpty";
 
 import {
   APPROVALS,
   CHANGE_LOGS,
+  FAMILY_FROM_CASE,
   IDENTIFICATION_REGISTRATION,
   INCIDENT_FROM_CASE,
   MODULES,
@@ -127,6 +130,21 @@ export default (locale, query) => {
       module_ids: [MODULES.CP],
       name: { [locale]: "forms.record_types.registry_details" },
       order: 2,
+      form_group_id: IDENTIFICATION_REGISTRATION,
+      fields: [],
+      order_form_group: 1,
+      is_first_tab: true,
+      core_form: true,
+      i18nName: true,
+      visible: true,
+      parent_form: RECORD_TYPES.cases
+    }),
+    [FAMILY_FROM_CASE]: FormSectionRecord({
+      id: generateKey(),
+      unique_id: FAMILY_FROM_CASE,
+      module_ids: [MODULES.CP],
+      name: { [locale]: "forms.record_types.family_record" },
+      order: 3,
       form_group_id: IDENTIFICATION_REGISTRATION,
       fields: [],
       order_form_group: 1,

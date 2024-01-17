@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useState } from "react";
 import PropTypes from "prop-types";
 import { Drawer } from "@material-ui/core";
@@ -10,9 +12,9 @@ import { useDispatch } from "react-redux";
 import ActionButton from "../action-button";
 import { ACTION_BUTTON_TYPES } from "../action-button/constants";
 import { useI18n } from "../i18n";
-import { useMemoizedSelector } from "../../libs";
+import useMemoizedSelector from "../../libs/use-memoized-selector";
 import { getOptionFromAppModule } from "../application/selectors";
-import { DEFAULT_FILTERS } from "../record-list/constants";
+import { SEARCH_OR_CREATE_FILTERS } from "../record-list/constants";
 import { applyFilters } from "../index-filters";
 
 import { ConsentPrompt, SearchPrompt } from "./components";
@@ -30,15 +32,13 @@ const Component = ({ open, onClose, recordType, primeroModule }) => {
     getOptionFromAppModule(state, primeroModule, DATA_PROTECTION_FIELDS)
   );
 
-  const filters = { ...DEFAULT_FILTERS, status: ["open", "closed"] };
-
   const goToNewCase = () => dispatch(push(`/${recordType}/${primeroModule}/new`));
 
   const onSearchCases = data => {
     dispatch(
       applyFilters({
         recordType,
-        data: { ...filters, ...(!isEmpty(data) && { ...data, id_search: true }) }
+        data: { ...SEARCH_OR_CREATE_FILTERS, ...(!isEmpty(data) && { ...data, id_search: true }) }
       })
     );
   };

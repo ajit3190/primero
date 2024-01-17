@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, fromJS } from "immutable";
 
 import { GROUP_PERMISSIONS, ACTIONS } from "../permissions";
@@ -86,6 +88,7 @@ describe("Application - Reducers", () => {
         admin_level_map: { 1: ["province"], 2: ["district"] },
         label_keys: ["district"]
       },
+      primaryAgeRange: "primero",
       ageRanges: {
         primero: ["0..5", "6..11", "12..17", "18..999"]
       },
@@ -174,6 +177,7 @@ describe("Application - Reducers", () => {
             admin_level_map: { 1: ["province"], 2: ["district"] },
             label_keys: ["district"]
           },
+          primary_age_range: "primero",
           age_ranges: {
             primero: ["0..5", "6..11", "12..17", "18..999"]
           },

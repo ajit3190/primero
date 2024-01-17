@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { useFormContext } from "react-hook-form";
@@ -17,21 +19,12 @@ import {
 import handleFilterChange from "../value-handlers";
 import { listboxClasses, virtualize } from "../../../../searchable-select/components/listbox-component";
 import useOptions from "../../../../form/use-options";
-import { OPTION_TYPES } from "../../../../form";
+import { OPTION_TYPES } from "../../../../form/constants";
 
 import { NAME } from "./constants";
 import { getOptionName } from "./utils";
 
-const Component = ({
-  addFilterToList,
-  filter,
-  mode,
-  moreSectionFilters,
-  multiple,
-  reset,
-  setMoreSectionFilters,
-  setReset
-}) => {
+const Component = ({ filter, mode, moreSectionFilters, multiple, reset, setMoreSectionFilters, setReset }) => {
   const i18n = useI18n();
 
   const formMethods = useFormContext();
@@ -67,10 +60,6 @@ const Component = ({
   const handleReset = () => {
     setValue(fieldName, []);
     resetSecondaryFilter(mode?.secondary, fieldName, getValues()[fieldName], moreSectionFilters, setMoreSectionFilters);
-
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: undefined });
-    }
   };
 
   useEffect(() => {
@@ -115,10 +104,6 @@ const Component = ({
 
     if (mode?.secondary) {
       handleMoreFiltersChange(moreSectionFilters, setMoreSectionFilters, fieldName, getValues()[fieldName]);
-    }
-
-    if (addFilterToList) {
-      addFilterToList({ [fieldName]: getValues()[fieldName] || undefined });
     }
 
     if (filter.onChange) {

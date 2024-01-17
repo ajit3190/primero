@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Represents the asynchronous run of a queued export job.
 # In Primero v2, all exports are asynchronous.
 # See app/models/exporters
@@ -37,11 +39,19 @@ class BulkExport < ApplicationRecord
   end
 
   def export(password)
-    process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
+    if check_user_export
+      exporter.export
+    else
+      process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
+    end
     exporter.complete
     zipped_file = ZipService.zip(stored_file_name, password)
     attach_export_file(zipped_file)
     mark_completed!
+  end
+
+  def check_user_export
+    record_type == "user"
   end
 
   def model_class
@@ -57,7 +67,7 @@ class BulkExport < ApplicationRecord
 
     @exporter = exporter_type.new(
       stored_file_name,
-      { record_type: record_type, user: owner },
+      { record_type:, user: owner },
       custom_export_params&.with_indifferent_access || {}
     )
   end
@@ -122,7 +132,7 @@ class BulkExport < ApplicationRecord
     loop do
       results = SearchService.search(model_class,
                                      filters: search_filters, query_scope: record_query_scope,
-                                     query: query, sort: order, pagination: { page: page, per_page: batch }).results
+                                     query:, sort: order, pagination: { page:, per_page: batch }).results
       yield(results)
       # Set again the values of the pagination variable because the method modified the variable.
       page = results.next_page

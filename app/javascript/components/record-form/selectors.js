@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import isEmpty from "lodash/isEmpty";
 import isNil from "lodash/isNil";
 import omitBy from "lodash/omitBy";
@@ -6,7 +8,7 @@ import createCachedSelector from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
 
 import { denormalizeFormData } from "../../schemas";
-import { displayNameHelper } from "../../libs";
+import displayNameHelper from "../../libs/display-name-helper";
 import { checkPermissions, getPermissionsByRecord } from "../permissions";
 import { ALERTS_FOR, INCIDENT_FROM_CASE, RECORD_INFORMATION_GROUP, RECORD_TYPES_PLURAL } from "../../config";
 import { FieldRecord } from "../form/records";
@@ -484,6 +486,20 @@ export const getRecordFields = createCachedSelector(
   }
 )(defaultCacheSelectorOptions);
 
+export const getRecordFieldsByName = createCachedSelector(
+  getRecordFields,
+  (_state, query) => query,
+  (fields, query) => {
+    const { name } = query;
+
+    if (Array.isArray(name)) {
+      return fields.filter(field => name.includes(field.name));
+    }
+
+    return fields.find(field => field.name === name);
+  }
+)(defaultCacheSelectorOptions);
+
 export const getMiniFormFields = (state, recordType, primeroModule, excludeFieldNames) => {
   const recordForms = getRecordForms(state, { recordType, primeroModule, includeNested: false, checkVisible: false });
 
@@ -514,6 +530,10 @@ export const getDataProtectionInitialValues = state =>
 
 export const getShouldFetchRecord = (state, { id, recordType }) => {
   return !state.getIn([NAMESPACE, "previousRecord"], fromJS({})).equals(fromJS({ id, recordType }));
+};
+
+export const getPreviousRecordType = state => {
+  return state.getIn([NAMESPACE, "previousRecord", "recordType"]);
 };
 
 export const getWritableFields = createCachedSelector(

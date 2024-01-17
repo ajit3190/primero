@@ -1,8 +1,10 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { Map, fromJS } from "immutable";
 import { isEqual, isNil, omitBy } from "lodash";
 import createCachedSelector from "re-reselect";
 import { createSelectorCreator, defaultMemoize } from "reselect";
-import memoize from "proxy-memoize";
+import { memoize } from "proxy-memoize";
 
 import { displayNameHelper } from "../../libs";
 import { getLocale } from "../i18n/selectors";
@@ -91,6 +93,10 @@ export const getResourceActions = (state, resource) =>
 
 export const getAgeRanges = (state, name = "primero") => state.getIn([NAMESPACE, "ageRanges", name], fromJS([]));
 
+export const getPrimaryAgeRange = state => state.getIn([NAMESPACE, "primaryAgeRange"], "primero");
+
+export const getPrimaryAgeRanges = state => getAgeRanges(state, getPrimaryAgeRange(state));
+
 export const getReportableTypes = state => state.getIn([NAMESPACE, "reportableTypes"], fromJS([]));
 
 export const approvalsLabels = state => state.getIn([NAMESPACE, "approvalsLabels"], fromJS({}));
@@ -177,3 +183,5 @@ export const getAppData = memoize(state => {
     limitedProductionSite
   };
 });
+
+export const getWebpushConfig = state => state.getIn([NAMESPACE, "webpush"], fromJS({}));

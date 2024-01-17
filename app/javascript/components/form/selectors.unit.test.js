@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { expect } from "chai";
 import { fromJS } from "immutable";
 
@@ -252,6 +254,30 @@ describe("Forms - Selectors", () => {
           disabled: false
         }
       ];
+
+      describe("when there are no application user groups", () => {
+        it("returns the users groups of the user", () => {
+          const state = fromJS({
+            user: {
+              roleGroupPermission: "all",
+              userGroups: [
+                {
+                  id: 1,
+                  unique_id: "test-1",
+                  name: "Test 1",
+                  disabled: false
+                }
+              ]
+            }
+          });
+
+          expect(
+            selectors.getOptions(OPTION_TYPES.USER_GROUP_PERMITTED)(state, {
+              source: OPTION_TYPES.USER_GROUP_PERMITTED
+            })
+          ).to.deep.equals([{ disabled: false, display_text: "Test 1", id: "test-1" }]);
+        });
+      });
 
       describe("when user group permission is ALL", () => {
         const state = fromJS({

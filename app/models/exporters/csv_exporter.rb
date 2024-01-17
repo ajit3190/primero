@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 require 'csv'
 
 # Exports the top level fields of a record to a flat CSV
@@ -15,7 +17,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
     end
 
     def supported_models
-      [Child, Incident, TracingRequest, RegistryRecord]
+      [Child, Incident, TracingRequest, RegistryRecord, Family]
     end
 
     def excluded_field_names
@@ -24,6 +26,7 @@ class Exporters::CsvExporter < Exporters::BaseExporter
   end
 
   def export(records)
+    super(records)
     csv_export = CSVSafe.generate do |rows|
       rows << headers if @called_first_time.nil?
       @called_first_time ||= true
@@ -42,8 +45,6 @@ class Exporters::CsvExporter < Exporters::BaseExporter
   end
 
   def row(record, fields)
-    [record.id] + fields.map do |field|
-      record.data[field.name]
-    end
+    [record.id] + fields.map { |field| record.data[field.name] }
   end
 end

@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Users CRUD API
 class Api::V2::UsersController < ApplicationApiController
   include Api::V2::Concerns::Pagination
+  include Api::V2::Concerns::Export
   include Api::V2::Concerns::JsonValidateParams
 
   before_action :load_user, only: %i[show update destroy]
@@ -30,7 +33,7 @@ class Api::V2::UsersController < ApplicationApiController
     @user = User.new(@user_params)
     @user.save!
     status = params[:data][:id].present? ? 204 : 200
-    render :create, status: status
+    render :create, status:
   end
 
   def update
@@ -49,7 +52,7 @@ class Api::V2::UsersController < ApplicationApiController
   protected
 
   def order_params
-    { order_by: order_by, order: order, locale: params[:locale] } if order_by.present?
+    { order_by:, order:, locale: params[:locale] } if order_by.present?
   end
 
   def user_params
@@ -71,4 +74,5 @@ class Api::V2::UsersController < ApplicationApiController
   def identity_sync
     @user.identity_sync(current_user)
   end
+
 end

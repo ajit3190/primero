@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # Model representing an event. Some events are correlated to a case, forming a historical record.
 # rubocop:disable Metrics/ClassLength
 class Incident < ApplicationRecord
@@ -159,6 +161,11 @@ class Incident < ApplicationRecord
         incidents: { from: old_incident_values, to: new_incident_values }
       }
     )
+
+    mark_case_updated!
+  end
+
+  def mark_case_updated!
     self.case.last_updated_by = created_by
     self.case.last_updated_at = DateTime.now
     self.case.save!
