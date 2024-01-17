@@ -27,7 +27,8 @@ const Component = ({
   isViolationSubform,
   associatedViolations,
   renderSecondaryText = false,
-  parentTitle
+  parentTitle,
+  mode
 }) => {
   const i18n = useI18n();
   const { collapsed_field_names: collapsedFieldNames, fields } = field.subform_section_id;
@@ -104,6 +105,7 @@ const Component = ({
           values={values}
           index={index}
           collapsedFieldValues={subformValues}
+          mode={mode}
         />
       );
     }
@@ -142,7 +144,8 @@ Component.propTypes = {
   locale: PropTypes.string.isRequired,
   parentTitle: PropTypes.string,
   renderSecondaryText: PropTypes.bool,
-  values: PropTypes.array.isRequired
+  values: PropTypes.array.isRequired,
+  mode: PropTypes.object.isRequired
 };
 
 export default Component;

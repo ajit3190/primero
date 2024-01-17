@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import {
   ACTIONS,
   ADD_INCIDENT,
@@ -67,4 +65,5 @@ export const RECORD_ACTION_ABILITIES = {
   canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER],
   canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE],
   canLinkIncidentToCase: [ACTIONS.MANAGE, ACTIONS.LINK_INCIDENT_TO_CASE]
+  canVerify: [ACTIONS.MANAGE,ACTIONS.VERIFY]
 };
