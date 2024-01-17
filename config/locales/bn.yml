@@ -156,6 +156,7 @@ bn:
     guidance: নির্দেশনা
     guiding_questions: গাইডিং প্রশ্ন
     import: আমদানি
+    link: Link
     login: লগ ইন
     logout: লগ আউট করুন
     mark_for_mobile: 'মোবাইলের জন্য চিহ্নিত করা '
@@ -1286,6 +1287,7 @@ bn:
     zh: 中文
   incident:
     associated_case: "সংশ্লিষ্ট কেস"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: ঘটনার রেকর্ড সফলভাবে তৈরি হয়েছে।
       creation_success_queue: ব্যাকগ্রাউন্ডে ঘটনার রেকর্ড সফলভাবে তৈরি করা হয়েছে

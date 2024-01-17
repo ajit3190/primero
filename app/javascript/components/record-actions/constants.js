@@ -8,7 +8,8 @@ import {
   SHOW_EXPORTS,
   ASSIGN,
   REQUEST_APPROVAL,
-  APPROVAL
+  APPROVAL,
+  LINK_INCIDENT_TO_CASE
 } from "../permissions";
 
 export const ID_SEARCH = "id_search";
@@ -27,6 +28,7 @@ export const NOTES_DIALOG = "notes";
 export const ENABLE_DISABLE_DIALOG = "enableDisable";
 export const OPEN_CLOSE_DIALOG = "openClose";
 export const MARK_FOR_OFFLINE_DIALOG = "markForOffline";
+export const LINK_INCIDENT_TO_CASE_DIALOG = "linkIncidentToCase";
 
 export const ONE = "one";
 export const MANY = "many";
@@ -63,5 +65,6 @@ export const RECORD_ACTION_ABILITIES = {
   canRequestGbvClosure: [ACTIONS.MANAGE, ACTIONS.REQUEST_APPROVAL_GBV_CLOSURE],
   canShowExports: SHOW_EXPORTS,
   canTransfer: [ACTIONS.MANAGE, ACTIONS.TRANSFER],
-  canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE]
+  canMarkForOffline: [ACTIONS.MANAGE, ACTIONS.MARK_FOR_OFFLINE],
+  canLinkIncidentToCase: [ACTIONS.MANAGE, ACTIONS.LINK_INCIDENT_TO_CASE]
 };

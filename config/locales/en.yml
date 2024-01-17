@@ -1,6 +1,4 @@
 # encoding: utf-8
-
-# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 #
 # This is the English localization file for Primero.  It is based on the sample
 # English localization file found in the repository linked below[1].
@@ -182,6 +180,7 @@ en:
     guidance: Guidance
     guiding_questions: Guiding Questions
     import: Import
+    link: Link
     login: Log in
     logout: Log out
     mark_for_mobile: Mark for mobile
@@ -1473,6 +1472,7 @@ en:
   incident:
     code: Incident Code
     associated_case: "Associated Case:"
+    link_incident_to_case: Link Incident to Case
     messages:
       creation_success: Incident record successfully created.
       creation_success_queue: Incident record successfully created in background
@@ -3259,6 +3259,9 @@ en:
               edited, such as when notes are updated. Alerts are usually shown
               with a yellow dot next to the incident.
             label: Remove alert from an incident
+          link_incident_to_case:
+            explanation: Allows the user to link the incident with selected case.
+            label: Link incident to Case
           manage:
             explanation: Allows a user to perform all available actions on incidents.
               The "Manage" permission essentially means "everything".
@@ -3487,6 +3490,15 @@ en:
               The XLS format renders non-Latin characters (e.g. Arabic, Bangla) in a readable
               format, while the CSV export does not.'
             label: Excel (XLS file) export
+          export_json:
+            explanation: User can generate a JSON file export from the Family list
+              or incident show pages, which contains all fields to which the current
+              user has access, for one, multiple, or all incidents to which the user
+              has access. This export is mainly used for those who want to export
+              incidents from the current Primero system and then import them into
+              a different Primero system, or into another information management system.
+              The JSON format is machine-readable and not practical for most users.
+            label: Export JSON
           export_list_view_csv:
             explanation: User can generate a CSV file export from the Family list
               page which contains the same fields which appear for that user on the
@@ -3519,7 +3531,7 @@ en:
               and click "Save".
             label: Edit
           sync_mobile:
-            explanation: Allows the user to cache family records for usage offline.
+            explanation: Allows the user to cache Families for usage offline.
             label: Mark for Offline
           close:
             explanation: Allows a user to set the status of an open family to closed.
@@ -3854,7 +3866,7 @@ en:
     display: Displaying potential matches for %{type} %{id}
   reassign:
     multiple_error: An error occurred. %{select_records} case(s) not assigned.
-    multiple_successfully: Primero is reassigning %{select_records} Case(s). It may take several minutes for all of these Cases to update
+    multiple_successfully: '%{select_records} case(s) successfully assigned'
     notes_label: Notes
     successfully: Successfully reassigned
     user_mandatory_label: Recipient is required

@@ -1,5 +1,3 @@
-// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
-
 import startsWith from "lodash/startsWith";
 import compact from "lodash/compact";
 
@@ -42,6 +40,7 @@ import {
   EXTERNAL_SYNC,
   OFFLINE_INCIDENT_FROM_CASE,
   CREATE_CASE_FROM_FAMILY_MEMBER,
+FETCH_LINK_INCIDENT_TO_CASE_DATA
   CREATE_CASE_FROM_FAMILY_DETAIL,
   DELETE_ALERT_FROM_RECORD,
   DELETE_ALERT_FROM_RECORD_SUCCESS
@@ -169,20 +168,6 @@ export const fetchRecordsAlerts = (recordType, recordId, asCallback = false) => 
     path: `${recordType}/${recordId}/alerts`,
     skipDB: true,
     performFromQueue: true
-  }
-});
-
-export const deleteAlertFromRecord = (recordType, recordId, alertId) => ({
-  type: `${recordType}/${DELETE_ALERT_FROM_RECORD}`,
-  api: {
-    path: `${recordType}/${recordId}/alerts/${alertId}`,
-    method: METHODS.DELETE,
-    skipDB: true,
-    performFromQueue: true,
-    successCallback: {
-      action: `${recordType}/${DELETE_ALERT_FROM_RECORD_SUCCESS}`,
-      payload: { alertId }
-    }
   }
 });
 
@@ -398,7 +383,7 @@ export const markForOffline =
 export const createCaseFromFamilyMember = ({ familyId, familyMemberId }) => ({
   type: `${RECORD_PATH.families}/${CREATE_CASE_FROM_FAMILY_MEMBER}`,
   api: {
-    path: `${RECORD_PATH.families}/${familyId}/case`,
+    path: `${RECORD_PATH.families}/${familyId}/create_case`,
     body: {
       data: { family_member_id: familyMemberId }
     },
@@ -421,28 +406,32 @@ export const createCaseFromFamilyMember = ({ familyId, familyMemberId }) => ({
   }
 });
 
-export const createCaseFromFamilyDetail = ({ caseId, familyDetailId }) => ({
-  type: `${RECORD_PATH.cases}/${CREATE_CASE_FROM_FAMILY_DETAIL}`,
-  api: {
-    path: `${RECORD_PATH.cases}/${caseId}/family`,
-    body: {
-      data: { family_detail_id: familyDetailId }
-    },
-    method: "POST",
-    successCallback: [
-      {
-        action: CLEAR_DIALOG
-      },
-      {
+export const fetchLinkIncidentToCaseData = (payload) => {
+  return {
+    type: `cases/${FETCH_LINK_INCIDENT_TO_CASE_DATA}`,
+    api: {
+      path: `${RECORD_PATH.cases}?query=${payload.query}&id_search=${payload.id_search}`
+    }
+  };
+};
+
+export const linkIncidentToCase = ({ recordType, incident_ids = [], case_id }) => {
+  return {
+    type: `${recordType}/LINK_INCIDENT_TO_CASE`,
+    api: {
+      path: `incidents/link_incidents_to_case`,
+      method: "POST",
+      body: { data: { incident_case_id: case_id, incident_ids: incident_ids } },
+      successCallback: {
         action: ENQUEUE_SNACKBAR,
         payload: {
-          messageKey: `${RECORD_TYPES.cases}.messages.creation_success`,
+          message: "Linked incident to case",
           options: {
             variant: "success",
-            key: generate.messageKey(`${RECORD_TYPES.cases}.messages.creation_success`)
+            key: generate.messageKey()
           }
         }
       }
-    ]
+    }
   }
-});
+};
