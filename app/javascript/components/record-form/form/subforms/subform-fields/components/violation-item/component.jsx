@@ -16,7 +16,6 @@ import { toServerDateFormat } from "../../../../../../../libs";
 import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
 import { NAME } from "./constants";
-import { getViolationTallyLabel } from "./utils";
 
 const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) => {
   const currentValues = values[index];
