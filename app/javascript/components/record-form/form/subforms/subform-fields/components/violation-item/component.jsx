@@ -1,3 +1,5 @@
+// Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import PropTypes from "prop-types";
@@ -16,7 +18,11 @@ import { toServerDateFormat } from "../../../../../../../libs";
 import VerifySelect from "./select";
 import { getViolationTallyLabel } from "./utils";
 import { NAME } from "./constants";
-import { getViolationTallyLabel } from "./utils";
+
+
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
+
 
 const Component = ({ fields, values, locale, displayName, index, collapsedFieldValues, mode }) => {
   const currentValues = values[index];
@@ -26,6 +32,18 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   const [verificationValue, setVeficationValue] = useState(currentValues?.ctfmr_verified || ""); // Dropdown selected state
   const violationTally = getViolationTallyLabel(fields, currentValues, locale);
   const verifyParams = useParams();
+  const DATE_FORMAT = "dd-MMM-yyyy";
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [validationError, setValidationError] = useState("");
+
+  const handleDropdownDate = (date) => {
+    if (selectedDate) {
+      setSelectedDate(date);
+    } else {
+      setValidationError("date should not be null");
+      setSelectedDate(null);
+    }
+  };
 
   const handleOpenVerifyModal = (index, event) => {
     //  To open verify dialog confirmation popup
@@ -63,7 +81,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
               {
                 unique_id: currentValues.unique_id,
                 ctfmr_verified: verificationValue,
-                ctfmr_verified_date: toServerDateFormat(current_date)
+                ctfmr_verified_date: toServerDateFormat(selectedDate)
               }
             ]
           }
@@ -115,6 +133,32 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
         maxSize="xs"
       >
         <VerifySelect selectedValue={verificationValue} setSelectedValue={setVeficationValue} />
+        {verificationValue === "verified" ?
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <KeyboardDatePicker
+                variant="inline"
+                format={DATE_FORMAT}
+                margin="normal"
+                id="date-picker-inline"
+                value={selectedDate}
+                onChange={handleDropdownDate}
+                error={!!validationError}
+                maxDate={new Date()} // Disable future dates
+                InputProps={{
+                  style: {
+                    borderColor: validationError ? "red" : undefined,
+                    marginLeft: "5px", // Add left margin here             
+                  },
+                }}
+                KeyboardButtonProps={{
+                  "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
+                }}
+              />
+
+            </div>
+          </MuiPickersUtilsProvider>
+          : null}
       </ActionDialog>
     </ListItemText>
   );
