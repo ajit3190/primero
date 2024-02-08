@@ -7,13 +7,55 @@ import DateFnsUtils from "@date-io/date-fns";
 import { useI18n } from "../../../i18n";
 import { DATE_FORMAT } from "../../../../config/constants";
 
-const DateRangePicker = ({ from, to, onChange, maxDate }) => {
+const DateRangePicker = ({ fromDate, toDate, onChange, maxDate }) => {
   const i18n = useI18n();
-  const [selectedFromDate, setSelectedFromDate] = useState(from);
-  const [selectedToDate, setSelectedToDate] = useState(to);
+
+  // Group useState variables together
+  const [selectedFromDate, setSelectedFromDate] = useState(fromDate);
+  const [selectedToDate, setSelectedToDate] = useState(toDate);
   const [validationError, setValidationError] = useState("");
 
-  const handleFromChange = (date) => {
+  // Define props that are objects, calculated, or functions
+  const fromDatePickerProps = {
+    variant: "inline",
+    format: DATE_FORMAT,
+    margin: "normal",
+    label: i18n.t("key_performance_indicators.date_range_dialog.from"),
+    value: selectedFromDate,
+    onChange: handleFromChange,
+    error: !!validationError,
+    maxDate: maxDate || new Date(), // Allow customization of maxDate
+    InputProps: {
+      style: {
+        borderColor: validationError ? "red" : undefined
+      }
+    },
+    KeyboardButtonProps: {
+      "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
+    }
+  };
+
+  const toDatePickerProps = {
+    variant: "inline",
+    format: DATE_FORMAT,
+    margin: "normal",
+    label: i18n.t("key_performance_indicators.date_range_dialog.to"),
+    value: selectedToDate,
+    onChange: handleToChange,
+    error: !!validationError,
+    maxDate: maxDate || new Date(), // Allow customization of maxDate
+    InputProps: {
+      style: {
+        borderColor: validationError ? "red" : undefined,
+        marginLeft: "10px" // Add left margin here
+      }
+    },
+    KeyboardButtonProps: {
+      "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.to")
+    }
+  };
+
+  function handleFromChange(date) {
     if (selectedToDate && date > selectedToDate) {
       setValidationError("From date should not be greater than To date");
       setSelectedFromDate(null);
@@ -22,60 +64,25 @@ const DateRangePicker = ({ from, to, onChange, maxDate }) => {
       setSelectedFromDate(date);
       onChange(date, selectedToDate);
     }
-  };
+  }
 
-  const handleToChange = (date) => {
+  function handleToChange(date) {
     if (selectedFromDate && selectedFromDate > date) {
       setValidationError("To date should not be smaller than From date");
       setSelectedToDate(null);
     } else {
       setValidationError("");
       setSelectedToDate(date);
-      onChange(selectedFromDate, dat);
+      onChange(selectedFromDate, date);
     }
-  };
+  }
 
   return (
     <>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <KeyboardDatePicker
-            variant="inline"
-            format={DATE_FORMAT}
-            margin="normal"
-            label={i18n.t("key_performance_indicators.date_range_dialog.from")}
-            value={selectedFromDate}
-            onChange={handleFromChange}
-            error={!!validationError}
-            maxDate={maxDate || new Date()} // Allow customization of maxDate
-            InputProps={{
-              style: {
-                borderColor: validationError ? "red" : undefined
-              },
-            }}
-            KeyboardButtonProps={{
-              "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.from")
-            }}
-          />
-          <KeyboardDatePicker
-            variant="inline"
-            format={DATE_FORMAT}
-            margin="normal"
-            label={i18n.t("key_performance_indicators.date_range_dialog.to")}
-            value={selectedToDate}
-            onChange={handleToChange}
-            error={!!validationError}
-            maxDate={maxDate || new Date()} // Allow customization of maxDate
-            InputProps={{
-              style: {
-                borderColor: validationError ? "red" : undefined,
-                marginLeft: "10px", // Add left margin here
-              },
-            }}
-            KeyboardButtonProps={{
-              "aria-label": i18n.t("key_performance_indicators.date_range_dialog.aria-labels.to")
-            }}
-          />
+          <KeyboardDatePicker {...fromDatePickerProps} />
+          <KeyboardDatePicker {...toDatePickerProps} />
         </div>
       </MuiPickersUtilsProvider>
       <p>{validationError}</p>
@@ -84,16 +91,17 @@ const DateRangePicker = ({ from, to, onChange, maxDate }) => {
 };
 
 DateRangePicker.propTypes = {
-  from: PropTypes.instanceOf(Date),
-  to: PropTypes.instanceOf(Date),
-  onChange: PropTypes.func.isRequired,
+  fromDate: PropTypes.instanceOf(Date),
   maxDate: PropTypes.instanceOf(Date),
+  onChange: PropTypes.func.isRequired,
+  toDate: PropTypes.instanceOf(Date),
 };
 
 DateRangePicker.defaultProps = {
-  from: null,
-  to: null,
+  fromDate: null,
   maxDate: new Date(),
+  toDate: null,
 };
+
 
 export default DateRangePicker;

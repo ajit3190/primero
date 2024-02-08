@@ -17,16 +17,16 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
   const dispatch = useDispatch();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
   const message = undefined;
-  
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
 
+  // Grouping useState variables together
+  const [dateRange, setDateRange] = useState({ startDate: null, endDate: null });
+
+  // Handlers
   const handleDateChange = (start, end) => {
-    setStartDate(start);
-    setEndDate(end);
+    setDateRange({ startDate: start, endDate: end });
   };
 
-
+  // Form submission
   const onSubmit = getData => {
     const params = {
       ...getData,
@@ -40,8 +40,8 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
       export_format: "xlsx",
       record_type: "user",
       file_name: fileName,
-      selectedFromDate: toServerDateFormat(startDate),
-      selectedToDate: toServerDateFormat(endDate)
+      selectedFromDate: toServerDateFormat(dateRange.startDate),
+      selectedToDate: toServerDateFormat(dateRange.endDate)
     };
     const data = { ...defaultBody };
 
@@ -58,6 +58,13 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
     );
   };
 
+  // Props for DateRangePicker component
+  const dateRangePickerProps = {
+    onChange: handleDateChange,
+    startDate: dateRange.startDate,
+    endDate: dateRange.endDate
+  };
+
   return (
     <ActionDialog
       open={open}
@@ -71,7 +78,7 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
       pending={dialogPending}
       omitCloseAfterSuccess
     >
-      <DateRangePicker onChange={handleDateChange} />
+      <DateRangePicker {...dateRangePickerProps} />
       <Form
         useCancelPrompt
         formID={FORM_ID}
@@ -94,4 +101,3 @@ Component.propTypes = {
 };
 
 export default Component;
-
