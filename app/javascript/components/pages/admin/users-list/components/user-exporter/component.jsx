@@ -1,19 +1,31 @@
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import omitBy from "lodash/omitBy";
-
+import { useState } from "react";
 import ActionDialog from "../../../../../action-dialog";
 import Form from "../../../../../form";
 
 import { NAME, EXPORT_TYPES, FORM_ID } from "./constants";
 import { form } from "./form";
 import { saveExport } from "../../../../../record-actions/exports/action-creators";
-import { formatFileName} from "../../../../../record-actions/exports/utils";
+import { formatFileName } from "../../../../../record-actions/exports/utils";
+
+import DateRangePicker from "../../../../../../components/key-performance-indicators/components/date-range-picker/component";
+import { toServerDateFormat } from "../../../../../../libs";
 
 const Component = ({ close, i18n, open, pending, setPending }) => {
   const dispatch = useDispatch();
   const dialogPending = typeof pending === "object" ? pending.get("pending") : pending;
   const message = undefined;
+  
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const handleDateChange = (start, end) => {
+    setStartDate(start);
+    setEndDate(end);
+  };
+
 
   const onSubmit = getData => {
     const params = {
@@ -27,12 +39,14 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
     const defaultBody = {
       export_format: "xlsx",
       record_type: "user",
-      file_name: fileName
+      file_name: fileName,
+      selectedFromDate: toServerDateFormat(startDate),
+      selectedToDate: toServerDateFormat(endDate)
     };
-    const data = {...defaultBody};
+    const data = { ...defaultBody };
 
     setPending(true);
-    
+
     dispatch(
       saveExport(
         { data },
@@ -57,6 +71,7 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
       pending={dialogPending}
       omitCloseAfterSuccess
     >
+      <DateRangePicker onChange={handleDateChange} />
       <Form
         useCancelPrompt
         formID={FORM_ID}
@@ -79,3 +94,4 @@ Component.propTypes = {
 };
 
 export default Component;
+
