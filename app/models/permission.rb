@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
+
 # This represents the authorizations a user is entitled to
 # Primero business objects by way of the role granted to the user.
 # A permission is usually a pairing of the business object (case, incident, etc.)
@@ -189,12 +191,12 @@ class Permission < ValueObject
       FIND_TRACING_MATCH, ASSIGN, ASSIGN_WITHIN_AGENCY, ASSIGN_WITHIN_USER_GROUP, REMOVE_ASSIGNED_USERS, TRANSFER,
       RECEIVE_TRANSFER, ACCEPT_OR_REJECT_TRANSFER, REFERRAL, RECEIVE_REFERRAL, RECEIVE_REFERRAL_DIFFERENT_MODULE,
       REOPEN, CLOSE, VIEW_PROTECTION_CONCERNS_FILTER, CHANGE_LOG, LIST_CASE_NAMES, VIEW_REGISTRY_RECORD,
-      ADD_REGISTRY_RECORD, VIEW_FAMILY_RECORD, MANAGE
+      ADD_REGISTRY_RECORD, VIEW_FAMILY_RECORD, CASE_FROM_FAMILY, LINK_FAMILY_RECORD, REMOVE_ALERT, MANAGE
     ],
     INCIDENT => [
-      VERIFY_MRM, READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
-      EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG, EXPORT_MRM_VIOLATION_XLS, LINK_INCIDENT_TO_CASE,
-      MANAGE
+      READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
+      EXPORT_INCIDENT_RECORDER, EXPORT_JSON, EXPORT_CUSTOM, IMPORT, SYNC_MOBILE, CHANGE_LOG, EXPORT_MRM_VIOLATION_XLS,
+      REMOVE_ALERT, MANAGE, VERIFY_MRM
     ],
     TRACING_REQUEST => [
       READ, CREATE, WRITE, ENABLE_DISABLE_RECORD, FLAG, EXPORT_LIST_VIEW, EXPORT_CSV, EXPORT_EXCEL, EXPORT_PDF,
@@ -327,7 +329,7 @@ class Permission < ValueObject
     end
 
     def self.load_permission(object_hash, resource, actions)
-      permission = Permission.new(resource: resource, actions: actions)
+      permission = Permission.new(resource:, actions:)
       return permission unless object_hash.present?
 
       load_role_unique_ids(permission, object_hash) if resource == Permission::ROLE
