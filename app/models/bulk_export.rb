@@ -15,6 +15,7 @@ class BulkExport < ApplicationRecord
   EXPIRES = 60.seconds # Expiry for the delegated ActiveStorage url
 
   alias_attribute :export_format, :format
+  attr_accessor :selectedFromDate, :selectedToDate
 
   scope :owned, ->(owner_user_name) { where(owned_by: owner_user_name) }
 
@@ -38,9 +39,9 @@ class BulkExport < ApplicationRecord
     '/api/v2/exports'
   end
 
-  def export(password)
+  def export(password, start_date = nil, end_date = nil)
     if check_user_export
-      exporter.export
+      exporter.export(start_date, end_date)
     else
       process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
     end
