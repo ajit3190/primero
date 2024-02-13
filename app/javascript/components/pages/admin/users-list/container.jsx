@@ -12,7 +12,7 @@ import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import NAMESPACE from "../namespace";
-import { usePermissions, CREATE_RECORDS, READ_RECORDS, RESOURCES } from "../../../permissions";
+import { usePermissions, CREATE_RECORDS, READ_RECORDS, RESOURCES, ACTIONS } from "../../../permissions";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { FiltersForm } from "../../../form-filters/components";
@@ -37,6 +37,7 @@ const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
+  const canExportUsers = usePermissions(NAMESPACE, [ACTIONS.MANAGE, ACTIONS.EXPORT_USERS]);
   const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
   const recordType = "users";
 
@@ -88,6 +89,10 @@ const Container = () => {
     bypassInitialFetch: true
   };
 
+  const exportUserBtn = canExportUsers && (
+    <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")}/>
+  );
+
   const newUserBtn = canAddUsers && (
     <ActionButton
       icon={<AddIcon />}
@@ -131,7 +136,7 @@ const Container = () => {
   return (
     <>
       <PageHeading title={i18n.t("users.label")}>
-      <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")}/>
+        {exportUserBtn}
         {newUserBtn}
       </PageHeading>
       <PageContent>
