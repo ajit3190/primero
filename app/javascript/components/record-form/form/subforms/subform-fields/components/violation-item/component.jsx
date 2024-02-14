@@ -36,6 +36,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   const [verificationValue, setVerificationValue] = useState(currentValues?.ctfmr_verified || ""); 
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [validationError, setValidationError] = useState("");
+  const maxDate = new Date();
 
   useEffect(() => {
     // Changing dropdown select value when backend data updated
@@ -104,7 +105,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
   // Define MuiPickersUtilsProvider component
   const MuiPickersUtilsProviderComponent = (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
+      <div className={css.keyboardDatePickerWrapper}>
         <KeyboardDatePicker
           variant="inline"
           format={DATE_FORMAT}
@@ -113,7 +114,7 @@ const Component = ({ fields, values, locale, displayName, index, collapsedFieldV
           value={selectedDate}
           onChange={handleDropdownDate}
           error={!!validationError}
-          maxDate={new Date()} // Disable future dates
+          maxDate={maxDate} // Disable future dates
           InputProps={{
             style: {
               borderColor: validationError ? "red" : undefined,
