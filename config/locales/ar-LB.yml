@@ -64,6 +64,7 @@ ar-LB:
     flag_model: وضع علامة %{model}
     flag_records: وضع علامة
     import: استيراد وإدخال إلى النظام
+    link: Link
     login: تسجيل الدخول
     mark_for_mobile: وضع علامة للهاتف المحمول
     ok: موافق
@@ -484,6 +485,7 @@ ar-LB:
     welcome: أهلاً بك في بريميرو
     zh: 中文
   incident:
+    link_incident_to_case: Link Incident to Case
     messages:
       update_success: 'تم تحديث الوقائع/الحادث %{record_id} بنجاح.'
   incidents:

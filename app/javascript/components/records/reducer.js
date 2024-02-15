@@ -72,7 +72,10 @@ import {
   CREATE_CASE_FROM_FAMILY_DETAIL_STARTED,
   CREATE_CASE_FROM_FAMILY_DETAIL_SUCCESS,
   CREATE_CASE_FROM_FAMILY_DETAIL_FAILURE,
-  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED
+  CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED,
+  FETCH_LINK_INCIDENT_TO_CASE_DATA_SUCCESS,
+  FETCH_LINK_INCIDENT_TO_CASE_DATA,
+  FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED
 } from "./actions";
 
 const DEFAULT_STATE = Map({ data: List([]) });
@@ -397,6 +400,12 @@ export default namespace =>
       case `${namespace}/${CREATE_CASE_FROM_FAMILY_DETAIL_FINISHED}`: {
         return state.setIn(["case_from_family", "loading"], false);
       }
+      case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA}`:
+        return state.set("loading", true);
+      case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA_SUCCESS}`:      
+        return state.set("data", fromJS(payload.data));
+      case `${namespace}/${FETCH_LINK_INCIDENT_TO_CASE_DATA_FINISHED}`:
+        return state.set("loading", false);  
       default:
         return state;
     }

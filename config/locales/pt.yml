@@ -68,6 +68,7 @@ pt:
     flag_model: Marcar %{model}
     flag_records: Marcar
     import: Importar
+    link: Link
     login: Log in
     mark_for_mobile: 'Marcar para móvel  '
     ok: OK
@@ -520,6 +521,7 @@ pt:
     welcome: Bem vindo ao Primero
     zh: Chinês
   incident:
+    link_incident_to_case: Link Incident to Case
     messages:
       update_success: 'Incidente %{record_id} foi atualizado com sucesso.'
   incidents:
