@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { Add as AddIcon, SwapVert } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
@@ -136,7 +136,11 @@ const Container = () => {
   return (
     <>
       <PageHeading title={i18n.t("users.label")}>
-        {exportUserBtn}
+        {
+          canExportUsers && (
+            <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />)
+        }
+
         {newUserBtn}
       </PageHeading>
       <PageContent>
