@@ -26,7 +26,7 @@ class Api::V2::BulkExportsController < ApplicationApiController
     BulkExport.validate_password!(export_params[:password])
     @export = ExportService.build(export_params, current_user)
     @export.mark_started!
-    ExportService.enqueue(@export, export_params[:password])
+    ExportService.enqueue(@export, export_params[:password], export_params[:selectedFromDate], export_params[:selectedToDate])
   end
 
   def destroy
@@ -55,7 +55,7 @@ class Api::V2::BulkExportsController < ApplicationApiController
   def export_params
     @export_params ||= params.require(:data).permit(
       :record_type, :export_format,
-      :order, :query, :file_name, :password,
+      :order, :query, :file_name, :password, :selectedFromDate, :selectedToDate,
       { custom_export_params: {} }, { filters: {} },
       :match_criteria
     )

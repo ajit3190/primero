@@ -69,6 +69,7 @@ export const ACTIONS = {
   EXPORT_PDF: "export_pdf",
   EXPORT_PHOTO_WALL: "export_photowall",
   EXPORT_UNHCR: "export_unhcr_csv",
+  EXPORT_USERS: "export_users",
   FIND_TRACING_MATCH: "find_tracing_match",
   FLAG: "flag",
   GBV_STATISTICS: "gbv_statistics",

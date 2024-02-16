@@ -33,6 +33,7 @@ class Permission < ValueObject
   EXPORT_MRM_VIOLATION_XLS = 'export_mrm_violation_xls'
   EXPORT_INCIDENT_RECORDER = 'export_incident_recorder_xls'
   EXPORT_CUSTOM = 'export_custom'
+  EXPORT_USERS = 'export_users'
   REFERRAL_FROM_SERVICE = 'referral_from_service'
   CASE = 'case'
   INCIDENT = 'incident'
@@ -211,7 +212,7 @@ class Permission < ValueObject
       EXPORT_PDF, EXPORT_JSON, EXPORT_CUSTOM, CHANGE_LOG, SYNC_MOBILE, CASE_FROM_FAMILY, MANAGE
     ],
     ROLE => [CREATE, READ, WRITE, ASSIGN, COPY, MANAGE, DELETE],
-    USER => [CREATE, READ, AGENCY_READ, WRITE, MANAGE],
+    USER => [CREATE, READ, AGENCY_READ, WRITE, EXPORT_USERS, MANAGE],
     USER_GROUP => [CREATE, READ, WRITE, ASSIGN, MANAGE, DELETE],
     AGENCY => [READ, WRITE, ASSIGN, MANAGE],
     WEBHOOK => [CREATE, READ, WRITE, DELETE, MANAGE],

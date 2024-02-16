@@ -3787,6 +3787,9 @@ en:
           create:
             explanation: Ability to create a user account.
             label: Create
+          export_users:
+            explanation: Ability to export users list.
+            label: Export Users
           manage:
             explanation: 'Allows a user to perform all available actions on users.
               The "Manage" permission essentially means "everything". IMPORTANT: This
