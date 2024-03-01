@@ -177,7 +177,7 @@ class Permission < ValueObject
   CASE_FROM_FAMILY = 'case_from_family'
   REFERRALS_TRANSFERS_REPORT = 'referrals_transfers_report'
   LINK_FAMILY_RECORD = 'link_family_record'
-  REMOVE_ALERT = 'remove_alert',
+  REMOVE_ALERT = 'remove_alert'
   LINK_INCIDENT_TO_CASE = 'link_incident_to_case'
 
   RESOURCE_ACTIONS = {
