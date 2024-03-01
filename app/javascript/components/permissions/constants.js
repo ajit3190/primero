@@ -72,6 +72,7 @@ export const ACTIONS = {
   EXPORT_USERS: "export_users",
   FIND_TRACING_MATCH: "find_tracing_match",
   FLAG: "flag",
+  FLAG_RESOLVE_ANY: "resolve_any_flag",
   GBV_STATISTICS: "gbv_statistics",
   GROUP_READ: "group_read",
   INCIDENT_DETAILS_FROM_CASE: "incident_details_from_case",
@@ -202,6 +203,8 @@ export const READ_RECORDS = [...MANAGE, ACTIONS.READ];
 export const ENABLE_DISABLE_RECORD = [...MANAGE, ACTIONS.ENABLE_DISABLE_RECORD];
 
 export const FLAG_RECORDS = [...MANAGE, ACTIONS.FLAG];
+
+export const FLAG_RESOLVE_ANY = [...MANAGE, ACTIONS.FLAG_RESOLVE_ANY];
 
 export const ADD_NOTE = [...MANAGE, ACTIONS.ADD_NOTE];
 

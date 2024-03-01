@@ -68,10 +68,15 @@ Rails.application.routes.draw do
         resources :alerts, only: %i[index destroy]
         resources :approvals, only: [:update]
         resources :attachments, only: %i[create destroy]
+        resources :assigns, only: %i[index create]
+        resources :transitions, only: [:index]
         post :flags, to: 'flags#create_bulk', on: :collection
         get :record_history, to: 'record_histories#index'
         get :get_case_to_link, to: 'incidents#get_case_to_link', on: :collection
         post :link_incidents_to_case, to: 'incidents#link_incidents_to_case', on: :collection
+        collection do
+          post :assigns, to: 'assigns#create_bulk'
+        end
       end
 
       resources :tracing_requests do
