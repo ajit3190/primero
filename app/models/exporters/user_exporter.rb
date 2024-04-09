@@ -72,7 +72,7 @@ class Exporters::UserExporter < Exporters::BaseExporter
   end
 
   def user_header
-    keys = ['Total Users', 'Active Users', 'Disable Users', 'New Users in this quarter', 'Total Number of Agency', 'Agency List']
+    keys = ['Total Users', 'Active Users', 'Disabled Users', 'New Users in this quarter', 'Total Number of Agency', 'Agency List']
   end
 
   def user_content(start_date,end_date)

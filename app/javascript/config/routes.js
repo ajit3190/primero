@@ -19,6 +19,7 @@ import {
   RolesList,
   ContactInformation as AdminContactInformation,
   TaskList,
+  UsageReports,
   UserGroupsForm,
   UserGroupsList,
   UsersForm,
@@ -415,6 +416,11 @@ export default [
               path: ROUTES.audit_logs,
               component: AuditLogs,
               resources: RESOURCES.audit_logs
+            },
+            {
+              path: ROUTES.usage_reports,
+              component: UsageReports,
+              resources: RESOURCES.usage_reports
             },
             {
               path: `${ROUTES.admin_roles}/new`,

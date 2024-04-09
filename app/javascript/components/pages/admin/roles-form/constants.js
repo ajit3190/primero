@@ -34,6 +34,7 @@ export const RESOURCES = [
   "managed_report",
   "dashboard",
   "audit_log",
+  "usage_report",
   "activity_log",
   "matching_configuration",
   "duplicate",
