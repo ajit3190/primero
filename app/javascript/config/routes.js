@@ -19,7 +19,7 @@ import {
   RolesList,
   ContactInformation as AdminContactInformation,
   TaskList,
-  UsageReports,
+  
   UserGroupsForm,
   UserGroupsList,
   UsersForm,
@@ -64,7 +64,7 @@ import Logout from "../components/logout";
 import PasswordResetRequest from "../components/login/components/password-reset-form";
 
 import { ROUTES, MODES, RECORD_PATH } from "./constants";
-
+import UsageReports from "../components/pages/admin/usage-reports";
 const recordPaths = [
   RECORD_PATH.cases,
   RECORD_PATH.incidents,
@@ -294,6 +294,11 @@ export default [
               actions: ADMIN_ACTIONS
             },
             {
+              path: ROUTES.usage_reports,
+              component: UsageReports,
+              resources: RESOURCES.usage_reports,
+            },
+            {
               path: `${ROUTES.admin_user_groups}/new`,
               component: UserGroupsForm,
               resources: RESOURCES.user_groups,
@@ -416,12 +421,7 @@ export default [
               path: ROUTES.audit_logs,
               component: AuditLogs,
               resources: RESOURCES.audit_logs
-            },
-            {
-              path: ROUTES.usage_reports,
-              component: UsageReports,
-              resources: RESOURCES.usage_reports
-            },
+            },            
             {
               path: `${ROUTES.admin_roles}/new`,
               component: RolesForm,
