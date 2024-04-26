@@ -21,7 +21,7 @@ export const form = i18n => {
         }),
         FieldRecord({
           name: "file_name",
-          display_name: i18n.t("form_export.file_name"),
+          display_name: i18n.t("form_export.file_name")+"*",
           type: TEXT_FIELD
         })
       ]

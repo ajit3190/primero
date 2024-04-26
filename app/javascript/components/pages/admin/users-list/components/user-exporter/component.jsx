@@ -21,10 +21,16 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
 
   // Form submission
   const onSubmit = getData => {
-    if (getData.From > getData.To) {
+    // Check if any of the required fields are null
+    if (!getData.From) {
+      setValidationError("Please select a From date");
+    } else if (!getData.To) {
+      setValidationError("Please select a To date");
+    } else if (!getData.file_name) {
+      setValidationError("Please select a Filename");
+    } else if (getData.From > getData.To) {
       setValidationError("To date should not be smaller than From date");
-    }
-    else {
+    } else {
       const fileName = formatFileName(getData.file_name, "xlsx");
       const defaultBody = {
         export_format: "xlsx",
@@ -72,7 +78,7 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
         mode="new"
         formSections={form(i18n)}
         onSubmit={onSubmit}
-        warningMessage="Select dates"
+      //warningMessage="Please Select Values"
       />
       {validationError === "" ? null : <p className={css.dateWarning}>{validationError}</p>}
     </ActionDialog>
