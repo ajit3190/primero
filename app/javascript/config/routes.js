@@ -19,7 +19,6 @@ import {
   RolesList,
   ContactInformation as AdminContactInformation,
   TaskList,
-  
   UserGroupsForm,
   UserGroupsList,
   UsersForm,

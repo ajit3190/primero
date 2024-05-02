@@ -6,25 +6,25 @@ import {  SwapVert } from "@material-ui/icons";
 
 import { useI18n } from "../../../i18n";
 import { PageHeading, PageContent } from "../../../page";
-import UserExporter from "../users-list/components/user-exporter";
-import { USER_EXPORTER_DIALOG } from "../users-list/components/user-exporter/constants";
+import UsageReport from "../users-list/components/usage-reports";
+import { USAGE_REPORT_DIALOG } from "../users-list/components/usage-reports/constants";
 import { useDialog } from "../../../action-dialog";
 
 import { FormAction } from "../../../form";
 
 const Container = () => {
   const i18n = useI18n();
-  const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(USER_EXPORTER_DIALOG);
+  const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(USAGE_REPORT_DIALOG);
   const handleExport = dialog => setDialog({ dialog, open: true });
-  const handleClickExport = () => handleExport(USER_EXPORTER_DIALOG);
+  const handleClickExport = () => handleExport(USAGE_REPORT_DIALOG);
 
   return (
     <>
-      <PageHeading title="Usage Reports">
-      <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />
+      <PageHeading title={i18n.t("usage_report.label")}>
+        <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />
       </PageHeading>
       <PageContent>
-       <UserExporter
+       <UsageReport
           i18n={i18n}
           open={dialogOpen}
           pending={pending}

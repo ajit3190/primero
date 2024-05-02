@@ -360,7 +360,7 @@ export const ADMIN_NAV = [
     to: "/usage_reports",
     label: "settings.navigation.usage_reports",
     permission: SHOW_USAGE_REPORTS,
-    recordType: RESOURCES.metadata
+    recordType: RESOURCES.usage_reports
   }
 ];
 

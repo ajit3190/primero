@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
-import { Add as AddIcon, SwapVert } from "@material-ui/icons";
+import { Add as AddIcon } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
@@ -12,7 +12,7 @@ import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
 import { ROUTES } from "../../../../config";
 import NAMESPACE from "../namespace";
-import { usePermissions, CREATE_RECORDS, READ_RECORDS, RESOURCES, ACTIONS } from "../../../permissions";
+import { usePermissions, CREATE_RECORDS, READ_RECORDS, RESOURCES } from "../../../permissions";
 import ActionButton from "../../../action-button";
 import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { FiltersForm } from "../../../form-filters/components";
@@ -27,17 +27,10 @@ import { fetchUsers, setUsersFilters } from "./action-creators";
 import { LIST_HEADERS, AGENCY, DISABLED, USER_GROUP } from "./constants";
 import { agencyBodyRender, buildObjectWithIds, buildUsersQuery, getFilters } from "./utils";
 
-import UserExporter from "./components/user-exporter";
-import { FormAction } from "../../../form";
-import { useDialog } from "../../../action-dialog";
-import { USER_EXPORTER_DIALOG } from "./components/user-exporter/constants";
-import { RECORD_TYPES } from "../../../../config/constants";
-
 const Container = () => {
   const i18n = useI18n();
   const dispatch = useDispatch();
   const canAddUsers = usePermissions(NAMESPACE, CREATE_RECORDS);
-  const canExportUsers = usePermissions(NAMESPACE, [ACTIONS.MANAGE, ACTIONS.EXPORT_USERS]);
   const canListAgencies = usePermissions(RESOURCES.agencies, READ_RECORDS);
   const recordType = "users";
 
@@ -89,10 +82,6 @@ const Container = () => {
     bypassInitialFetch: true
   };
 
-  const exportUserBtn = canExportUsers && (
-    <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")}/>
-  );
-
   const newUserBtn = canAddUsers && (
     <ActionButton
       icon={<AddIcon />}
@@ -129,29 +118,11 @@ const Container = () => {
     dispatch(setUsersFilters({ data: defaultFilters }));
   }, []);
 
-  const { setDialog, pending, dialogOpen, setDialogPending, dialogClose } = useDialog(USER_EXPORTER_DIALOG);
-  const handleExport = dialog => setDialog({ dialog, open: true });
-  const handleClickExport = () => handleExport(USER_EXPORTER_DIALOG);
 
   return (
     <>
-      <PageHeading title={i18n.t("users.label")}>
-        {
-          canExportUsers && (
-            <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />)
-        }
-
-        {newUserBtn}
-      </PageHeading>
+      <PageHeading title={i18n.t("users.label")}>{newUserBtn}</PageHeading>
       <PageContent>
-        <UserExporter
-          i18n={i18n}
-          open={dialogOpen}
-          pending={pending}
-          close={dialogClose}
-          setPending={setDialogPending}
-        />
-        
         <Grid container spacing={2}>
           <Grid item xs={12} sm={9}>
             <IndexTable title={i18n.t("users.label")} {...tableOptions} />

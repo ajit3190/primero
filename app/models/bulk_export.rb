@@ -40,7 +40,7 @@ class BulkExport < ApplicationRecord
   end
 
   def export(password, start_date = nil, end_date = nil)
-    if check_user_export
+    if check_usage_report
       exporter.export(start_date, end_date)
     else
       process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
@@ -51,7 +51,7 @@ class BulkExport < ApplicationRecord
     mark_completed!
   end
 
-  def check_user_export
+  def check_usage_report
     record_type == "user"
   end
 

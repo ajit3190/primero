@@ -131,10 +131,18 @@ en:
     started_on: Started
     status: Status
   form_export:
-    label: Export System KPIs
+    label: Export Form Configuration
     include_hidden: Include hidden forms and fields?
     file_name: Create your own file name (Optional)
     success_message: Successfully generated the export file
+  usage_report:
+    label: Export System KPIs
+    file_name: Create your own file name
+    success_message: Successfully generated the export file
+    from_date_required: Please select a From date
+    to_date_required: Please select a To date
+    filename_required: Please select a Filename
+    to_smaller_than_from: To date should not be smaller than From date
   buttons:
     accept: Accept
     add: Add
@@ -2505,15 +2513,9 @@ en:
       usage_report:
         actions:
           read:
-            explanation: Allows the user to see and filter a list of all actions performed
-              in the system, broken down by user, type of action, record ID, and time
-              of action. This is best suited for national-level or agency-level administrators,
-              since this shows actions performed by all users in the system. Please
-              note that the audit log does not display personally identifiable information
-              about records involved in each action.
+            explanation: User can generate a XLS file export.
             label: View
-        explanation: Filterable list of all actions performed in the system. Does not
-          include any identifiable information on Cases, Incidents, or Tracing Requests.
+        explanation: User can generate a XLS file export.
         label: Usage Log
       case:
         actions:
@@ -3771,9 +3773,6 @@ en:
           create:
             explanation: Ability to create a user account.
             label: Create
-          export_users:
-            explanation: Ability to export users list.
-            label: Export Users
           manage:
             explanation: 'Allows a user to perform all available actions on users.
               The "Manage" permission essentially means "everything". IMPORTANT: This
