@@ -20,7 +20,7 @@ const Container = () => {
 
   return (
     <>
-      <PageHeading title={i18n.t("usage_report.label")}>
+      <PageHeading title={i18n.t("settings.navigation.usage_reports")}>
         <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />
       </PageHeading>
       <PageContent>
