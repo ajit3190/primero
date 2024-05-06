@@ -2,7 +2,7 @@
 
 import { fromJS } from "immutable";
 
-import { FieldRecord, FormSectionRecord, TEXT_FIELD,DATE_FIELD,DATE_PICKER } from "../../../../../form";
+import { FieldRecord, FormSectionRecord, TEXT_FIELD,DATE_FIELD,DATE_PICKER } from "../../../../../components/form";
 
 export const form = i18n => {
   return fromJS([

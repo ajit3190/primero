@@ -4,13 +4,13 @@ import css from "./styles.css";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
-import ActionDialog from "../../../../../action-dialog";
-import Form from "../../../../../form";
+import ActionDialog from "../../../../../components/action-dialog";
+import Form from "../../../../../components/form";
 
 import { NAME, FORM_ID } from "./constants";
 import { form } from "./form";
-import { saveExport } from "../../../../../record-actions/exports/action-creators";
-import { formatFileName } from "../../../../../record-actions/exports/utils";
+import { saveExport } from "../../../../../components/record-actions/exports/action-creators";
+import { formatFileName } from "../../../../../components/record-actions/exports/utils";
 
 
 const Component = ({ close, i18n, open, pending, setPending }) => {
@@ -80,7 +80,6 @@ const Component = ({ close, i18n, open, pending, setPending }) => {
         mode="new"
         formSections={form(i18n)}
         onSubmit={onSubmit}
-      //warningMessage="Please Select Values"
       />
       {validationError === "" ? null : <p className={css.dateWarning}>{validationError}</p>}
     </ActionDialog>

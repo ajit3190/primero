@@ -1,13 +1,10 @@
 // Copyright (c) 2014 - 2023 UNICEF. All rights reserved.
 
-
-import {  SwapVert } from "@material-ui/icons";
-
-
+import { SwapVert } from "@material-ui/icons";
 import { useI18n } from "../../../i18n";
 import { PageHeading, PageContent } from "../../../page";
-import UsageReport from "../users-list/components/usage-reports";
-import { USAGE_REPORT_DIALOG } from "../users-list/components/usage-reports/constants";
+import UsageReport from "./export/component";
+import { USAGE_REPORT_DIALOG } from "./export/constants";
 import { useDialog } from "../../../action-dialog";
 
 import { FormAction } from "../../../form";
@@ -24,14 +21,14 @@ const Container = () => {
         <FormAction actionHandler={handleClickExport} text={i18n.t("buttons.export")} startIcon={<SwapVert />} />
       </PageHeading>
       <PageContent>
-       <UsageReport
+        <UsageReport
           i18n={i18n}
           open={dialogOpen}
           pending={pending}
           close={dialogClose}
           setPending={setDialogPending}
-        />       
-        
+        />
+
       </PageContent>
     </>
   );
