@@ -9,16 +9,20 @@ class UsageReport
 
 	class << self
 
-		def all_users(start_date,end_date)
-			User.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+		def user_agencies(agency_id)
+			User.joins(:agency).where(agencies: { unique_id: agency_id })
 		end
 
-		def active_users(start_date,end_date)
-			User.where(disabled: false,created_at: start_date.beginning_of_day..end_date.end_of_day)
+		def all_users(start_date,end_date,agency)
+			user_agencies(agency.unique_id).where(created_at: start_date.beginning_of_day..end_date.end_of_day)
 		end
 
-		def disabled_users(start_date,end_date)
-			User.where(disabled: true,created_at: start_date.beginning_of_day..end_date.end_of_day)
+		def active_users(start_date,end_date,agency)
+			user_agencies(agency.unique_id).where(disabled: false,created_at: start_date.beginning_of_day..end_date.end_of_day)
+		end
+
+		def disabled_users(start_date,end_date,agency)
+			user_agencies(agency.unique_id).where(disabled: true,created_at: start_date.beginning_of_day..end_date.end_of_day)
 		end
 
 		def quarter_dates(offset)
@@ -26,12 +30,12 @@ class UsageReport
 			[date.beginning_of_quarter, date.end_of_quarter]
 		end
 
-		def new_users
-			User.where("DATE(created_at) BETWEEN ? AND ?", quarter_dates(1).first, quarter_dates(1).last)
+		def new_quarter_users(agency)
+			user_agencies(agency.unique_id).where("DATE(users.created_at) BETWEEN ? AND ?", quarter_dates(1).first, quarter_dates(1).last)
 		end
 
-		def all_agencies(start_date,end_date)
-			Agency.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+		def all_agencies
+			Agency.all
 		end
 
 		def modules

@@ -39,9 +39,9 @@ class BulkExport < ApplicationRecord
     '/api/v2/exports'
   end
 
-  def export(password, start_date = nil, end_date = nil)
+  def export(password, start_date = nil, end_date = nil, request = nil)
     if check_usage_report
-      exporter.export(start_date, end_date)
+      exporter.export(start_date, end_date, request)
     else
       process_records_in_batches(500) { |records_batch| exporter.export(records_batch) }
     end

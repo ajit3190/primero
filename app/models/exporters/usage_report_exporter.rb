@@ -22,8 +22,8 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
     self.locale = user&.locale || I18n.locale
   end
 
-  def export(start_date, end_date)
-    export_user_row(start_date, end_date)
+  def export(start_date, end_date, request)
+    export_user_row(start_date, end_date, request)
     modules = UsageReport.modules
     modules.each { |modul| export_modules(modul, start_date, end_date) }
   end
@@ -64,20 +64,49 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
             UsageReport.new_records_quarter(module_id,Incident).count]
   end
 
-  def export_user_row(start_date,end_date)
+  def export_user_row(start_date, end_date, request)
     worksheet = workbook.add_worksheet('Users')
     set_column_width(worksheet)
-    worksheet.write(0, 0, user_header)
-    worksheet.write(1, 0, user_content(start_date,end_date))
+    worksheet.write(0, 0, user_url_header(request))
+    worksheet.write(1, 0, user_start_date_header(start_date))
+    worksheet.write(2, 0, user_end_date_header(end_date))
+    worksheet.write(3, 0, total_agencies)
+    worksheet.write(5, 0, user_header)
+    worksheet.write(6, 0, user_content(start_date, end_date))
+  end
+
+  def user_url_header(request)
+    ['Url', request]
+  end
+
+  def user_start_date_header(start_date)
+    ['Start Date', start_date]
+  end
+
+  def user_end_date_header(end_date)
+    ['End Date', end_date]
+  end
+
+  def total_agencies
+    ['Total No. of Agencies', UsageReport.all_agencies.count]
   end
 
   def user_header
-    keys = ['Total Users', 'Active Users', 'Disabled Users', 'New Users in this quarter', 'Total Number of Agency', 'Agency List']
+    ['Agency List', 'Total Users', 'Active Users', 'Disabled Users', 'New Users in this quarter']
   end
 
-  def user_content(start_date,end_date)
-    keys = [UsageReport.all_users(start_date,end_date).count,UsageReport.active_users(start_date,end_date).count,UsageReport.disabled_users(start_date,end_date).count,UsageReport.new_users.count,UsageReport.all_agencies(start_date,end_date).count, UsageReport.all_agencies(start_date,end_date).pluck(:unique_id)]
+  def user_content(start_date, end_date)
+    data = UsageReport.all_agencies.map do |agency|
+      [agency.unique_id,
+       UsageReport.all_users(start_date, end_date, agency).count,
+       UsageReport.active_users(start_date, end_date, agency).count,
+       UsageReport.disabled_users(start_date, end_date, agency).count,
+       UsageReport.new_quarter_users(agency).count]
+    end
+
+    data.transpose
   end
+
 
   def set_column_width(worksheet)
     ('A'..'L').each_with_index do |col_letter, col_index|
