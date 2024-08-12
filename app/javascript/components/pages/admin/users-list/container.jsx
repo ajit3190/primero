@@ -4,12 +4,17 @@ import { useEffect } from "react";
 import { batch, useDispatch } from "react-redux";
 import { fromJS } from "immutable";
 import { Grid } from "@material-ui/core";
+import { Add as AddIcon } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 
 import { useI18n } from "../../../i18n";
 import IndexTable from "../../../index-table";
 import { PageHeading, PageContent } from "../../../page";
+import { ROUTES } from "../../../../config";
 import NAMESPACE from "../namespace";
 import { usePermissions, CREATE_RECORDS, READ_RECORDS, RESOURCES } from "../../../permissions";
+import ActionButton from "../../../action-button";
+import { ACTION_BUTTON_TYPES } from "../../../action-button/constants";
 import { FiltersForm } from "../../../form-filters/components";
 import { fetchAgencies } from "../agencies-list/action-creators";
 import {
@@ -100,6 +105,18 @@ const Container = () => {
     )
   };
 
+  const newUserBtn = canAddUsers && (
+    <ActionButton
+      icon={<AddIcon />}
+      text="buttons.new"
+      type={ACTION_BUTTON_TYPES.default}
+      rest={{
+        to: ROUTES.admin_users_new,
+        component: Link
+      }}
+    />
+  );
+
   const filterPermission = {
     agency: canListAgencies
   };
@@ -123,6 +140,7 @@ const Container = () => {
   useEffect(() => {
     dispatch(setUsersFilters({ data: defaultFilters }));
   }, []);
+
 
   return (
     <>
