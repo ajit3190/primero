@@ -26,7 +26,7 @@ class UsageReport
 		end
 
 		def quarter_dates(offset)
-			date = Date.today << (offset * 3)
+			date = Date.today
 			[date.beginning_of_quarter, date.end_of_quarter]
 		end
 

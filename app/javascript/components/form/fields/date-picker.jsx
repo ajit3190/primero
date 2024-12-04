@@ -24,7 +24,7 @@ const DatePicker = ({ commonInputProps, metaInputProps, formMethods }) => {
 
   const handleChange = date => {
     setValue(name, date ? toServerDateFormat(date, { includeTime: dateIncludeTime }) : "", { shouldDirty: true });
-    setSelectedDate(toServerDateFormat(date, { includeTime: dateIncludeTime }));
+    setSelectedDate(date);
     return date;
   };
 
