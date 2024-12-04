@@ -44,24 +44,44 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
   def export_module_to_workbook(modul, start_date, end_date)
     worksheet = workbook.add_worksheet(modul.name)
     set_column_width(worksheet)
-    worksheet.write(0, 0, module_header)
-    worksheet.write(1, 0, module_content(modul.unique_id,start_date,end_date))
+    worksheet.write(0, 0, module_header(modul.name))
+    worksheet.write(1, 0, module_content(modul.unique_id,start_date,end_date,modul.name))
   end
 
-  def module_header
-    keys = ["Total Cases", "Open Cases", "Closed Cases",  "Open this quarter", "Closed this Quarter","Total Services", "Total followups", "Total incidents", "Incidents this quarter"]
+
+  def module_header(modul_name)
+    common_keys = ["Total Cases", "Open Cases", "Closed Cases", "Open this quarter", "Closed this Quarter"]
+
+    keys = case modul_name
+           when "MRM"
+             common_keys
+           when "GBV"
+             common_keys + ["Total Services", "Total incidents", "Incidents this quarter"]
+           else
+             common_keys + ["Total Services", "Total followups", "Total incidents", "Incidents this quarter"]
+           end
   end
 
-  def module_content(module_id,start_date,end_date)
-    keys = [UsageReport.total_records(module_id,Child, start_date, end_date).count,
-            UsageReport.open_cases(module_id, start_date, end_date).count,
-            UsageReport.closed_cases(module_id, start_date, end_date).count,
-            UsageReport.new_records_quarter(module_id,Child).count,
-            UsageReport.closed_cases_quarter(module_id).count,
-            UsageReport.total_services(module_id, start_date, end_date).count,
-            UsageReport.total_followup(module_id, start_date, end_date).count,
-            UsageReport.total_records(module_id,Incident, start_date, end_date).count,
-            UsageReport.new_records_quarter(module_id,Incident).count]
+
+  def module_content(module_id,start_date,end_date,modul_name)
+    common_keys = [UsageReport.total_records(module_id,Child, start_date, end_date).count,
+                   UsageReport.open_cases(module_id, start_date, end_date).count,
+                   UsageReport.closed_cases(module_id, start_date, end_date).count,
+                   UsageReport.new_records_quarter(module_id,Child).count,
+                   UsageReport.closed_cases_quarter(module_id).count]
+
+    keys =  case modul_name
+            when "MRM"
+              common_keys 
+            when "GBV"
+              common_keys + [UsageReport.total_services(module_id, start_date, end_date).count,             UsageReport.total_records(module_id,Incident, start_date, end_date).count,
+                             UsageReport.new_records_quarter(module_id,Incident).count]
+            else
+              common_keys + [UsageReport.total_services(module_id, start_date, end_date).count,
+                             UsageReport.total_followup(module_id, start_date, end_date).count,
+                             UsageReport.total_records(module_id,Incident, start_date, end_date).count,
+                             UsageReport.new_records_quarter(module_id,Incident).count]
+            end
   end
 
   def export_user_row(start_date, end_date, request)
