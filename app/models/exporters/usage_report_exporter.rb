@@ -118,7 +118,11 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
   end
 
   def module_tabs(module_id, start_date, end_date, modul_name)
-    [modul_name, UsageReport.total_records(module_id,Child, start_date, end_date).count > 0 ? " Yes" : " No"]
+    if modul_name == "MRM"
+      [modul_name, UsageReport.total_records(module_id,Incident, start_date, end_date).count > 0 ? " Yes" : " No"]
+    else
+      [modul_name, UsageReport.total_records(module_id,Child, start_date, end_date).count > 0 ? " Yes" : " No"]
+    end
   end
 
   def user_header
