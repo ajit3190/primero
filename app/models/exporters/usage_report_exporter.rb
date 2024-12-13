@@ -50,37 +50,37 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
 
 
   def module_header(modul_name)
-    common_keys = ["Total Cases", "Open Cases", "Closed Cases", "Open this quarter", "Closed this Quarter"]
+    common_keys = [modul_name, "Total Cases", "Open Cases", "Closed Cases", "Open this quarter", "Closed this Quarter", "Total Services", "Total incidents", "Incidents this quarter"]
 
     keys = case modul_name
            when "MRM"
-             common_keys
+             [modul_name, "Total incidents", "Incidents this quarter"]
            when "GBV"
-             common_keys + ["Total Services", "Total incidents", "Incidents this quarter"]
+             common_keys
            else
-             common_keys + ["Total Services", "Total followups", "Total incidents", "Incidents this quarter"]
+             common_keys + ["Total followups"]
            end
   end
 
 
   def module_content(module_id,start_date,end_date,modul_name)
-    common_keys = [UsageReport.total_records(module_id,Child, start_date, end_date).count,
+    common_keys = ["",
+                   UsageReport.total_records(module_id,Child, start_date, end_date).count,
                    UsageReport.open_cases(module_id, start_date, end_date).count,
                    UsageReport.closed_cases(module_id, start_date, end_date).count,
-                   UsageReport.new_records_quarter(module_id,Child).count,
-                   UsageReport.closed_cases_quarter(module_id).count]
+                   UsageReport.new_records_quarter(module_id, end_date,Child).count,
+                   UsageReport.closed_cases_quarter(module_id, end_date).count,
+                   UsageReport.total_services(module_id, start_date, end_date).count,      
+                   UsageReport.total_records(module_id,Incident, start_date, end_date).count,
+                   UsageReport.new_records_quarter(module_id, end_date,Incident).count]
 
     keys =  case modul_name
             when "MRM"
-              common_keys 
+              ["", UsageReport.total_records(module_id,Incident, start_date, end_date).count,UsageReport.new_records_quarter(module_id, end_date,Incident).count] 
             when "GBV"
-              common_keys + [UsageReport.total_services(module_id, start_date, end_date).count,             UsageReport.total_records(module_id,Incident, start_date, end_date).count,
-                             UsageReport.new_records_quarter(module_id,Incident).count]
+              common_keys 
             else
-              common_keys + [UsageReport.total_services(module_id, start_date, end_date).count,
-                             UsageReport.total_followup(module_id, start_date, end_date).count,
-                             UsageReport.total_records(module_id,Incident, start_date, end_date).count,
-                             UsageReport.new_records_quarter(module_id,Incident).count]
+              common_keys + [UsageReport.total_followup(module_id, start_date, end_date).count]
             end
   end
 
@@ -91,8 +91,14 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
     worksheet.write(1, 0, user_start_date_header(start_date))
     worksheet.write(2, 0, user_end_date_header(end_date))
     worksheet.write(3, 0, total_agencies)
-    worksheet.write(5, 0, user_header)
-    worksheet.write(6, 0, user_content(start_date, end_date))
+    modules = UsageReport.modules
+    row_indx = 5
+    modules.each do |modul|
+      worksheet.write(row_indx, 0, module_tabs(modul.unique_id,start_date, end_date,modul.name))
+      row_indx += 1 
+    end
+    worksheet.write(9, 0, user_header)
+    worksheet.write(10, 0, user_content(start_date, end_date))
   end
 
   def user_url_header(request)
@@ -111,6 +117,10 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
     ['Total No. of Agencies', UsageReport.all_agencies.count]
   end
 
+  def module_tabs(module_id, start_date, end_date, modul_name)
+    [modul_name, UsageReport.total_records(module_id,Child, start_date, end_date).count > 0 ? " Yes" : " No"]
+  end
+
   def user_header
     ['Agency List', 'Total Users', 'Active Users', 'Disabled Users', 'New Users in this quarter']
   end
@@ -121,7 +131,7 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
        UsageReport.all_users(start_date, end_date, agency).count,
        UsageReport.active_users(start_date, end_date, agency).count,
        UsageReport.disabled_users(start_date, end_date, agency).count,
-       UsageReport.new_quarter_users(agency).count]
+       UsageReport.new_quarter_users(agency, end_date).count]
     end
 
     data.transpose

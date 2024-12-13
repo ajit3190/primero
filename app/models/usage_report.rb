@@ -25,13 +25,13 @@ class UsageReport
 			user_agencies(agency.unique_id).where(disabled: true,created_at: start_date.beginning_of_day..end_date.end_of_day)
 		end
 
-		def quarter_dates(offset)
-			date = Date.today
+		def quarter_dates(end_date)
+			date = end_date
 			[date.beginning_of_quarter, date.end_of_quarter]
 		end
 
-		def new_quarter_users(agency)
-			user_agencies(agency.unique_id).where("DATE(users.created_at) BETWEEN ? AND ?", quarter_dates(1).first, quarter_dates(1).last)
+		def new_quarter_users(agency, end_date)
+			user_agencies(agency.unique_id).where("DATE(users.created_at) BETWEEN ? AND ?", quarter_dates(end_date).first, quarter_dates(end_date).last)
 		end
 
 		def all_agencies
@@ -54,12 +54,12 @@ class UsageReport
 			Child.where("data->>'module_id' = ? AND data->>'status' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id, "closed",start_date,end_date)
 		end
 
-		def new_records_quarter(module_id,recordtype)
-			recordtype.where("data->>'module_id' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id, quarter_dates(1).first, quarter_dates(1).last)
+		def new_records_quarter(module_id,end_date,recordtype)
+			recordtype.where("data->>'module_id' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id, quarter_dates(end_date).first, quarter_dates(end_date).last)
 		end
 
-		def closed_cases_quarter(module_id)
-			Child.where("data->>'module_id' = ? AND CAST(data->>'date_closure' AS DATE) BETWEEN ? AND ?", module_id, quarter_dates(1).first, quarter_dates(1).last)
+		def closed_cases_quarter(module_id, end_date)
+			Child.where("data->>'module_id' = ? AND CAST(data->>'date_closure' AS DATE) BETWEEN ? AND ?", module_id, quarter_dates(end_date).first, quarter_dates(end_date).last)
 		end
 
 		def total_services(module_id,start_date,end_date)
