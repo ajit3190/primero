@@ -90,15 +90,35 @@ class Exporters::UsageReportExporter < Exporters::BaseExporter
     worksheet.write(0, 0, user_url_header(request))
     worksheet.write(1, 0, user_start_date_header(start_date))
     worksheet.write(2, 0, user_end_date_header(end_date))
-    worksheet.write(3, 0, total_agencies)
+    worksheet.write(3, 0, quarter_for_date(end_date))
+    worksheet.write(4, 0, total_agencies)
     modules = UsageReport.modules
-    row_indx = 5
+    row_indx = 6
     modules.each do |modul|
       worksheet.write(row_indx, 0, module_tabs(modul.unique_id,start_date, end_date,modul.name))
       row_indx += 1 
     end
-    worksheet.write(9, 0, user_header)
-    worksheet.write(10, 0, user_content(start_date, end_date))
+    worksheet.write(10, 0, user_header)
+    worksheet.write(11, 0, user_content(start_date, end_date))
+  end
+
+  def quarter_for_date(end_date)
+    ["Quarter", determine_quarter(end_date)]
+  end
+
+  def determine_quarter(end_date)
+    case end_date.month
+    when 1..3
+      "Q1"
+    when 4..6
+      "Q2"
+    when 7..9
+      "Q3"
+    when 10..12
+      "Q4"
+    else
+      "Invalid date"
+    end
   end
 
   def user_url_header(request)
