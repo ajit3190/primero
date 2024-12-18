@@ -13,25 +13,20 @@ class UsageReport
 			User.joins(:agency).where(agencies: { unique_id: agency_id })
 		end
 
-		def all_users(start_date,end_date,agency)
-			user_agencies(agency.unique_id).where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+		def all_users(agency)
+			user_agencies(agency.unique_id)
 		end
 
-		def active_users(start_date,end_date,agency)
-			user_agencies(agency.unique_id).where(disabled: false,created_at: start_date.beginning_of_day..end_date.end_of_day)
+		def active_users(agency)
+			user_agencies(agency.unique_id).where(disabled: false)
 		end
 
-		def disabled_users(start_date,end_date,agency)
-			user_agencies(agency.unique_id).where(disabled: true,created_at: start_date.beginning_of_day..end_date.end_of_day)
+		def disabled_users(agency)
+			user_agencies(agency.unique_id).where(disabled: true)
 		end
 
-		def quarter_dates(end_date)
-			date = end_date
-			[date.beginning_of_quarter, date.end_of_quarter]
-		end
-
-		def new_quarter_users(agency, end_date)
-			user_agencies(agency.unique_id).where("DATE(users.created_at) BETWEEN ? AND ?", quarter_dates(end_date).first, quarter_dates(end_date).last)
+		def new_quarter_users(agency, start_date, end_date)
+			user_agencies(agency.unique_id).where("DATE(users.created_at) BETWEEN ? AND ?", start_date, end_date)
 		end
 
 		def all_agencies
@@ -42,33 +37,33 @@ class UsageReport
 			PrimeroModule.all
 		end
 
-		def total_records(module_id,recordtype,start_date,end_date)
-			recordtype.where("data->>'module_id' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id,start_date,end_date)
+		def total_records(module_id,recordtype)
+			recordtype.where("data->>'module_id' = ?", module_id)
 		end
 
-		def open_cases(module_id,start_date,end_date)
-			Child.where("data->>'module_id' = ? AND data->>'status' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id, "open",start_date,end_date)
+		def open_cases(module_id)
+			Child.where("data->>'module_id' = ? AND data->>'status' = ?", module_id, "open")
 		end
 
-		def closed_cases(module_id,start_date,end_date)
-			Child.where("data->>'module_id' = ? AND data->>'status' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id, "closed",start_date,end_date)
+		def closed_cases(module_id)
+			Child.where("data->>'module_id' = ? AND data->>'status' = ?", module_id, "closed")
 		end
 
-		def new_records_quarter(module_id,end_date,recordtype)
-			recordtype.where("data->>'module_id' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id, quarter_dates(end_date).first, quarter_dates(end_date).last)
+		def new_records_quarter(module_id, start_date, end_date, recordtype)
+			recordtype.where("data->>'module_id' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id, start_date, end_date)
 		end
 
-		def closed_cases_quarter(module_id, end_date)
-			Child.where("data->>'module_id' = ? AND CAST(data->>'date_closure' AS DATE) BETWEEN ? AND ?", module_id, quarter_dates(end_date).first, quarter_dates(end_date).last)
+		def closed_cases_quarter(module_id, start_date, end_date)
+			Child.where("data->>'module_id' = ? AND CAST(data->>'date_closure' AS DATE) BETWEEN ? AND ?", module_id, start_date, end_date)
 		end
 
-		def total_services(module_id,start_date,end_date)
-			cases = Child.where("data->>'module_id' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id,start_date,end_date)
+		def total_services(module_id)
+			cases = Child.where("data->>'module_id' = ?", module_id)
 			cases.flat_map { |c| c.data['services_section'] }.compact
 		end
 
-		def total_followup(module_id,start_date,end_date)
-			cases = Child.where("data->>'module_id' = ? AND CAST(data->>'created_at' AS DATE) BETWEEN ? AND ?", module_id,start_date,end_date)
+		def total_followup(module_id)
+			cases = Child.where("data->>'module_id' = ?", module_id)
 			cases.flat_map { |c| c.data['followup_subform_section'] }.compact
 		end
 	end
