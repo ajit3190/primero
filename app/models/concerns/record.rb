@@ -155,165 +155,168 @@ module Record
   def save_cfm_summary
     ch = self
     summary = ""
-    if ch.data["cfm_age"] == "2_4"
-      if ch.data["cfm_2_4_vision_wears_glasses"] == "true" 
+
+    latest_record = ch.data["cfm_section"].select { |record| record["date_7ae01e7"].present? }.max_by { |record| record["date_7ae01e7"] }
+    
+    if latest_record["cfm_age"] == "2_4"
+      if latest_record["cfm_2_4_vision_wears_glasses"] == "true" 
         summary += "The child wears glasses \n"
-        if ch.data["cfm_2_4_vision_difficulty_with_glasses"].present?
-          summary += "Difficulty seeing with glasses: #{ch.data['cfm_2_4_vision_difficulty_with_glasses']}\n"
+        if latest_record["cfm_2_4_vision_difficulty_with_glasses"].present?
+          summary += "Difficulty seeing with glasses: #{latest_record['cfm_2_4_vision_difficulty_with_glasses']}\n"
         end
-      elsif ch.data["cfm_2_4_vision_wears_glasses"] == "false"
+      elsif latest_record["cfm_2_4_vision_wears_glasses"] == "false"
         summary += "The child doesn't wear glasses \n"
-        if ch.data["cfm_2_4_vision_difficulty?"].present?
-          summary += "Difficulty seeing without glasses: #{ch.data['cfm_2_4_vision_difficulty']}\n"
+        if latest_record["cfm_2_4_vision_difficulty?"].present?
+          summary += "Difficulty seeing without glasses: #{latest_record['cfm_2_4_vision_difficulty']}\n"
         end
       end
 
-      if ch.data["cfm_2_4_hearing_uses_hearing_aid"] == "true" 
+      if latest_record["cfm_2_4_hearing_uses_hearing_aid"] == "true" 
         summary += "The child wears hearing aid \n"
-        if ch.data["cfm_2_4_hearing_difficulty_with_hearing_aid"].present?
-          summary += "Difficulty hearing with hearing aid: #{ch.data['cfm_2_4_hearing_difficulty_with_hearing_aid']}\n"
+        if latest_record["cfm_2_4_hearing_difficulty_with_hearing_aid"].present?
+          summary += "Difficulty hearing with hearing aid: #{latest_record['cfm_2_4_hearing_difficulty_with_hearing_aid']}\n"
         end
-      elsif ch.data["cfm_2_4_hearing_uses_hearing_aid"] == "false"
+      elsif latest_record["cfm_2_4_hearing_uses_hearing_aid"] == "false"
         summary += "The child doesn't wear hearing aid \n"
-        if ch.data["cfm_2_4_hearing_difficulty?"].present?
-          summary += "Difficulty hearing without hearing aid: #{ch.data['cfm_2_4_hearing_difficulty']}\n"
+        if latest_record["cfm_2_4_hearing_difficulty?"].present?
+          summary += "Difficulty hearing without hearing aid: #{latest_record['cfm_2_4_hearing_difficulty']}\n"
         end
       end
 
-      if ch.data["cfm_2_4_mobility_uses_equipment"] == "true" 
+      if latest_record["cfm_2_4_mobility_uses_equipment"] == "true" 
         summary += "The child uses equipment or receive assistance for walking \n"
-        if ch.data["cfm_2_4_mobility_difficulty_without_equipment"].present?
-          summary += "Difficulty walking without equipment/assistance: #{ch.data['cfm_2_4_mobility_difficulty_without_equipment']}\n"
+        if latest_record["cfm_2_4_mobility_difficulty_without_equipment"].present?
+          summary += "Difficulty walking without equipment/assistance: #{latest_record['cfm_2_4_mobility_difficulty_without_equipment']}\n"
         end
-        if ch.data["cfm_2_4_mobility_difficulty_with_equipment"].present?
-          summary += "Difficulty walking with equipment/assistance: #{ch.data['cfm_2_4_mobility_difficulty_with_equipment']}\n"
+        if latest_record["cfm_2_4_mobility_difficulty_with_equipment"].present?
+          summary += "Difficulty walking with equipment/assistance: #{latest_record['cfm_2_4_mobility_difficulty_with_equipment']}\n"
         end
-      elsif ch.data["cfm_2_4_mobility_uses_equipment"] == "false"
+      elsif latest_record["cfm_2_4_mobility_uses_equipment"] == "false"
         summary += "The child doesn't uses equipment or receive assistance for walking \n"
-        if ch.data["cfm_2_4_mobility_difficulty_comparative?"].present?
-          summary += "Difficulty for walking: #{ch.data['cfm_2_4_mobility_difficulty_comparative']}\n"
+        if latest_record["cfm_2_4_mobility_difficulty_comparative?"].present?
+          summary += "Difficulty for walking: #{latest_record['cfm_2_4_mobility_difficulty_comparative']}\n"
         end
       end
 
-      if ch.data["cfm_2_4_dexterity_difficulty"].present?
-        summary += "Difficulty picking up small objects with hand: #{ch.data['cfm_2_4_dexterity_difficulty']}\n"
+      if latest_record["cfm_2_4_dexterity_difficulty"].present?
+        summary += "Difficulty picking up small objects with hand: #{latest_record['cfm_2_4_dexterity_difficulty']}\n"
       end
 
-      if ch.data["cfm_2_4_communication_difficulty_understanding_you"].present?
-        summary += "The child have difficulty to understand: #{ch.data['cfm_2_4_communication_difficulty_understanding_you']}\n"
+      if latest_record["cfm_2_4_communication_difficulty_understanding_you"].present?
+        summary += "The child have difficulty to understand: #{latest_record['cfm_2_4_communication_difficulty_understanding_you']}\n"
       end
 
-      if ch.data["cfm_2_4_communication_difficulty_understanding_child"].present?
-        summary += "Difficulty to understand the child: #{ch.data['cfm_2_4_communication_difficulty_understanding_child']}\n"
+      if latest_record["cfm_2_4_communication_difficulty_understanding_child"].present?
+        summary += "Difficulty to understand the child: #{latest_record['cfm_2_4_communication_difficulty_understanding_child']}\n"
       end
 
-      if ch.data["cfm_2_4_learning_difficulty"].present?
-        summary += "The child have difficulty for Learning: #{ch.data['cfm_2_4_learning_difficulty']}\n"
+      if latest_record["cfm_2_4_learning_difficulty"].present?
+        summary += "The child have difficulty for Learning: #{latest_record['cfm_2_4_learning_difficulty']}\n"
       end
 
-      if ch.data["cfm_2_4_playing_difficulty"].present?
-        summary += "The child have difficulty for playing: #{ch.data['cfm_2_4_playing_difficulty']}\n"
+      if latest_record["cfm_2_4_playing_difficulty"].present?
+        summary += "The child have difficulty for playing: #{latest_record['cfm_2_4_playing_difficulty']}\n"
       end
 
-      if ch.data["cfm_2_4_controlling_behavior_difficulty"].present?
-        summary += "Difficulty for controlling behaviour like kick,bite or hit others: #{ch.data['cfm_2_4_controlling_behavior_difficulty']}\n"
+      if latest_record["cfm_2_4_controlling_behavior_difficulty"].present?
+        summary += "Difficulty for controlling behaviour like kick,bite or hit others: #{latest_record['cfm_2_4_controlling_behavior_difficulty']}\n"
       end
     else 
-      if ch.data["cfm_5_17_vision_wears_glasses"] == "true" 
+      if latest_record["cfm_5_17_vision_wears_glasses"] == "true" 
         summary += "The child wears glasses \n"
-        if ch.data["cfm_5_17_vision_difficulty_with_glasses"].present?
-          summary += "Difficulty seeing with glasses: #{ch.data['cfm_5_17_vision_difficulty_with_glasses']}\n"
+        if latest_record["cfm_5_17_vision_difficulty_with_glasses"].present?
+          summary += "Difficulty seeing with glasses: #{latest_record['cfm_5_17_vision_difficulty_with_glasses']}\n"
         end
-      elsif ch.data["cfm_5_17_vision_wears_glasses"] == "false"
+      elsif latest_record["cfm_5_17_vision_wears_glasses"] == "false"
         summary += "The child doesn't wear glasses \n"
-        if ch.data["cfm_5_17_vision_difficulty?"].present?
-          summary += "Difficulty seeing without glasses: #{ch.data['cfm_5_17_vision_difficulty']}\n"
+        if latest_record["cfm_5_17_vision_difficulty?"].present?
+          summary += "Difficulty seeing without glasses: #{latest_record['cfm_5_17_vision_difficulty']}\n"
         end
       end
 
-      if ch.data["cfm_5_17_hearing_uses_hearing_aid"] == "true" 
+      if latest_record["cfm_5_17_hearing_uses_hearing_aid"] == "true" 
         summary += "The child wears hearing aid \n"
-        if ch.data["cfm_5_17_hearing_difficulty_with_hearing_aid"].present?
-          summary += "Difficulty hearing with hearing aid: #{ch.data['cfm_5_17_hearing_difficulty_with_hearing_aid']}\n"
+        if latest_record["cfm_5_17_hearing_difficulty_with_hearing_aid"].present?
+          summary += "Difficulty hearing with hearing aid: #{latest_record['cfm_5_17_hearing_difficulty_with_hearing_aid']}\n"
         end
-      elsif ch.data["cfm_5_17_hearing_uses_hearing_aid"] == "false"
+      elsif latest_record["cfm_5_17_hearing_uses_hearing_aid"] == "false"
         summary += "The child doesn't wear hearing aid \n"
-        if ch.data["cfm_5_17_hearing_difficulty?"].present?
-          summary += "Difficulty hearing without hearing aid: #{ch.data['cfm_5_17_hearing_difficulty']}\n"
+        if latest_record["cfm_5_17_hearing_difficulty?"].present?
+          summary += "Difficulty hearing without hearing aid: #{latest_record['cfm_5_17_hearing_difficulty']}\n"
         end
       end
 
-      if ch.data["cfm_5_17_mobility_uses_equipment"] == "true" 
+      if latest_record["cfm_5_17_mobility_uses_equipment"] == "true" 
         summary += "The child uses equipment or receive assistance for walking \n"
         
-        if ch.data["cfm_5_17_mobility_difficulty_with_equipment_100m"].present?
-          summary += "Difficulty walking 100 yards/meters with equipment/receive assistance: #{ch.data['cfm_5_17_mobility_difficulty_with_equipment_100m']}\n"
+        if latest_record["cfm_5_17_mobility_difficulty_with_equipment_100m"].present?
+          summary += "Difficulty walking 100 yards/meters with equipment/receive assistance: #{latest_record['cfm_5_17_mobility_difficulty_with_equipment_100m']}\n"
         end
-        if ch.data["cfm_5_17_mobility_difficulty_with_equipment_500m"].present?
-          summary += "Difficulty walking 500 yards/meters with equipment/receive assistance: #{ch.data['cfm_5_17_mobility_difficulty_with_equipment_500m']}\n"
+        if latest_record["cfm_5_17_mobility_difficulty_with_equipment_500m"].present?
+          summary += "Difficulty walking 500 yards/meters with equipment/receive assistance: #{latest_record['cfm_5_17_mobility_difficulty_with_equipment_500m']}\n"
         end
-        if ch.data["cfm_5_17_mobility_difficulty_without_equipment_100m"].present?
-          summary += "Difficulty walking 100 yards/meters without equipment/receive assistance: #{ch.data['cfm_5_17_mobility_difficulty_without_equipment_100m']}\n"
+        if latest_record["cfm_5_17_mobility_difficulty_without_equipment_100m"].present?
+          summary += "Difficulty walking 100 yards/meters without equipment/receive assistance: #{latest_record['cfm_5_17_mobility_difficulty_without_equipment_100m']}\n"
         end
-        if ch.data["cfm_5_17_mobility_difficulty_without_equipment_500m"].present?
-          summary += "Difficulty walking 500 yards/meters without equipment/receive assistance: #{ch.data['cfm_5_17_mobility_difficulty_without_equipment_500m']}\n"
+        if latest_record["cfm_5_17_mobility_difficulty_without_equipment_500m"].present?
+          summary += "Difficulty walking 500 yards/meters without equipment/receive assistance: #{latest_record['cfm_5_17_mobility_difficulty_without_equipment_500m']}\n"
         end
-      elsif ch.data["cfm_5_17_mobility_uses_equipment"] == "false"
+      elsif latest_record["cfm_5_17_mobility_uses_equipment"] == "false"
         summary += "The child doesn't uses equipment or receive assistance for walking \n"
         
-        if ch.data["cfm_5_17_mobility_difficulty_comparative_100m"].present?
-          summary += "Difficulty for walking 100 yards/meters: #{ch.data['cfm_5_17_mobility_difficulty_comparative_100m']}\n"
+        if latest_record["cfm_5_17_mobility_difficulty_comparative_100m"].present?
+          summary += "Difficulty for walking 100 yards/meters: #{latest_record['cfm_5_17_mobility_difficulty_comparative_100m']}\n"
         end
-        if ch.data["cfm_5_17_mobility_difficulty_comparative_500m"].present?
-          summary += "Difficulty for walking 500 yards/meters: #{ch.data['cfm_5_17_mobility_difficulty_comparative_500m']}\n"
+        if latest_record["cfm_5_17_mobility_difficulty_comparative_500m"].present?
+          summary += "Difficulty for walking 500 yards/meters: #{latest_record['cfm_5_17_mobility_difficulty_comparative_500m']}\n"
         end
       end
 
-      if ch.data["cfm_5_17_self_care_difficulty"].present?
-        summary += "Difficulty with self-care such as feeding or dressing him/herself: #{ch.data['cfm_5_17_self_care_difficulty']}\n"
+      if latest_record["cfm_5_17_self_care_difficulty"].present?
+        summary += "Difficulty with self-care such as feeding or dressing him/herself: #{latest_record['cfm_5_17_self_care_difficulty']}\n"
       end
 
-      if ch.data["cfm_5_17_communication_difficulty_understanding_child_household"].present?
-        summary += "The child have difficulty to understand by people inside of this household: #{ch.data['cfm_5_17_communication_difficulty_understanding_child_household']}\n"
+      if latest_record["cfm_5_17_communication_difficulty_understanding_child_household"].present?
+        summary += "The child have difficulty to understand by people inside of this household: #{latest_record['cfm_5_17_communication_difficulty_understanding_child_household']}\n"
       end
 
-      if ch.data["cfm_5_17_communication_difficulty_understanding_child_others"].present?
-        summary += "The child have difficulty to understand by people outside of this household: #{ch.data['cfm_5_17_communication_difficulty_understanding_child_others']}\n"
+      if latest_record["cfm_5_17_communication_difficulty_understanding_child_others"].present?
+        summary += "The child have difficulty to understand by people outside of this household: #{latest_record['cfm_5_17_communication_difficulty_understanding_child_others']}\n"
       end
 
-      if ch.data["cfm_5_17_learning_difficulty"].present?
-        summary += "The child have difficulty for Learning: #{ch.data['cfm_5_17_learning_difficulty']}\n"
+      if latest_record["cfm_5_17_learning_difficulty"].present?
+        summary += "The child have difficulty for Learning: #{latest_record['cfm_5_17_learning_difficulty']}\n"
       end
 
-      if ch.data["cfm_5_17_remembering_difficulty"].present?
-        summary += "The child have difficulty in remembering things: #{ch.data['cfm_5_17_remembering_difficulty']}\n"
+      if latest_record["cfm_5_17_remembering_difficulty"].present?
+        summary += "The child have difficulty in remembering things: #{latest_record['cfm_5_17_remembering_difficulty']}\n"
       end
 
-      if ch.data["cfm_5_17_concentrating_difficulty"].present?
-        summary += "The child have difficulty in concentrating on an activity: #{ch.data['cfm_5_17_concentrating_difficulty']}\n"
+      if latest_record["cfm_5_17_concentrating_difficulty"].present?
+        summary += "The child have difficulty in concentrating on an activity: #{latest_record['cfm_5_17_concentrating_difficulty']}\n"
       end
 
-      if ch.data["cfm_5_17_accepting_change_difficulty"].present?
-        summary += "The child have difficulty in accepting changes in his/her routine: #{ch.data['cfm_5_17_accepting_change_difficulty']}\n"
+      if latest_record["cfm_5_17_accepting_change_difficulty"].present?
+        summary += "The child have difficulty in accepting changes in his/her routine: #{latest_record['cfm_5_17_accepting_change_difficulty']}\n"
       end
 
-      if ch.data["cfm_5_17_controlling_behavior_difficulty"].present?
-        summary += "Difficulty for controlling behaviour: #{ch.data['cfm_5_17_controlling_behavior_difficulty']}\n"
+      if latest_record["cfm_5_17_controlling_behavior_difficulty"].present?
+        summary += "Difficulty for controlling behaviour: #{latest_record['cfm_5_17_controlling_behavior_difficulty']}\n"
       end
 
-      if ch.data["cfm_5_17_making_friends_difficulty"].present?
-        summary += "The child have difficulty for making freinds: #{ch.data['cfm_5_17_making_friends_difficulty']}\n"
+      if latest_record["cfm_5_17_making_friends_difficulty"].present?
+        summary += "The child have difficulty for making freinds: #{latest_record['cfm_5_17_making_friends_difficulty']}\n"
       end
 
-      if ch.data["cfm_5_17_anxiety_how_often"].present?
-        summary += "The child seem very anxious, nervous or worried: #{ch.data['cfm_5_17_anxiety_how_often']}\n"
+      if latest_record["cfm_5_17_anxiety_how_often"].present?
+        summary += "The child seem very anxious, nervous or worried: #{latest_record['cfm_5_17_anxiety_how_often']}\n"
       end
 
-      if ch.data["cfm_5_17_depression_how_often"].present?
-        summary += "The child seem very sad or depressed: #{ch.data['cfm_5_17_depression_how_often']}\n"
+      if latest_record["cfm_5_17_depression_how_often"].present?
+        summary += "The child seem very sad or depressed: #{latest_record['cfm_5_17_depression_how_often']}\n"
       end
 
     end
-    self.data["summary_951a277"] = summary
+    self.data["cfm_summary_fa55ab3"] = summary
   end
 end
