@@ -108,8 +108,8 @@ const Component = ({
       <GuidingQuestions label={i18n.t("buttons.guidance")} text={guidingQuestions[i18n.locale]} />
     </div>
   );
-  
-  const latestValue = orderedValues[orderedValues.length - 1]
+  {console.log("orderedValues---",orderedValues)}
+  const latestValue = orderedValues=== undefined ? null : orderedValues[orderedValues.length - 1]
   const fieldMappings = [
     { label: "Age", key: "cfm_age" },
     { label: "Vision wear glass", key: `cfm_${latestValue?.cfm_age}_vision_wears_glasses` },
@@ -161,7 +161,7 @@ const Component = ({
     }
     return value; // Handle non-string values (e.g., numbers)
   };
-  
+
   return (
     <div className={css.fieldArray}>
       <h3 className={css.subformTitle}>
