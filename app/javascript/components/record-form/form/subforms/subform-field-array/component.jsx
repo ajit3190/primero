@@ -108,8 +108,7 @@ const Component = ({
       <GuidingQuestions label={i18n.t("buttons.guidance")} text={guidingQuestions[i18n.locale]} />
     </div>
   );
-{console.log("orderedValues----..",)}
-if(orderedValues ){}
+  
   const latestValue = orderedValues[orderedValues.length - 1]
   const fieldMappings = [
     { label: "Age", key: "cfm_age" },
@@ -126,7 +125,7 @@ if(orderedValues ){}
     { label: "The child have difficulty for Learning", key: `cfm_${latestValue?.cfm_age}_learning_difficulty` },
     { label: "The child have difficulty for playing", key: `cfm_${latestValue?.cfm_age}_playing_difficulty` },
     { label: "Difficulty for controlling behaviour like kick,bite or hit others", key: `cfm_${latestValue?.cfm_age}_controlling_behavior_difficulty` },
-];
+  ];
 
   const beautifyKey = (key) => {
     return key
@@ -162,28 +161,32 @@ if(orderedValues ){}
     }
     return value; // Handle non-string values (e.g., numbers)
   };
-
-
-
-
+  
   return (
     <div className={css.fieldArray}>
       <h3 className={css.subformTitle}>
         Summary
       </h3>
-      {latestValue !== null && latestValue !== undefined ? (
-      fieldMappings.map((field) => {
+     
+      {latestValue !== undefined && latestValue !== null ? (fieldMappings.map((field) => {
+        // Skip rendering if the key is null, undefined, or an empty string
+        if (!field.key) return null;
+
+        // Retrieve the value associated with the key
         const value = latestValue[field.key];
-        {console.log("value--->>",value)}
+
         // Skip rendering if the value is null, undefined, or "N/A"
-        if (value === null || value === undefined || value === "N/A") return null
-        else{
+        if (value === null || value === undefined || value === "N/A" || value === "") return null;
+
         return (
           <div key={field.key} style={{ marginBottom: "4px" }}>
             <strong>{beautifyKey(field.label)}:</strong> {beautifyValue(field.key, value)}
           </div>
-        )}
-      })) : null}
+        );
+      })):null
+      }
+
+
 
       <div className={cssContainer}>
         {!renderAsAccordion && (
@@ -207,8 +210,7 @@ if(orderedValues ){}
           parentValues={parentValues}
           arrayHelpers={arrayHelpers}
         />
-      </div>
-      {console.log("divyanshu", orderedValues)}
+      </div>    
       {renderGuidingQuestions}
       {renderEmptyData}
 
