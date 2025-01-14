@@ -18,7 +18,7 @@ module Record
 
     after_initialize :defaults, unless: :persisted?
     before_create :create_identification
-    before_save :save_cfm_summary
+    # before_save :save_cfm_summary
     before_save :populate_subform_ids
     after_save :index_nested_reportables
     after_destroy :unindex_nested_reportables
