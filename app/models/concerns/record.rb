@@ -156,7 +156,7 @@ module Record
     ch = self
     summary = ""
 
-    latest_record = ch.data["cfm_section"].select { |record| record["date_7ae01e7"].present? }.max_by { |record| record["date_7ae01e7"] }
+    latest_record = ch.data["cfm_section"].select { |record| record["date_1952b9f"].present? }.max_by { |record| record["date_1952b9f"] }
     
     if latest_record["cfm_age"] == "2_4"
       if latest_record["cfm_2_4_vision_wears_glasses"] == "true" 
@@ -317,6 +317,6 @@ module Record
       end
 
     end
-    self.data["cfm_summary_fa55ab3"] = summary
+    self.data["summary_35059cf"] = summary
   end
 end
