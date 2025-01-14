@@ -108,78 +108,82 @@ const Component = ({
       <GuidingQuestions label={i18n.t("buttons.guidance")} text={guidingQuestions[i18n.locale]} />
     </div>
   );
+{console.log("orderedValues----..",)}
+if(orderedValues ){}
+  const latestValue = orderedValues[orderedValues.length - 1]
+  const fieldMappings = [
+    { label: "Age", key: "cfm_age" },
+    { label: "Vision wear glass", key: `cfm_${latestValue?.cfm_age}_vision_wears_glasses` },
+    { label: "Difficulty seeing with glasses", key: `cfm_${latestValue?.cfm_age}_vision_difficulty_with_glasses` },
+    { label: "The child wears hearing aid", key: `cfm_${latestValue?.cfm_age}_hearing_uses_hearing_aid` },
+    { label: "Difficulty hearing with hearing aid", key: `cfm_${latestValue?.cfm_age}_hearing_difficulty_with_hearing_aid` },
+    { label: "The child uses equipment or receive assistance for walking", key: `cfm_${latestValue?.cfm_age}_mobility_uses_equipment` },
+    { label: "Difficulty walking without equipment/assistance", key: `cfm_${latestValue?.cfm_age}_mobility_difficulty_without_equipment` },
+    { label: "Difficulty walking with equipment/assistance", key: `cfm_${latestValue?.cfm_age}_learning_difficulty` },
+    { label: "Difficulty picking up small objects with hand", key: `cfm_${latestValue?.cfm_age}_dexterity_difficulty` },
+    { label: "The child have difficulty to understand", key: `cfm_${latestValue?.cfm_age}_communication_difficulty_understanding_you` },
+    { label: "Difficulty to understand the child", key: `cfm_${latestValue?.cfm_age}_communication_difficulty_understanding_child` },
+    { label: "The child have difficulty for Learning", key: `cfm_${latestValue?.cfm_age}_learning_difficulty` },
+    { label: "The child have difficulty for playing", key: `cfm_${latestValue?.cfm_age}_playing_difficulty` },
+    { label: "Difficulty for controlling behaviour like kick,bite or hit others", key: `cfm_${latestValue?.cfm_age}_controlling_behavior_difficulty` },
+];
 
-//   const latestValue = orderedValues[orderedValues.length - 1]
-//   const fieldMappings = [
-//     { label: "Age", key: "cfm_age" },
-//     { label: "Vision wear glass", key: `cfm_${latestValue?.cfm_age}_vision_wears_glasses` },
-//     { label: "Difficulty seeing with glasses", key: `cfm_${latestValue?.cfm_age}_vision_difficulty_with_glasses` },
-//     { label: "The child wears hearing aid", key: `cfm_${latestValue?.cfm_age}_hearing_uses_hearing_aid` },
-//     { label: "Difficulty hearing with hearing aid", key: `cfm_${latestValue?.cfm_age}_hearing_difficulty_with_hearing_aid` },
-//     { label: "The child uses equipment or receive assistance for walking", key: `cfm_${latestValue?.cfm_age}_mobility_uses_equipment` },
-//     { label: "Difficulty walking without equipment/assistance", key: `cfm_${latestValue?.cfm_age}_mobility_difficulty_without_equipment` },
-//     { label: "Difficulty walking with equipment/assistance", key: `cfm_${latestValue?.cfm_age}_learning_difficulty` },
-//     { label: "Difficulty picking up small objects with hand", key: `cfm_${latestValue?.cfm_age}_dexterity_difficulty` },
-//     { label: "The child have difficulty to understand", key: `cfm_${latestValue?.cfm_age}_communication_difficulty_understanding_you` },
-//     { label: "Difficulty to understand the child", key: `cfm_${latestValue?.cfm_age}_communication_difficulty_understanding_child` },
-//     { label: "The child have difficulty for Learning", key: `cfm_${latestValue?.cfm_age}_learning_difficulty` },
-//     { label: "The child have difficulty for playing", key: `cfm_${latestValue?.cfm_age}_playing_difficulty` },
-//     { label: "Difficulty for controlling behaviour like kick,bite or hit others", key: `cfm_${latestValue?.cfm_age}_controlling_behavior_difficulty` },
-// ];
+  const beautifyKey = (key) => {
+    return key
+      .replace(/_/g, " ") // Replace underscores with spaces
+      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+  };
 
-//   const beautifyKey = (key) => {
-//     return key
-//       .replace(/_/g, " ") // Replace underscores with spaces
-//       .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
-//   };
-
-//   const beautifyValue = (key, value) => {
-//     if (typeof value === "string") {
-//       // Convert "true" to "Yes" and "false" to "No"
-//       if (value === "true") {
-//         return "Yes";
-//       }
-//       if (value === "false") {
-//         return "No";
-//       }
-//       // Convert age range like "2_4" to "2 to 4 years"
-//       if (key.includes("age") && value.includes("_")) {
-//         return value.replace("_", " to ") + " years";
-//       }
-//       // Beautify special cases like 'cannot_do_at_all'
-//       if (value.includes("_")) {
-//         return value
-//           .replace(/_/g, " ") // Replace underscores with spaces
-//           .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
-//       }
-//       // If it's a date string, format it
-//       if (!isNaN(Date.parse(value))) {
-//         return new Date(value).toLocaleDateString();
-//       }
-//       // Return the value as it is otherwise
-//       return value;
-//     }
-//     return value; // Handle non-string values (e.g., numbers)
-//   };
+  const beautifyValue = (key, value) => {
+    if (typeof value === "string") {
+      // Convert "true" to "Yes" and "false" to "No"
+      if (value === "true") {
+        return "Yes";
+      }
+      if (value === "false") {
+        return "No";
+      }
+      // Convert age range like "2_4" to "2 to 4 years"
+      if (key.includes("age") && value.includes("_")) {
+        return value.replace("_", " to ") + " years";
+      }
+      // Beautify special cases like 'cannot_do_at_all'
+      if (value.includes("_")) {
+        return value
+          .replace(/_/g, " ") // Replace underscores with spaces
+          .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter of each word
+      }
+      // If it's a date string, format it
+      if (!isNaN(Date.parse(value))) {
+        return new Date(value).toLocaleDateString();
+      }
+      // Return the value as it is otherwise
+      return value;
+    }
+    return value; // Handle non-string values (e.g., numbers)
+  };
 
 
 
 
   return (
     <div className={css.fieldArray}>
-      {/* <h3 className={css.subformTitle}>
+      <h3 className={css.subformTitle}>
         Summary
       </h3>
-      {fieldMappings.map((field) => {
+      {latestValue !== null && latestValue !== undefined ? (
+      fieldMappings.map((field) => {
         const value = latestValue[field.key];
+        {console.log("value--->>",value)}
         // Skip rendering if the value is null, undefined, or "N/A"
-        if (value === null || value === undefined || value === "N/A") return null;
+        if (value === null || value === undefined || value === "N/A") return null
+        else{
         return (
           <div key={field.key} style={{ marginBottom: "4px" }}>
             <strong>{beautifyKey(field.label)}:</strong> {beautifyValue(field.key, value)}
           </div>
-        );
-      })} */}
+        )}
+      })) : null}
 
       <div className={cssContainer}>
         {!renderAsAccordion && (
