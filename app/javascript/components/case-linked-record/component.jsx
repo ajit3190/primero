@@ -12,6 +12,7 @@ import { CASE } from "../../config";
 import ActionButton, { ACTION_BUTTON_TYPES } from "../action-button";
 import { enqueueSnackbar } from "../notifier";
 import { useApp } from "../application";
+import useSystemStrings, { FORMS } from "../application/use-system-strings";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import css from "../record-form/form/subforms/styles.css";
 
@@ -71,6 +72,7 @@ function Component({
   const i18n = useI18n();
   const dispatch = useDispatch();
   const { online } = useApp();
+  const { label } = useSystemStrings(FORMS);
 
   const [component, setComponent] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -89,7 +91,7 @@ function Component({
   );
 
   const title = caseLinkedForm?.getIn(["name", i18n.locale], null);
-  const formName = caseLinkedForm?.i18nName ? i18n.t(title) : title;
+  const formName = caseLinkedForm?.i18nName ? label(title) : title;
   const fields = useMemoizedSelector(state =>
     getRecordFieldsByName(state, {
       name: searchFieldNames,

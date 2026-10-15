@@ -93,6 +93,53 @@ describe("application/use-system-string.js", () => {
     });
   });
 
+  describe("registry record keys", () => {
+    const registryLabels = {
+      "navigation.registry_records": { en: "CBCRCs" },
+      "registry_records.label": { en: "CBCRCs" },
+      "registry_records.register_new_registry_record": { en: "New CBCRC" },
+      "registry_records.show_registry_record": { en: "CBCRC ID: %{short_id}" },
+      "registry_records.selected_records": { en: "%{select_records} CBCRC(s) selected" },
+      "registry_records.selected_all_records": { en: "Select all %{total_records} CBCRCs that match this query." },
+      "forms.record_types.registry_details": { en: "CBCRC Details" }
+    };
+    const registryState = {
+      ...state,
+      application: {
+        ...state.application,
+        modules: [
+          PrimeroModuleRecord({
+            unique_id: "primeromodule-cp",
+            name: "CP",
+            associated_record_types: ["case", "incident", "registry_record"],
+            field_labels: registryLabels
+          })
+        ]
+      }
+    };
+
+    it.each([
+      ["navigation", "navigation.registry_records", {}, "CBCRCs"],
+      ["page", "registry_records.label", {}, "CBCRCs"],
+      ["page", "registry_records.register_new_registry_record", {}, "New CBCRC"],
+      ["page", "registry_records.show_registry_record", { short_id: "abc1234" }, "CBCRC ID: abc1234"],
+      ["page", "registry_records.selected_records", { select_records: 2 }, "2 CBCRC(s) selected"],
+      [
+        "page",
+        "registry_records.selected_all_records",
+        { total_records: 5 },
+        "Select all 5 CBCRCs that match this query."
+      ],
+      ["form", "forms.record_types.registry_details", {}, "CBCRC Details"]
+    ])("returns the %s override for %s", (feature, key, options, expected) => {
+      const { act, result } = setupHook(() => useSystemStrings(feature), registryState);
+
+      act(() => {
+        expect(result.current.label(key, undefined, options)).toEqual(expected);
+      });
+    });
+  });
+
   it("returns specified i18n fallback when unpermitted_field", () => {
     const { act, result } = setupHook(() => useSystemStrings("listHeader"), state);
 

@@ -46,7 +46,7 @@ const ALLOWED_DASHBOARD_KEYS = [
   "dashboard.cases_by_social_worker",
   "dashboard.reporting_locations"
 ];
-const ALLOWED_NAVIGATION_KEYS = ["navigation.cases"];
+const ALLOWED_NAVIGATION_KEYS = ["navigation.cases", "navigation.registry_records"];
 const ALLOWED_ACTION_BUTTON_KEYS = ["case.skip_and_create"];
 const ALLOWED_PAGE_KEYS = [
   "cases.label",
@@ -56,9 +56,14 @@ const ALLOWED_PAGE_KEYS = [
   "cases.selected_all_records",
   "cases.selected_records",
   "cases.selected_records_assign",
-  "case.skip_and_create"
+  "case.skip_and_create",
+  "registry_records.label",
+  "registry_records.register_new_registry_record",
+  "registry_records.show_registry_record",
+  "registry_records.selected_records",
+  "registry_records.selected_all_records"
 ];
-const ALLOWED_FORM_KEYS = ["incidents.type_violence"];
+const ALLOWED_FORM_KEYS = ["incidents.type_violence", "forms.record_types.registry_details"];
 
 const FILTER = "filter";
 const LIST_HEADER = "listHeader";
