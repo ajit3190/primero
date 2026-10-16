@@ -4,6 +4,7 @@ import { createElement } from "react";
 
 import { RECORD_TYPES, MODULES } from "../../config";
 import { useI18n } from "../i18n";
+import useSystemStrings, { ACTION_BUTTON } from "../application/use-system-strings";
 import { getFiltersValueByRecordType } from "../index-filters/selectors";
 import { getMetadata } from "../record-list/selectors";
 import { useApp } from "../application";
@@ -50,6 +51,7 @@ function Container({
   showListActions
 }) {
   const i18n = useI18n();
+  const { label } = useSystemStrings(ACTION_BUTTON);
   const { approvalsLabels } = useApp();
   const { currentDialog, dialogClose, dialogOpen, pending, setDialog, setDialogPending } = useDialog([
     APPROVAL_DIALOG,
@@ -187,6 +189,7 @@ function Container({
     i18n,
     isIdSearch,
     isShow: mode.isShow,
+    label,
     openState,
     record,
     recordType,

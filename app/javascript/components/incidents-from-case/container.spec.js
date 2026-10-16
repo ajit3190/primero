@@ -4,6 +4,7 @@ import { fromJS } from "immutable";
 import { RECORD_TYPES } from "../../config";
 import { FieldRecord } from "../record-form/records";
 import { mapEntriesToRecord } from "../../libs";
+import { PrimeroModuleRecord } from "../application/records";
 
 import IncidentFromCase from "./container";
 
@@ -123,6 +124,23 @@ describe("<IncidentFromCase /> - Component", () => {
     it("labels the new incident button with the referral restriction tooltip", () => {
       expect(mountPending().parentElement).toHaveAttribute("aria-label", "referral.pending_restriction");
     });
+  });
+
+  it("renders the overridden incidents label in the header", () => {
+    const stateWithFieldLabels = initialState.setIn(["user", "modules"], fromJS(["primeromodule-gbv"])).setIn(
+      ["application", "modules"],
+      fromJS([
+        PrimeroModuleRecord({
+          unique_id: "primeromodule-gbv",
+          name: "GBV",
+          field_labels: { "incidents.label": { en: "Monitoring Reports" } }
+        })
+      ])
+    );
+
+    mountedComponent(<IncidentFromCase {...props} />, stateWithFieldLabels);
+
+    expect(screen.getByText("Monitoring Reports")).toBeInTheDocument();
   });
 
   it("should render the alerts", () => {

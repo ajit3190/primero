@@ -140,6 +140,57 @@ describe("application/use-system-string.js", () => {
     });
   });
 
+  describe("incident keys", () => {
+    const incidentLabels = {
+      "dashboard.dash_case_incident_overview": { en: "My Cases / Monitoring Reports" },
+      "navigation.incidents": { en: "Monitoring Reports" },
+      "incidents.label": { en: "Monitoring Reports" },
+      "incidents.show_incident": { en: "Monitoring Report ID %{short_id}" },
+      "forms.record_types.incident": { en: "Monitoring Report" },
+      "actions.incident_from_case": { en: "Create Monitoring Report" },
+      "incident.link_incident_to_case": { en: "Link Monitoring Report to Case" }
+    };
+    const incidentState = {
+      ...state,
+      application: {
+        ...state.application,
+        modules: [
+          PrimeroModuleRecord({
+            unique_id: "primeromodule-cp",
+            name: "CP",
+            associated_record_types: ["case", "incident"],
+            field_labels: incidentLabels
+          })
+        ]
+      }
+    };
+
+    it.each([
+      ["dashboard", "dashboard.dash_case_incident_overview", {}, "My Cases / Monitoring Reports"],
+      ["navigation", "navigation.incidents", {}, "Monitoring Reports"],
+      ["form", "incidents.label", {}, "Monitoring Reports"],
+      ["page", "incidents.show_incident", { short_id: "abc1234" }, "Monitoring Report ID abc1234"],
+      ["page", "forms.record_types.incident", {}, "Monitoring Report"],
+      ["actionButton", "forms.record_types.incident", {}, "Monitoring Report"],
+      ["actionButton", "actions.incident_from_case", {}, "Create Monitoring Report"],
+      ["actionButton", "incident.link_incident_to_case", {}, "Link Monitoring Report to Case"]
+    ])("returns the %s override for %s", (feature, key, options, expected) => {
+      const { act, result } = setupHook(() => useSystemStrings(feature), incidentState);
+
+      act(() => {
+        expect(result.current.label(key, undefined, options)).toEqual(expected);
+      });
+    });
+
+    it("does not override the incident list title", () => {
+      const { act, result } = setupHook(() => useSystemStrings("page"), incidentState);
+
+      act(() => {
+        expect(result.current.label("incidents.label")).toEqual("incidents.label");
+      });
+    });
+  });
+
   it("returns specified i18n fallback when unpermitted_field", () => {
     const { act, result } = setupHook(() => useSystemStrings("listHeader"), state);
 

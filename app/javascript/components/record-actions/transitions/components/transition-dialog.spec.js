@@ -1,6 +1,7 @@
-import { Map } from "immutable";
+import { Map, fromJS } from "immutable";
 
 import { mountedComponent, screen } from "../../../../test-utils";
+import { PrimeroModuleRecord } from "../../../application/records";
 
 import TransitionDialog from "./transition-dialog";
 
@@ -65,6 +66,33 @@ describe("<TransitionDialog />", () => {
     it("should render 'Transfer Case No.' as title", () => {
       mountedComponent(<TransitionDialog {...reassignProps} />);
       expect(screen.getByText(/transition.type.transfer forms.record_types.case 1234abc/i)).toBeInTheDocument();
+    });
+  });
+
+  describe("when the incident record type label is overridden", () => {
+    it("renders the overridden record type in the 'Assign Incident' title", () => {
+      mountedComponent(
+        <TransitionDialog
+          {...props}
+          transitionType="reassign"
+          recordType="incidents"
+          record={Map({ incident_code: "abc1234" })}
+        />,
+        fromJS({
+          application: {
+            modules: [
+              PrimeroModuleRecord({
+                unique_id: "primeromodule-cp",
+                name: "CP",
+                field_labels: { "forms.record_types.incident": { en: "Monitoring Report" } }
+              })
+            ]
+          },
+          user: { modules: ["primeromodule-cp"] }
+        })
+      );
+
+      expect(screen.getByText("transition.type.reassign Monitoring Report abc1234")).toBeInTheDocument();
     });
   });
 
