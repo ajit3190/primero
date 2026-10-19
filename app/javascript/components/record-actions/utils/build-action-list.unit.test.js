@@ -134,7 +134,8 @@ describe("record-actions/utils/build-action-list", () => {
     const overrides = {
       "forms.record_types.incident": "Monitoring Report",
       "actions.incident_from_case": "Create Monitoring Report",
-      "incident.link_incident_to_case": "Link Monitoring Report to Case"
+      "incident.link_incident_to_case": "Link Monitoring Report to Case",
+      "actions.incident_details_from_case": "Add Monitoring Report"
     };
     const label = key => overrides[key] || key;
 
@@ -170,6 +171,21 @@ describe("record-actions/utils/build-action-list", () => {
       });
 
       expect(response.actions.map(action => action.name)).toContain("Create Monitoring Report");
+    });
+
+    it("uses the overridden label for the add incident action", () => {
+      const response = buildActionList({
+        recordType: RECORD_PATH.cases,
+        i18n,
+        label,
+        requestsApproval,
+        approvals,
+        canAddIncident: true,
+        hasIncidentSubform: true,
+        showListActions: true
+      });
+
+      expect(response.actions.map(action => action.name)).toContain("Add Monitoring Report");
     });
   });
 });

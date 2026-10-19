@@ -33,7 +33,7 @@ function TransitionDialog({
 
     const recordTypeLabel =
       selectedRecordsLength > 0
-        ? i18n.t(`${recordType}.label`)
+        ? label(`${recordType}.label`)
         : label(`forms.record_types.${RECORD_TYPES[recordType]}`);
     const recordWithId = `${recordTypeLabel} ${recordId}`;
 

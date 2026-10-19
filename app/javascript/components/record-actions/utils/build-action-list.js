@@ -104,7 +104,7 @@ export default ({
         condition: Boolean(hasIncidentSubform) && showListActions && canAddIncident,
         disableOffline: true,
         enabledFor: ENABLED_FOR_ONE,
-        name: i18n.t("actions.incident_details_from_case"),
+        name: label("actions.incident_details_from_case"),
         recordListAction: true,
         recordType: RECORD_PATH.cases,
         showOnSearchResultPage: true,

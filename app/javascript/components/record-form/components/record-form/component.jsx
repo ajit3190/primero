@@ -9,6 +9,7 @@ import { fromJS } from "immutable";
 import FormFilters from "../../../form-filters";
 import { useMemoizedSelector } from "../../../../libs";
 import { useI18n } from "../../../i18n";
+import useSystemStrings, { PAGE } from "../../../application/use-system-strings";
 import PageContainer from "../../../page";
 import LoadingIndicator from "../../../loading-indicator";
 import { clearSelectedRecord, fetchRecord, saveRecord, setSelectedRecord } from "../../../records";
@@ -70,6 +71,7 @@ function Component({
 
   const dispatch = useDispatch();
   const i18n = useI18n();
+  const { label } = useSystemStrings(PAGE);
 
   const selectedModule = record?.get("module_id") || params.module || primeroModule;
 
@@ -133,10 +135,10 @@ function Component({
         };
         const message = () => {
           return containerMode.isEdit
-            ? i18n.t(`${recordType}.messages.update_success`, {
+            ? label(`${recordType}.messages.update_success`, undefined, {
                 record_id: record.get("short_id")
               })
-            : i18n.t(`${recordType}.messages.creation_success`, recordType);
+            : label(`${recordType}.messages.creation_success`);
         };
 
         if (saveBeforeIncidentRedirect) {

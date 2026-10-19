@@ -45,14 +45,18 @@ const ALLOWED_DASHBOARD_KEYS = [
   "dashboard.workflow_team",
   "dashboard.cases_by_social_worker",
   "dashboard.reporting_locations",
-  "dashboard.dash_case_incident_overview"
+  "dashboard.dash_case_incident_overview",
+  "dashboard.with_incidents",
+  "dashboard.with_new_incidents",
+  "dashboard.without_incidents"
 ];
 const ALLOWED_NAVIGATION_KEYS = ["navigation.cases", "navigation.registry_records", "navigation.incidents"];
 const ALLOWED_ACTION_BUTTON_KEYS = [
   "case.skip_and_create",
   "forms.record_types.incident",
   "actions.incident_from_case",
-  "incident.link_incident_to_case"
+  "incident.link_incident_to_case",
+  "actions.incident_details_from_case"
 ];
 const ALLOWED_PAGE_KEYS = [
   "cases.label",
@@ -69,7 +73,22 @@ const ALLOWED_PAGE_KEYS = [
   "registry_records.selected_records",
   "registry_records.selected_all_records",
   "incidents.show_incident",
-  "forms.record_types.incident"
+  "forms.record_types.incident",
+  "incidents.label",
+  "incidents.register_new_incident",
+  "incidents.selected_records",
+  "incidents.selected_all_records",
+  "incidents.selected_records_assign",
+  "incident.messages.creation_success",
+  "incident.messages.update_success",
+  "incident.link_incident_to_case_success",
+  "incidents.disable_dialog_title",
+  "incidents.disable_dialog",
+  "incidents.disable_success",
+  "incidents.enable_dialog_title",
+  "incidents.enable_dialog",
+  "incidents.enable_success",
+  "reassign.incident_from_case_warning"
 ];
 const ALLOWED_FORM_KEYS = ["incidents.type_violence", "forms.record_types.registry_details", "incidents.label"];
 

@@ -112,5 +112,29 @@ describe("<TransitionDialog />", () => {
       mountedComponent(<TransitionDialog {...reassignBulkProps} />);
       expect(screen.getByText(/transition.type.reassign forms.record_types.case/i)).toBeInTheDocument();
     });
+
+    it("renders the overridden incident labels in the bulk 'Assign Incidents' dialog", () => {
+      mountedComponent(
+        <TransitionDialog {...reassignBulkProps} recordType="incidents" selectedRecordsLength={2} />,
+        fromJS({
+          application: {
+            modules: [
+              PrimeroModuleRecord({
+                unique_id: "primeromodule-cp",
+                name: "CP",
+                field_labels: {
+                  "incidents.label": { en: "Monitoring Reports" },
+                  "incidents.selected_records_assign": { en: "%{select_records} monitoring report(s) selected." }
+                }
+              })
+            ]
+          },
+          user: { modules: ["primeromodule-cp"] }
+        })
+      );
+
+      expect(screen.getByText(/^transition.type.reassign Monitoring Reports/)).toBeInTheDocument();
+      expect(screen.getByText("2 monitoring report(s) selected.")).toBeInTheDocument();
+    });
   });
 });

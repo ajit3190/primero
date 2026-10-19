@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 
 import ActionDialog from "../../action-dialog";
 import { useI18n } from "../../i18n";
+import useSystemStrings, { ACTION_BUTTON, PAGE } from "../../application/use-system-strings";
 import { constructInitialValues } from "../../record-form";
 import { ID_FIELD, MODULES, RECORD_TYPES } from "../../../config";
 import { saveRecord, selectRecordsByIndexes } from "../../records";
@@ -39,6 +40,8 @@ function Component({
 }) {
   const formikRef = useRef();
   const i18n = useI18n();
+  const { label: actionLabel } = useSystemStrings(ACTION_BUTTON);
+  const { label: pageLabel } = useSystemStrings(PAGE);
   const dispatch = useDispatch();
   const { online } = useApp();
 
@@ -75,7 +78,7 @@ function Component({
 
   const modalProps = {
     confirmButtonLabel: i18n.t("buttons.save"),
-    dialogTitle: i18n.t(dialogTitle),
+    dialogTitle: actionLabel(dialogTitle),
     cancelHandler: close,
     onClose: close,
     open,
@@ -118,7 +121,7 @@ function Component({
               "update",
               body,
               id,
-              i18n.t(creationMessage),
+              pageLabel(creationMessage),
               i18n.t("offline_submitted_changes"),
               false,
               false,
