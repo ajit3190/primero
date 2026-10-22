@@ -16,7 +16,7 @@ import { AUDIO_FIELD, DOCUMENT_FIELD, PHOTO_FIELD } from "../constants";
 import { LEGITIMATE_BASIS } from "../../record-creation-flow/components/consent-prompt/constants";
 import renderFormSections from "../components/render-form-sections";
 import { useApp } from "../../application";
-import { parseExpression } from "../../../libs/expressions";
+import { getExpressionFields, parseExpression } from "../../../libs/expressions";
 
 import { RECORD_FORM_NAME } from "./constants";
 import { fieldValidations } from "./validations";
@@ -187,7 +187,15 @@ function RecordForm({
     }
   }, [mode.isNew, dataProtectionInitialValues]);
 
-  const calculatedFields = forms.flatMap(fs => fs.fields.filter(field => field.calculation?.expression));
+  const permittedFieldNames = forms.flatMap(fs => fs.fields.map(field => field.name)).toSet();
+
+  const calculatedFields = forms.flatMap(fs =>
+    fs.fields.filter(
+      field =>
+        field.calculation?.expression &&
+        getExpressionFields(field.calculation.expression).every(name => permittedFieldNames.has(name))
+    )
+  );
 
   useEffect(() => {
     if (typeof bindedRecalculateFields.current === "function") {
