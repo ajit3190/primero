@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 import AddIcon from "@mui/icons-material/Add";
 
 import { useI18n } from "../i18n";
+import useSystemStrings, { FORMS } from "../application/use-system-strings";
 import RecordFormTitle from "../record-form/form/record-form-title";
 import ActionButton from "../action-button";
 import useMemoizedSelector from "../../libs/use-memoized-selector";
@@ -29,6 +30,7 @@ function Container({
   dirty = false
 }) {
   const i18n = useI18n();
+  const { label } = useSystemStrings(FORMS);
 
   const incidentFromCaseForm = useMemoizedSelector(state =>
     getIncidentFromCaseForm(state, { i18n, recordType, primeroModule })
@@ -74,7 +76,7 @@ function Container({
         <RecordFormTitle
           mobileDisplay={mobileDisplay}
           handleToggleNav={handleToggleNav}
-          displayText={i18n.t("incidents.label")}
+          displayText={label("incidents.label")}
         />
         <div>{newIncidentBtn}</div>
       </div>

@@ -2,6 +2,7 @@ import { fromJS } from "immutable";
 import { mountedComponent, screen } from "test-utils";
 
 import { ACTIONS } from "../../../../permissions";
+import { PrimeroModuleRecord } from "../../../../application/records";
 
 import Overview from "./component";
 
@@ -182,6 +183,44 @@ describe("<Overview> - pages/dashboard/components/overview", () => {
       });
 
       expect(screen.queryByText("dashboard.case_overview")).toBeInTheDocument();
+    });
+  });
+
+  describe("when the dash_case_incident_overview label is overridden", () => {
+    it("renders the overridden dashboard title", () => {
+      mountedComponent(
+        <Overview />,
+        fromJS({
+          records: {
+            dashboard: {
+              overview: {
+                data: [
+                  {
+                    name: "dashboard.dash_case_incident_overview",
+                    type: "indicator",
+                    indicators: { open: { count: 5, query: ["record_state=true", "status=open"] } }
+                  }
+                ]
+              }
+            }
+          },
+          application: {
+            modules: [
+              PrimeroModuleRecord({
+                unique_id: "primeromodule-cp",
+                name: "CP",
+                field_labels: { "dashboard.dash_case_incident_overview": { en: "My Cases / Monitoring Reports" } }
+              })
+            ]
+          },
+          user: {
+            modules: ["primeromodule-cp"],
+            permissions: { dashboards: [ACTIONS.DASH_CASE_INCIDENT_OVERVIEW] }
+          }
+        })
+      );
+
+      expect(screen.getByText("My Cases / Monitoring Reports")).toBeInTheDocument();
     });
   });
 });

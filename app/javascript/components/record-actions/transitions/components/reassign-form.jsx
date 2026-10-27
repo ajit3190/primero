@@ -15,6 +15,7 @@ import { saveBulkAssignedUser } from "../../bulk-transtions/action-creators";
 import SearchableSelect from "../../../searchable-select";
 import { enqueueSnackbar } from "../../../notifier";
 import { useI18n } from "../../../i18n";
+import useSystemStrings, { PAGE } from "../../../application/use-system-strings";
 import { applyFilters } from "../../../index-filters/action-creators";
 import { filterUsers } from "../utils";
 import { useMemoizedSelector } from "../../../../libs";
@@ -43,6 +44,7 @@ function ReassignForm({
   pendingTransitionIds = []
 }) {
   const i18n = useI18n();
+  const { label } = useSystemStrings(PAGE);
   const dispatch = useDispatch();
   const location = useLocation();
   const queryParams = qs.parse(location.search.replace("?", ""));
@@ -153,7 +155,7 @@ function ReassignForm({
 
   const alert = hasRecordOutOfScope
     ? i18n.t("reassign.out_of_scope_warning")
-    : i18n.t("reassign.incident_from_case_warning");
+    : label("reassign.incident_from_case_warning");
   const showAlert = formDisabled || hasRecordOutOfScope;
 
   return (

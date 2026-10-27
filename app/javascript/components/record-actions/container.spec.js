@@ -565,6 +565,39 @@ describe("<RecordActions />", () => {
         fireEvent.click(screen.getByRole("button"));
         expect(screen.getByRole("menuitem", { name: /actions.incident_from_case/i })).toBeInTheDocument();
       });
+
+      it("renders MenuItem with the overridden Create Incident label", () => {
+        mountedComponent(
+          <RecordActions {...props} />,
+          fromJS({
+            application: {
+              modules: [
+                PrimeroModuleRecord({
+                  unique_id: "primeromodule-cp",
+                  name: "CP",
+                  field_labels: { "actions.incident_from_case": { en: "Create Monitoring Report" } }
+                })
+              ]
+            },
+            records: {
+              cases: {
+                filters: {
+                  id_search: true
+                }
+              }
+            },
+            user: {
+              modules: ["primeromodule-cp"],
+              permissions: {
+                cases: [ACTIONS.MANAGE]
+              }
+            },
+            forms
+          })
+        );
+        fireEvent.click(screen.getByRole("button"));
+        expect(screen.getByRole("menuitem", { name: "Create Monitoring Report" })).toBeInTheDocument();
+      });
     });
 
     describe("when user has not access to all menus", () => {

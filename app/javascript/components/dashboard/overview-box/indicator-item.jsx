@@ -5,7 +5,7 @@ import { cx } from "@emotion/css";
 
 import ActionButton from "../../action-button";
 import { useApp } from "../../application";
-import { useI18n } from "../../i18n";
+import useSystemStrings, { DASHBOARD } from "../../application/use-system-strings";
 import { buildFilter, buildItemLabel } from "../utils";
 import { ROUTES } from "../../../config";
 import dashboardsCss from "../styles.css";
@@ -13,7 +13,7 @@ import dashboardsCss from "../styles.css";
 import css from "./styles.css";
 
 function IndicatorItem({ titleHasModule, item, query, count, countClasses, labelClasses, highlight = false }) {
-  const i18n = useI18n();
+  const { label } = useSystemStrings(DASHBOARD);
   const { approvalsLabels } = useApp();
   const dispatch = useDispatch();
 
@@ -21,7 +21,7 @@ function IndicatorItem({ titleHasModule, item, query, count, countClasses, label
     dispatch(push({ pathname: ROUTES.cases, search: buildFilter(query) }));
   };
 
-  const defaultLabel = i18n.t(["dashboard", titleHasModule ? item.split(".")?.[0] : item].join("."));
+  const defaultLabel = label(["dashboard", titleHasModule ? item.split(".")?.[0] : item].join("."));
 
   const itemLabel = buildItemLabel(item, approvalsLabels, defaultLabel, titleHasModule);
 

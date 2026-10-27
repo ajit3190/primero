@@ -40,7 +40,7 @@ function Component() {
     options: {
       items: caseIncidentOverview,
       highlights: ["new_or_updated", "with_new_incidents"],
-      sumTitle: i18n.t("dashboard.dash_case_incident_overview"),
+      sumTitle: label("dashboard.dash_case_incident_overview"),
       withTotal: false
     }
   };
